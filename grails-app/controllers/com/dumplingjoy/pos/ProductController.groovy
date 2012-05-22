@@ -1,9 +1,21 @@
 package com.dumplingjoy.pos
 
+import javax.servlet.http.HttpServletRequest
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
+
 class ProductController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	def excelImportService
+	
     def index = {
         redirect(action: "list", params: params)
     }
@@ -97,4 +109,33 @@ class ProductController {
             redirect(action: "list")
         }
     }
+	
+	def importExcel = { }
+	
+	def doImportExcel = {
+		Workbook workbook = getUploadedWorkbook(request, "excelFile")
+		Sheet sheet = workbook.getSheetAt(0)
+		Iterator<Row> rows = sheet.iterator()
+		rows.next() // ignore header row
+		
+		for (Row row : rows) {
+			Cell codeCell = row.getCell(0)
+			if (codeCell && !codeCell.getStringCellValue().isEmpty()) {
+				Product product = new Product()
+				product.code = codeCell.getStringCellValue()
+				product.description = row.getCell(1).getStringCellValue()
+				product.save(failOnError:true)
+			}
+		}
+		
+        flash.message = "Excel file imported."
+		redirect action: "list"
+	}
+	
+	private Workbook getUploadedWorkbook(HttpServletRequest request, String excelFileParameterName) {
+		MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
+		CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile(excelFileParameterName)
+		return new HSSFWorkbook(file.getInputStream())
+	}
+	
 }
