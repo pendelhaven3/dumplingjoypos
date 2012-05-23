@@ -48,6 +48,17 @@
                                     <g:textField name="description" value="${productInstance?.description}" />
                                 </td>
                             </tr>
+
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                  <label for="units"><g:message code="product.units.label" default="Units" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'units', 'errors')}">
+                                    <g:each in="${com.dumplingjoy.pos.Unit.values()}" var="unit">
+                                    	<g:checkBox name="productUnits" value="${unit}" checked="${productInstance.units.contains(unit)}" />&nbsp;${unit}
+                                    </g:each>
+                                </td>
+                            </tr>
                         
                         </tbody>
                     </table>
@@ -55,6 +66,10 @@
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+		        	<span class="button">
+		        		<input type="button" value="Cancel" class="cancel" 
+		        			onclick="window.location='<g:createLink action='show' id='${productInstance.id}' />'" />
+		        	</span>
                 </div>
             </g:form>
         </div>

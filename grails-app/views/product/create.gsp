@@ -33,7 +33,7 @@
                                     <label for="code"><g:message code="product.code.label" default="Code" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'code', 'errors')}">
-                                    <g:textField name="code" value="${productInstance?.code}" />
+                                    <g:textField name="code" value="${productInstance?.code}" style="text-transform:uppercase" />
                                 </td>
                             </tr>
                         
@@ -45,12 +45,27 @@
                                     <g:textField name="description" value="${productInstance?.description}" />
                                 </td>
                             </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                	Units
+                                </td>
+                                <td valign="top">
+                                	<g:each in="${com.dumplingjoy.pos.Unit.values()}" var="unit">
+                                		<g:checkBox name="productUnits" value="${unit}" checked="${false}" />&nbsp;${unit}
+                                	</g:each>
+                                </td>
+                            </tr>
                         
                         </tbody>
                     </table>
                 </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+		        	<span class="button">
+		        		<input type="button" value="Cancel" class="cancel" 
+		        			onclick="window.location='<g:createLink action='list' />'" />
+		        	</span>
                 </div>
             </g:form>
         </div>

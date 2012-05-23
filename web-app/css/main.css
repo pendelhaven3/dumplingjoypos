@@ -246,6 +246,7 @@ th.desc a {
     margin-top: 5px;
     overflow: hidden;
     padding: 0;
+    text-align: center;
 }
 
 .buttons input {
@@ -270,4 +271,16 @@ th.desc a {
 .buttons input.save {
     background: transparent url(../images/skin/database_save.png) 5px 50% no-repeat;
     padding-left: 28px;
+}
+.buttons input.cancel {
+    background: transparent url(../images/skin/cancel.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
+.buttons input.create {
+    background: transparent url(../images/skin/database_add.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
+
+tr.clickable:hover {
+	cursor: pointer;
 }

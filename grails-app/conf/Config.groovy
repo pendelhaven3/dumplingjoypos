@@ -54,7 +54,7 @@ grails.exceptionresolver.params.exclude = ['password']
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://dumplingjoypos.cloudfoundry.com"
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -88,3 +88,8 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
+
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.dumplingjoy.pos.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.dumplingjoy.pos.UserRole'
+grails.plugins.springsecurity.authority.className = 'com.dumplingjoy.pos.Role'

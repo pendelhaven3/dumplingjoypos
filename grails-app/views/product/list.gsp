@@ -14,6 +14,7 @@
             <span class="menuButton"><g:link class="create" action="importExcel">Import Excel</g:link></span>
         </div>
         <div class="body">
+        <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -22,20 +23,13 @@
                 <table>
                     <thead>
                         <tr>
-                        
-                            <g:sortableColumn property="id" title="${message(code: 'product.id.label', default: 'Id')}" />
-                        
-                            <g:sortableColumn property="code" title="${message(code: 'product.code.label', default: 'Code')}" />
-                        
-                            <g:sortableColumn property="description" title="${message(code: 'product.description.label', default: 'Description')}" />
-                        
+                        	<g:sortableColumn property="code" title="Code" />
+                        	<g:sortableColumn property="description" title="Description" />
                         </tr>
                     </thead>
                     <tbody>
                     <g:each in="${productInstanceList}" status="i" var="productInstance">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
-                            <td><g:link action="show" id="${productInstance.id}">${fieldValue(bean: productInstance, field: "id")}</g:link></td>
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${productInstance.id}' />'">
                         
                             <td>${fieldValue(bean: productInstance, field: "code")}</td>
                         

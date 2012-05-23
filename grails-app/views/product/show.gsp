@@ -23,13 +23,6 @@
                     <tbody>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="product.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.code.label" default="Code" /></td>
                             
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "code")}</td>
@@ -43,6 +36,17 @@
                             
                         </tr>
                     
+                        <tr class="prop">
+                            <td valign="top" class="name">
+                              <label for="units"><g:message code="product.units.label" default="Units" /></label>
+                            </td>
+                            <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'units', 'errors')}">
+                                <g:each in="${com.dumplingjoy.pos.Unit.values()}" var="unit">
+                                	<input type="checkbox" <g:if test="${productInstance.units.contains(unit)}">checked</g:if> disabled />&nbsp;${unit}
+                                </g:each>
+                            </td>
+                        </tr>
+                    
                     </tbody>
                 </table>
             </div>
@@ -51,6 +55,12 @@
                     <g:hiddenField name="id" value="${productInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                </g:form>
+            </div>
+            <div class="buttons">
+                <g:form>
+                    <g:hiddenField name="id" value="${productInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="create" action="addUnitConversion" value="Add Unit Conversion" /></span>
                 </g:form>
             </div>
         </div>

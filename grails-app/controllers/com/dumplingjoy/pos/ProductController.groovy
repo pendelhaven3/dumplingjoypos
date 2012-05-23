@@ -22,6 +22,9 @@ class ProductController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "code"
+		params.order = params.order ?: "asc"
+		
         [productInstanceList: Product.list(params), productInstanceTotal: Product.count()]
     }
 
@@ -33,6 +36,12 @@ class ProductController {
 
     def save = {
         def productInstance = new Product(params)
+		
+		def productUnits = params.list("productUnits")
+		productUnits.each {
+			productInstance.addToUnits(Unit.valueOf(it))
+		}
+
         if (productInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'product.label', default: 'Product'), productInstance.id])}"
             redirect(action: "show", id: productInstance.id)
@@ -77,6 +86,9 @@ class ProductController {
                 }
             }
             productInstance.properties = params
+			
+			updateUnits(productInstance, params.list("productUnits"))
+			
             if (!productInstance.hasErrors() && productInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), productInstance.id])}"
                 redirect(action: "show", id: productInstance.id)
@@ -91,6 +103,30 @@ class ProductController {
         }
     }
 
+	private def updateUnits = { Product product, List<String> productUnits ->
+		productUnits.each {
+			def unit = Unit.valueOf(it)
+			if (!product.units.contains(unit)) {
+				product.addToUnits(Unit.valueOf(it))
+			}
+		}
+		
+//		product.units.each {
+//			def unit = it
+//			if (!productUnits.contains(unit.toString())) {
+//				def unitPrice = product.unitPrices.find { it.unit = unit }
+//				product.removeFromUnitPrices(unitPrice)
+//				unitPrice.delete()
+//				
+//				def unitInventory = product.unitInventories.find { it.unit = unit }
+//				product.removeFromUnitInventories(unitInventory)
+//				unitInventory.delete()
+//
+//				product.removeFromUnits(it)
+//			}
+//		}
+	}
+	
     def delete = {
         def productInstance = Product.get(params.id)
         if (productInstance) {
