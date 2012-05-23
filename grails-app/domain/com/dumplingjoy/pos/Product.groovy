@@ -12,7 +12,30 @@ class Product {
 	
 	static hasMany = [
 		units: Unit,
-		unitQuantities: UnitQuantity
+		unitQuantities: UnitQuantity,
+		unitConversions: UnitConversion
 	]
+	
+	def beforeInsert() {
+		createUnitQuantities()
+	}
+	
+	private void createUnitQuantities() {
+		units.each {
+			addToUnitQuantities(new UnitQuantity(unit: it))
+		}
+	}
 
+	def beforeUpdate() {
+		createUnitQuantitiesForNewUnits()
+	}
+	
+	private void createUnitQuantitiesForNewUnits() {
+		units.each { Unit unit ->
+			if (!unitQuantities.find {it.unit == unit}) {
+				addToUnitQuantities(new UnitQuantity(unit: unit))
+			}
+		}
+	}
+	
 }

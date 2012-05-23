@@ -36,20 +36,10 @@
                             
                         </tr>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name">
-                              <label for="units"><g:message code="product.units.label" default="Units" /></label>
-                            </td>
-                            <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'units', 'errors')}">
-                                <g:each in="${com.dumplingjoy.pos.Unit.values()}" var="unit">
-                                	<input type="checkbox" <g:if test="${productInstance.units.contains(unit)}">checked</g:if> disabled />&nbsp;${unit}
-                                </g:each>
-                            </td>
-                        </tr>
-                    
                     </tbody>
                 </table>
             </div>
+            
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${productInstance?.id}" />
@@ -57,10 +47,63 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+            
+            <br/>
+            
+            <div class="list" style="padding-top:5px">
+	            <h3>Unit Quantities</h3>
+                <table>
+	                <tr>
+	                	<th>Unit</th>
+	                	<th>Available Quantity</th>
+	                </tr>
+	                <g:if test="${!productInstance.unitQuantities.empty}">
+	                    <g:each in="${productInstance.unitQuantities.sort{it.unit}}" status="i" var="unitQuantity">
+	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+	                            <td>${unitQuantity.unit}</td>
+	                            <td>${unitQuantity.quantity}</td>
+	                        </tr>
+	                    </g:each>
+                    </g:if>
+                    <g:else>
+                        <tr>
+                            <td colspan="2">No units</td>
+                        </tr>
+                    </g:else>
+                </table>
+            </div>
+            
+            <br/>
+            
+            <div class="list" style="padding-top:5px">
+	            <h3>Unit Conversions</h3>
+                <table>
+                <tr>
+                	<th>From</th>
+                	<th>To</th>
+                	<th>Converted Quantity</th>
+                </tr>
+                <g:if test="${!productInstance.unitConversions.empty}">
+                    <g:each in="${productInstance.unitConversions.sort{it.from}}" status="i" var="unitConversion">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                            <td>${unitConversion.fromUnit}</td>
+                            <td>${unitConversion.toUnit}</td>
+                            <td>${unitConversion.convertedQuantity}</td>
+                        </tr>
+                    </g:each>
+                </g:if>
+                <g:else>
+                    <tr>
+                        <td colspan="3">No unit conversions</td>
+                    </tr>
+                </g:else>
+                </table>
+            </div>
+            
             <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${productInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="create" action="addUnitConversion" value="Add Unit Conversion" /></span>
+                <g:form controller="unitConversion">
+                    <g:hiddenField name="productId" value="${productInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="create" action="create" value="Add Unit Conversion" /></span>
                 </g:form>
             </div>
         </div>

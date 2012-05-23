@@ -33,6 +33,11 @@ h1 {
     margin: .8em 0 .3em 0;
 }
 
+h3 {
+    font-size: 11px;
+    color: green;
+}
+
 ul {
     padding-left: 15px;
 }

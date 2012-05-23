@@ -37,20 +37,11 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="description"><g:message code="product.description.label" default="Description" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${productInstance?.description}" />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><input type="submit" class="save" value="Import" /></span>
                 </div>
             </g:uploadForm>
         </div>

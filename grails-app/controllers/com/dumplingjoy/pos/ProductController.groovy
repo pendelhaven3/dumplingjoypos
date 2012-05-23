@@ -1,5 +1,7 @@
 package com.dumplingjoy.pos
 
+import grails.plugins.springsecurity.Secured
+
 import javax.servlet.http.HttpServletRequest
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
@@ -10,6 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
+@Secured("isFullyAuthenticated()")
 class ProductController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -86,10 +89,20 @@ class ProductController {
                 }
             }
             productInstance.properties = params
-			
 			updateUnits(productInstance, params.list("productUnits"))
 			
             if (!productInstance.hasErrors() && productInstance.save(flush: true)) {
+				Unit.values().each { Unit unit ->
+					if (!productInstance.units.contains(unit)) {
+						UnitQuantity unitQuantity = productInstance.unitQuantities.find {it.unit == unit}
+						if (unitQuantity) {
+							productInstance.removeFromUnitQuantities(unitQuantity)
+							productInstance.save(failOnError: true)
+							unitQuantity.delete(failOnError: true)
+						}
+					}
+				}
+				
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), productInstance.id])}"
                 redirect(action: "show", id: productInstance.id)
             }
@@ -105,26 +118,16 @@ class ProductController {
 
 	private def updateUnits = { Product product, List<String> productUnits ->
 		productUnits.each {
-			def unit = Unit.valueOf(it)
+			Unit unit = Unit.valueOf(it)
 			if (!product.units.contains(unit)) {
-				product.addToUnits(Unit.valueOf(it))
+				product.addToUnits(unit)
 			}
 		}
-		
-//		product.units.each {
-//			def unit = it
-//			if (!productUnits.contains(unit.toString())) {
-//				def unitPrice = product.unitPrices.find { it.unit = unit }
-//				product.removeFromUnitPrices(unitPrice)
-//				unitPrice.delete()
-//				
-//				def unitInventory = product.unitInventories.find { it.unit = unit }
-//				product.removeFromUnitInventories(unitInventory)
-//				unitInventory.delete()
-//
-//				product.removeFromUnits(it)
-//			}
-//		}
+		product.units.asList().each { // to avoid ConcurrentModificationException
+			if (!productUnits.contains(it.toString())) {
+				product.removeFromUnits(it)
+			}
+		}
 	}
 	
     def delete = {
