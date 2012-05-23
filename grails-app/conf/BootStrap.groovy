@@ -1,5 +1,5 @@
-import javax.transaction.UserTransaction;
 
+import com.dumplingjoy.pos.AdjustmentInSequenceNumber
 import com.dumplingjoy.pos.User;
 
 class BootStrap {
@@ -14,6 +14,10 @@ class BootStrap {
 	private void setupInitialUser() {
 		if (!User.findByUsername("joy")) {
 			new User(username: "joy", password: "joy", enabled: true).save(failOnError:true)
+		}
+		
+		if (AdjustmentInSequenceNumber.count() == 0) {
+			new AdjustmentInSequenceNumber().save(failOnError: true)	
 		}
 	}
 	

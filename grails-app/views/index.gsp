@@ -21,6 +21,7 @@
             <div id="controllerList" class="dialog">
                 <ul>
                     <li class="controller"><g:link controller="product">Product Maintenance</g:link></li>
+                    <li class="controller"><g:link controller="adjustmentIn">Adjustment In</g:link></li>
                 </ul>
             </div>
             
