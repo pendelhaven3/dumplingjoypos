@@ -82,6 +82,7 @@
                 	<th>From</th>
                 	<th>To</th>
                 	<th>Converted Quantity</th>
+                	<th width="50"></th>
                 </tr>
                 <g:if test="${!productInstance.unitConversions.empty}">
                     <g:each in="${productInstance.unitConversions.sort{it.from}}" status="i" var="unitConversion">
@@ -89,23 +90,33 @@
                             <td>${unitConversion.fromUnit}</td>
                             <td>${unitConversion.toUnit}</td>
                             <td>${unitConversion.convertedQuantity}</td>
+                            <td style="text-align:center">
+                           		<input type="button" value="Edit" onclick="editUnitConversion(${unitConversion.id})" />
+                            </td>
                         </tr>
                     </g:each>
                 </g:if>
                 <g:else>
                     <tr>
-                        <td colspan="3">No unit conversions</td>
+                        <td colspan="4">No unit conversions</td>
                     </tr>
                 </g:else>
                 </table>
             </div>
-            
-            <div class="buttons">
-                <g:form controller="unitConversion">
-                    <g:hiddenField name="productId" value="${productInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="create" action="create" value="Add Unit Conversion" /></span>
-                </g:form>
-            </div>
+                        
         </div>
+        
+       	<g:form name="editUnitConversionForm" controller="unitConversion" action="edit">
+       		<g:hiddenField name="productId" value="${productInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+        
+        <g:javascript>
+        	function editUnitConversion(id) {
+        		var form = document.editUnitConversionForm;
+        		form.id.value = id
+        		form.submit()
+        	}
+        </g:javascript>
     </body>
 </html>

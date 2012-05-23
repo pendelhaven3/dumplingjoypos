@@ -18,6 +18,7 @@ class Product {
 	
 	def beforeInsert() {
 		createUnitQuantities()
+		createUnitConversions()
 	}
 	
 	private void createUnitQuantities() {
@@ -38,4 +39,11 @@ class Product {
 		}
 	}
 	
+	private void createUnitConversions() {
+		if (units.size() > 1) {
+			addToUnitConversions(new UnitConversion(fromUnit: units.min(), toUnit: units.max(), convertedQuantity: 0))
+		}
+	}
+
+
 }

@@ -53,17 +53,31 @@ class UnitConversionController {
     }
 
     def edit() {
+		def productInstance = Product.get(params.productId)
+        if (!productInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'product.label'), params.id])
+            redirect(controller: "product", action: "list")
+            return
+        }
+		
         def unitConversionInstance = UnitConversion.get(params.id)
         if (!unitConversionInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'unitConversion.label', default: 'UnitConversion'), params.id])
-            redirect(action: "list")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'unitConversion.label'), params.id])
+            redirect(controller: "product", action: "list")
             return
         }
 
-        [unitConversionInstance: unitConversionInstance]
+        [unitConversionInstance: unitConversionInstance, productInstance: productInstance]
     }
 
     def update() {
+		def productInstance = Product.get(params.productId)
+		if (!productInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'product.label'), params.id])
+            redirect(controller: "product", action: "list")
+            return
+		}
+		
         def unitConversionInstance = UnitConversion.get(params.id)
         if (!unitConversionInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'unitConversion.label', default: 'UnitConversion'), params.id])
@@ -85,12 +99,12 @@ class UnitConversionController {
         unitConversionInstance.properties = params
 
         if (!unitConversionInstance.save(flush: true)) {
-            render(view: "edit", model: [unitConversionInstance: unitConversionInstance])
+            render(view: "edit", model: [unitConversionInstance: unitConversionInstance, productInstance: productInstance])
             return
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'unitConversion.label', default: 'UnitConversion'), unitConversionInstance.id])
-        redirect(action: "show", id: unitConversionInstance.id)
+        redirect(controller: "product", action: "show", id: productInstance.id)
     }
 
     def delete() {
