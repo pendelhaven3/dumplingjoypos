@@ -121,7 +121,7 @@ class AdjustmentInController {
 		
 		adjustmentInInstance.post()
 		
-		flash.message = message(code: 'adjustmentIn.posted.message')
+		flash.message = message(code: 'default.posted.message', args: [message(code: 'adjustmentIn.label')])
 		redirect(action: "show", id: params.id)
 	}
 	
