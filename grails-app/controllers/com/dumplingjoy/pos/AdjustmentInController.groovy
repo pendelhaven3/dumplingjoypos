@@ -19,7 +19,7 @@ class AdjustmentInController {
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		params.sort = params.sort ?: "adjustmentInNumber"
-		params.order = params.order ?: "asc"
+		params.order = params.order ?: "desc"
 		
         [adjustmentInInstanceList: AdjustmentIn.list(params), adjustmentInInstanceTotal: AdjustmentIn.count()]
     }
@@ -112,7 +112,7 @@ class AdjustmentInController {
     }
 	
 	def postAdjustmentIn() {
-		def adjustmentInInstance = AdjustmentIn.get(params.id)
+		AdjustmentIn adjustmentInInstance = AdjustmentIn.get(params.id)
 		if (!adjustmentInInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentIn.label'), params.id])
 			redirect(action: "list")

@@ -1,10 +1,10 @@
 
-<%@ page import="com.dumplingjoy.pos.AdjustmentIn" %>
+<%@ page import="com.dumplingjoy.pos.AdjustmentOut" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'adjustmentIn.label')}" />
+        <g:set var="entityName" value="${message(code: 'adjustmentOut.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,43 +22,43 @@
                 <table>
                     <tbody>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="adjustmentIn.adjustmentInNumber.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "adjustmentInNumber")}</td>
+                            <td valign="top" class="name"><g:message code="adjustmentOut.adjustmentOutNumber.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "adjustmentOutNumber")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="adjustmentIn.description.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "description")}</td>
+                            <td valign="top" class="name"><g:message code="adjustmentOut.description.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "description")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="adjustmentIn.posted.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "posted").equals("Y") ? "Yes" : "No"}</td>
+                            <td valign="top" class="name"><g:message code="adjustmentOut.posted.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "posted").equals("Y") ? "Yes" : "No"}</td>
                         </tr>
-                        <g:if test="${adjustmentInInstance.posted}">
+                        <g:if test="${adjustmentOutInstance.posted}">
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="adjustmentIn.postDate.label" /></td>
-	                            <td valign="top" class="value"><g:formatDate date="${adjustmentInInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                            <td valign="top" class="name"><g:message code="adjustmentOut.postDate.label" /></td>
+	                            <td valign="top" class="value"><g:formatDate date="${adjustmentOutInstance.postDate}" format="MM/dd/yyyy" /></td>
 	                        </tr>
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="adjustmentIn.postedBy.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "postedBy")}</td>
+	                            <td valign="top" class="name"><g:message code="adjustmentOut.postedBy.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "postedBy")}</td>
 	                        </tr>
                         </g:if>
                     </tbody>
                 </table>
             </div>
             
-            <g:if test="${!adjustmentInInstance.posted}">
+            <g:if test="${!adjustmentOutInstance.posted}">
 	            <div class="buttons">
 	                <g:form>
-	                    <g:hiddenField name="id" value="${adjustmentInInstance?.id}" />
+	                    <g:hiddenField name="id" value="${adjustmentOutInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
 	                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
 	                </g:form>
 	            </div>
 	            <div class="buttons">
 	                <g:form>
-	                    <g:hiddenField name="id" value="${adjustmentInInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="postAdjustmentIn" value="Post" onclick="return confirm('Are you sure you want to post this Adjustment In?');" /></span>
+	                    <g:hiddenField name="id" value="${adjustmentOutInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit" action="postAdjustmentOut" value="Post" onclick="return confirm('Are you sure you want to post this Adjustment Out?');" /></span>
 	                </g:form>
 	            </div>
             </g:if>
@@ -77,11 +77,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <g:if test="${!adjustmentInInstance.items.empty}">
-                    <g:each in="${adjustmentInInstance.items}" status="i" var="item">
+                    <g:if test="${!adjustmentOutInstance.items.empty}">
+                    <g:each in="${adjustmentOutInstance.items}" status="i" var="item">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}"
-                        	<g:if test="${!adjustmentInInstance.posted}">
-                        		clickable" onclick="window.location='<g:createLink controller='adjustmentInItem' action='edit' id='${item.id}' />'"
+                        	<g:if test="${!adjustmentOutInstance.posted}">
+                        		clickable" onclick="window.location='<g:createLink controller='adjustmentOutItem' action='edit' id='${item.id}' />'"
                         	</g:if>
                         >
                         	<td>${item.product.code}</td>
@@ -100,10 +100,10 @@
                 </table>
             </div>
             
-            <g:if test="${!adjustmentInInstance.posted}">
+            <g:if test="${!adjustmentOutInstance.posted}">
 	            <div class="buttons">
-	                <g:form controller="adjustmentInItem">
-	                    <g:hiddenField name="adjustmentInId" value="${adjustmentInInstance?.id}" />
+	                <g:form controller="adjustmentOutItem">
+	                    <g:hiddenField name="adjustmentOutId" value="${adjustmentOutInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
 	                </g:form>
 	            </div>

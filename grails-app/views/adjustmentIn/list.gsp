@@ -20,8 +20,11 @@
             <div class="list">
                 <table>
                     <tr>
-                    	<g:sortableColumn property="adjustmentInNumber" title="Adjustment In No." />
+                        <th><g:message code="adjustmentIn.adjustmentInNumber.label" /></th>
                         <th><g:message code="adjustmentIn.description.label" /></th>
+                        <th><g:message code="adjustmentIn.posted.label" /></th>
+                        <th><g:message code="adjustmentIn.postDate.label" /></th>
+                        <th><g:message code="adjustmentIn.postedBy.label" /></th>
                     </tr>
                     <g:if test="${!adjustmentInInstanceList.empty}">
 	                    <g:each in="${adjustmentInInstanceList}" status="i" var="adjustmentInInstance">
@@ -29,13 +32,15 @@
 	                        
 	                            <td>${fieldValue(bean: adjustmentInInstance, field: "adjustmentInNumber")}</td>
 	                            <td>${fieldValue(bean: adjustmentInInstance, field: "description")}</td>
-	                        
+	                            <td>${adjustmentInInstance.posted ? "Yes" : "No"}</td>
+	                            <td><g:formatDate date="${adjustmentInInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                            <td>${fieldValue(bean: adjustmentInInstance, field: "postedBy")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="2">No records found</td>
+                    		<td colspan="5">No records found</td>
                     	</tr>
                     </g:else>
                 </table>

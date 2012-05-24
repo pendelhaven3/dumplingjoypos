@@ -1,11 +1,11 @@
 
 
-<%@ page import="com.dumplingjoy.pos.AdjustmentInItem" %>
+<%@ page import="com.dumplingjoy.pos.AdjustmentOutItem" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem')}" />
+        <g:set var="entityName" value="${message(code: 'adjustmentOutItem.label', default: 'AdjustmentOutItem')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -17,32 +17,32 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${adjustmentInItemInstance}">
+            <g:hasErrors bean="${adjustmentOutItemInstance}">
             <div class="errors">
-                <g:renderErrors bean="${adjustmentInItemInstance}" as="list" />
+                <g:renderErrors bean="${adjustmentOutItemInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save">
-                <g:hiddenField name="adjustmentInId" value="${adjustmentInInstance?.id}" />
+                <g:hiddenField name="adjustmentOutId" value="${adjustmentOutInstance?.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="adjustmentIn.adjustmentInNumber.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "adjustmentInNumber")}</td>
+	                            <td valign="top" class="name"><g:message code="adjustmentOut.adjustmentOutNumber.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "adjustmentOutNumber")}</td>
 	                        </tr>
 	                    
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="adjustmentIn.description.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "description")}</td>
+	                            <td valign="top" class="name"><g:message code="adjustmentOut.description.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "description")}</td>
 	                        </tr>
 	                    
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="productCode">Product Code</label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'product', 'errors')}">
-                                	<g:textField name="productCode" onblur="allCaps(this);getProduct(this.value);" style="text-transform:uppercase" />
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutItemInstance, field: 'product', 'errors')}">
+                                	<g:textField name="productCode" onblur="allCaps(this);getProduct(this.value)" style="text-transform:uppercase" />
                                 </td>
                             </tr>
                         
@@ -57,12 +57,12 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="unit"><g:message code="adjustmentInItem.unit.label" /></label>
+                                    <label for="unit"><g:message code="adjustmentOutItem.unit.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'unit', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutItemInstance, field: 'unit', 'errors')}">
                                 	<select name="unit" id="unit" />
                                 	<%--
-                                	<g:select name="unit" from="${com.dumplingjoy.pos.Unit.values()}" value="${adjustmentInItemInstance.unit}" 
+                                	<g:select name="unit" from="${com.dumplingjoy.pos.Unit.values()}" value="${adjustmentOutItemInstance.unit}" 
                                 		noSelection="['':'']" />
                                		--%>
                                 </td>
@@ -70,10 +70,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="quantity"><g:message code="adjustmentInItem.quantity.label" /></label>
+                                    <label for="quantity"><g:message code="adjustmentOutItem.quantity.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'quantity', 'errors')}">
-                                    <g:textField name="quantity" value="${adjustmentInItemInstance.quantity}" />
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutItemInstance, field: 'quantity', 'errors')}">
+                                    <g:textField name="quantity" value="${adjustmentOutItemInstance.quantity}" />
                                 </td>
                             </tr>
                         
@@ -84,7 +84,7 @@
                     <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
 		        	<span class="button">
 		        		<input type="button" value="Cancel" class="cancel" 
-		        			onclick="window.location='<g:createLink controller='adjustmentIn' action='show' id='${adjustmentInInstance?.id}' />'" />
+		        			onclick="window.location='<g:createLink controller='adjustmentOut' action='show' id='${adjustmentOutInstance?.id}' />'" />
 		        	</span>
                 </div>
             </g:form>
@@ -121,6 +121,16 @@
         		}
         	}
         	
+        	function getAvailableQuantity() {
+        		var productId = document.getElementById("product.id").value;
+        		var unit = document.getElementById("unit").value;
+        	
+				new Ajax.Request(
+					'/pos/product/getAvailableQuantity',
+					{asynchronous:true,evalScripts:true,onSuccess:function(e){updateAvailableQuantity(e.responseText)},
+					parameters:'id=' + productId + '&unit=' + unit});        	
+			}
+			
         </g:javascript>
     </body>
 </html>

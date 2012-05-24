@@ -1,31 +1,34 @@
 package com.dumplingjoy.pos
 
-class AdjustmentIn {
+import java.util.Date;
+import java.util.List;
+
+class AdjustmentOut {
 
 	transient springSecurityService
 	
-	Integer adjustmentInNumber
+	Integer adjustmentOutNumber
 	String description
-	List<AdjustmentInItem> items
+	List<AdjustmentOutItem> items
 	boolean posted
 	Date postDate
 	String postedBy
 	
     static constraints = {
-		adjustmentInNumber nullable: false, unique: true
+		adjustmentOutNumber nullable: false, unique: true
 		description nullable: false, blank: false
 		postDate nullable: true
 		postedBy nullable: true
     }
 	
 	static hasMany = [
-		items: AdjustmentInItem
+		items: AdjustmentOutItem
 	]
 	
 	public void post() {
-		items.each { AdjustmentInItem item ->
+		items.each { AdjustmentOutItem item ->
 			UnitQuantity unitQuantity = item.product.unitQuantities.find {it.unit == item.unit}
-			unitQuantity.quantity += item.quantity
+			unitQuantity.quantity -= item.quantity
 			unitQuantity.save(failOnError:true)
 		}
 		posted = true

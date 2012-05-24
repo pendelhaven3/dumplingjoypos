@@ -23,7 +23,7 @@
                 <table>
                     <thead>
                         <tr>
-                        	<g:sortableColumn property="code" title="Code" />
+                        	<g:sortableColumn property="code" title="Code" width="100" />
                         	<g:sortableColumn property="description" title="Description" />
                         </tr>
                     </thead>

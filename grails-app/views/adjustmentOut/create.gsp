@@ -1,11 +1,11 @@
 
 
-<%@ page import="com.dumplingjoy.pos.AdjustmentIn" %>
+<%@ page import="com.dumplingjoy.pos.AdjustmentOut" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'adjustmentIn.label', default: 'AdjustmentIn')}" />
+        <g:set var="entityName" value="${message(code: 'adjustmentOut.label', default: 'AdjustmentOut')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -18,32 +18,32 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${adjustmentInInstance}">
+            <g:hasErrors bean="${adjustmentOutInstance}">
             <div class="errors">
-                <g:renderErrors bean="${adjustmentInInstance}" as="list" />
+                <g:renderErrors bean="${adjustmentOutInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
-            	<g:hiddenField name="adjustmentIn.id" value="${adjustmentInInstance.id}" />
+            	<g:hiddenField name="adjustmentOut.id" value="${adjustmentOutInstance.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="adjustmentInNo"><g:message code="adjustmentIn.adjustmentInNumber.label" /></label>
+                                    <label for="adjustmentOutNo"><g:message code="adjustmentOut.adjustmentOutNumber.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: adjustmentInInstance, field: 'adjustmentInNumber', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutInstance, field: 'adjustmentOutNumber', 'errors')}">
                                 	To Be Assigned
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description"><g:message code="adjustmentIn.description.label" /></label>
+                                    <label for="description"><g:message code="adjustmentOut.description.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: adjustmentInInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${fieldValue(bean: adjustmentInInstance, field: 'description')}" />
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutInstance, field: 'description', 'errors')}">
+                                    <g:textField name="description" value="${fieldValue(bean: adjustmentOutInstance, field: 'description')}" />
                                 </td>
                             </tr>
                         

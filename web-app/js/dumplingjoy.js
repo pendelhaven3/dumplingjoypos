@@ -3,3 +3,6 @@ function focusOnLoad(id) {
 		$("#" + id).focus()
 	});	
 }
+function allCaps(textField) {
+	textField.value = textField.value.toUpperCase();
+}
