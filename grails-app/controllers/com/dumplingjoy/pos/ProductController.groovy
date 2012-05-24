@@ -1,5 +1,6 @@
 package com.dumplingjoy.pos
 
+import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 import javax.servlet.http.HttpServletRequest
@@ -175,6 +176,15 @@ class ProductController {
 		MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
 		CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile(excelFileParameterName)
 		return new HSSFWorkbook(file.getInputStream())
+	}
+	
+	def getProductByCode = {
+		Product productInstance = Product.findByCode(params.code)
+		if (productInstance) {
+			render productInstance as JSON
+		} else {
+			render new ArrayList() as JSON
+		}
 	}
 	
 }

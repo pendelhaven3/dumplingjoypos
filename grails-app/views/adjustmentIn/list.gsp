@@ -20,7 +20,7 @@
             <div class="list">
                 <table>
                     <tr>
-                        <th><g:message code="adjustmentIn.adjustmentInNumber.label" /></th>
+                    	<g:sortableColumn property="adjustmentInNumber" title="Adjustment In No." />
                         <th><g:message code="adjustmentIn.description.label" /></th>
                     </tr>
                     <g:if test="${!adjustmentInInstanceList.empty}">

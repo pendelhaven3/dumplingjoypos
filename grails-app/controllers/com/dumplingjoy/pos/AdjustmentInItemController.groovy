@@ -16,18 +16,36 @@ class AdjustmentInItemController {
     }
 
     def create() {
-        [adjustmentInItemInstance: new AdjustmentInItem(params)]
+		def adjustmentInInstance = AdjustmentIn.get(params.adjustmentInId)
+		if (!adjustmentInInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentIn.label'), params.id])
+			redirect(controller: "adjustmentIn", action: "list")
+			return
+		}
+		
+        [adjustmentInItemInstance: new AdjustmentInItem(params), adjustmentInInstance: adjustmentInInstance]
     }
 
     def save() {
+		def adjustmentInInstance = AdjustmentIn.get(params.adjustmentInId)
+		if (!adjustmentInInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentIn.label'), params.id])
+			redirect(controller: "adjustmentIn", action: "list")
+			return
+		}
+		
         def adjustmentInItemInstance = new AdjustmentInItem(params)
+		
+		adjustmentInItemInstance.product = Product.findByCode(params.productCode)
+		adjustmentInInstance.addToItems(adjustmentInItemInstance)
+		
         if (!adjustmentInItemInstance.save(flush: true)) {
-            render(view: "create", model: [adjustmentInItemInstance: adjustmentInItemInstance])
+            render(view: "create", model: [adjustmentInItemInstance: adjustmentInItemInstance, adjustmentInInstance: adjustmentInInstance])
             return
         }
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem'), adjustmentInItemInstance.id])
-        redirect(action: "show", id: adjustmentInItemInstance.id)
+        redirect(controller: "adjustmentIn", action: "show", id: adjustmentInInstance.id)
     }
 
     def show() {

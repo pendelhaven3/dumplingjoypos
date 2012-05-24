@@ -1,12 +1,16 @@
 package com.dumplingjoy.pos
 
+import grails.plugins.springsecurity.Secured
+
 import org.springframework.dao.DataIntegrityViolationException
 
+
+@Secured("isFullyAuthenticated()")
 class AdjustmentInController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-	def sequenceService
+	def adjustmentInService
 	
     def index() {
         redirect(action: "list", params: params)
@@ -14,6 +18,9 @@ class AdjustmentInController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "adjustmentInNumber"
+		params.order = params.order ?: "asc"
+		
         [adjustmentInInstanceList: AdjustmentIn.list(params), adjustmentInInstanceTotal: AdjustmentIn.count()]
     }
 
@@ -28,7 +35,7 @@ class AdjustmentInController {
             render(view: "create", model: [adjustmentInInstance: adjustmentInInstance])
             return
         }
-
+		AdjustmentInSequenceNumber.increment()
 		flash.message = message(code: 'default.created.message', args: [message(code: 'adjustmentIn.label', default: 'AdjustmentIn'), adjustmentInInstance.id])
         redirect(action: "show", id: adjustmentInInstance.id)
     }
@@ -103,4 +110,19 @@ class AdjustmentInController {
             redirect(action: "show", id: params.id)
         }
     }
+	
+	def postAdjustmentIn() {
+		def adjustmentInInstance = AdjustmentIn.get(params.id)
+		if (!adjustmentInInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentIn.label'), params.id])
+			redirect(action: "list")
+			return
+		}
+		
+		adjustmentInInstance.post()
+		
+		flash.message = message(code: 'adjustmentIn.posted.message')
+		redirect(action: "show", id: params.id)
+	}
+	
 }

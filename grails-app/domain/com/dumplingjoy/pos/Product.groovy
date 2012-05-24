@@ -4,6 +4,7 @@ class Product {
 
 	String code
 	String description
+	List<Unit> units
 	
     static constraints = {
 		code nullable:false, blank:false, unique:true

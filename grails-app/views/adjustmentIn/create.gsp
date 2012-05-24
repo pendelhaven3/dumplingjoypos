@@ -59,5 +59,8 @@
                 </div>
             </g:form>
         </div>
+        <g:javascript>
+        	focusOnLoad("description")
+        </g:javascript>
     </body>
 </html>
