@@ -74,26 +74,29 @@
                         	<th>Product Description</th>
                         	<th>Unit</th>
                         	<th>Quantity</th>
+                       		<th width="90"></th>
                         </tr>
                     </thead>
                     <tbody>
                     <g:if test="${!adjustmentInInstance.items.empty}">
-                    <g:each in="${adjustmentInInstance.items}" status="i" var="item">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}"
-                        	<g:if test="${!adjustmentInInstance.posted}">
-                        		clickable" onclick="window.location='<g:createLink controller='adjustmentInItem' action='edit' id='${item.id}' />'"
-                        	</g:if>
-                        >
+                    <g:each in="${adjustmentInInstance.items.sort{it.product.code}}" status="i" var="item">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}" > 
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
                         	<td>${item.quantity}</td>
+                        	<td style="text-align:center">
+	                        	<g:if test="${!adjustmentInInstance.posted}">
+	                       			<input type="button" value="Edit" onclick="editAdjustmentInItem(${item.id})" />
+	                       			<input type="button" value="Delete" onclick="deleteAdjustmentInItem(${item.id})" />
+	                        	</g:if>
+                        	</td>
                         </tr>
                     </g:each>
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="4">No items</td>
+                    		<td colspan="5">No items</td>
                     	</tr>
                     </g:else>
                     </tbody>
@@ -103,12 +106,36 @@
             <g:if test="${!adjustmentInInstance.posted}">
 	            <div class="buttons">
 	                <g:form controller="adjustmentInItem">
-	                    <g:hiddenField name="adjustmentInId" value="${adjustmentInInstance?.id}" />
+	                    <g:hiddenField name="adjustmentIn.id" value="${adjustmentInInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
 	                </g:form>
 	            </div>
 	        </g:if>
-            
+	        
         </div>
+        
+       	<g:form name="editAdjustmentInItemForm" controller="adjustmentInItem" action="edit">
+       		<g:hiddenField name="adjustmentIn.id" value="${adjustmentInInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+       	<g:form name="deleteAdjustmentInItemForm" controller="adjustmentInItem" action="delete">
+       		<g:hiddenField name="adjustmentIn.id" value="${adjustmentInInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+        
+        <g:javascript>
+        	function editAdjustmentInItem(id) {
+        		var form = document.editAdjustmentInItemForm;
+        		form.id.value = id
+        		form.submit()
+        	}
+        	function deleteAdjustmentInItem(id) {
+        		if (confirm("Are you sure you want to remove this item?")) {
+	        		var form = document.deleteAdjustmentInItemForm;
+	        		form.id.value = id
+	        		form.submit()
+        		}
+        	}
+        </g:javascript>
     </body>
 </html>

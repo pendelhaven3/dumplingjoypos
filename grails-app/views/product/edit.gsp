@@ -73,5 +73,8 @@
                 </div>
             </g:form>
         </div>
+        <g:javascript>
+        	focusOnLoad("code")
+        </g:javascript>
     </body>
 </html>

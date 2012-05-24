@@ -1,7 +1,9 @@
 
 import com.dumplingjoy.pos.AdjustmentInSequenceNumber
 import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
+import com.dumplingjoy.pos.Product;
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
+import com.dumplingjoy.pos.Unit;
 import com.dumplingjoy.pos.User;
 
 class BootStrap {
@@ -9,6 +11,7 @@ class BootStrap {
     def init = { servletContext ->
 		setupInitialUser()
 		setupSequences()
+		setupDummyProducts()
     }
 	
     def destroy = {
@@ -29,6 +32,17 @@ class BootStrap {
 		}
 		if (StockQuantityConversionSequenceNumber.count() == 0) {
 			new StockQuantityConversionSequenceNumber().save(failOnError: true)	
+		}
+	}
+	
+	private void setupDummyProducts() {
+		for (int i=1; i<=20; i++) {
+			Product product = new Product()
+			product.code = "PROD" + i
+			product.description = "Product " + i
+			product.addToUnits(Unit.CSE)
+			product.addToUnits(Unit.PCS)
+			product.save(failOnError:true)
 		}
 	}
 	

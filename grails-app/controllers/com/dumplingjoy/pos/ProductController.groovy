@@ -90,19 +90,12 @@ class ProductController {
                 }
             }
             productInstance.properties = params
-			updateUnits(productInstance, params.list("productUnits"))
+			productInstance.updateUnits(params.list("productUnits"))
 			
             if (!productInstance.hasErrors() && productInstance.save(flush: true)) {
-				Unit.values().each { Unit unit ->
-					if (!productInstance.units.contains(unit)) {
-						UnitQuantity unitQuantity = productInstance.unitQuantities.find {it.unit == unit}
-						if (unitQuantity) {
-							productInstance.removeFromUnitQuantities(unitQuantity)
-							productInstance.save(failOnError: true)
-							unitQuantity.delete(failOnError: true)
-						}
-					}
-				}
+				
+				productInstance.updateUnitQuantities()
+				productInstance.updateUnitConversions()
 				
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'product.label', default: 'Product'), productInstance.id])}"
                 redirect(action: "show", id: productInstance.id)
@@ -117,20 +110,6 @@ class ProductController {
         }
     }
 
-	private def updateUnits = { Product product, List<String> productUnits ->
-		productUnits.each {
-			Unit unit = Unit.valueOf(it)
-			if (!product.units.contains(unit)) {
-				product.addToUnits(unit)
-			}
-		}
-		product.units.asList().each { // to avoid ConcurrentModificationException
-			if (!productUnits.contains(it.toString())) {
-				product.removeFromUnits(it)
-			}
-		}
-	}
-	
     def delete = {
         def productInstance = Product.get(params.id)
         if (productInstance) {

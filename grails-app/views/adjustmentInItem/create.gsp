@@ -23,7 +23,8 @@
             </div>
             </g:hasErrors>
             <g:form action="save">
-                <g:hiddenField name="adjustmentInId" value="${adjustmentInInstance?.id}" />
+                <g:hiddenField name="adjustmentIn.id" value="${adjustmentInInstance?.id}" />
+                <g:hiddenField name="product.id" value="${adjustmentInItemInstance?.product?.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -42,7 +43,8 @@
                                     <label for="productCode">Product Code</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'product', 'errors')}">
-                                	<g:textField name="productCode" onblur="allCaps(this);getProduct(this.value);" style="text-transform:uppercase" />
+                                	<g:textField name="product.code" onblur="allCaps(this);getProduct(this.value);" style="text-transform:uppercase" 
+                                		value="${adjustmentInItemInstance?.product?.code}" />
                                 </td>
                             </tr>
                         
@@ -51,7 +53,7 @@
                                     <label for="productDescription">Product Description</label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<span id="span_productDescription"></span>
+                                	<span id="span_productDescription">${fieldValue(bean: adjustmentInItemInstance, field: "product.description")}</span>
                                 </td>
                             </tr>
                         
@@ -60,11 +62,13 @@
                                     <label for="unit"><g:message code="adjustmentInItem.unit.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'unit', 'errors')}">
-                                	<select name="unit" id="unit" />
-                                	<%--
-                                	<g:select name="unit" from="${com.dumplingjoy.pos.Unit.values()}" value="${adjustmentInItemInstance.unit}" 
-                                		noSelection="['':'']" />
-                               		--%>
+                                	<g:if test="${adjustmentInItemInstance?.product == null}">
+                                		<select name="unit" id="unit"></select>
+                                	</g:if>
+                                	<g:else>
+                                		<g:select name="unit" from="${adjustmentInItemInstance.product.units}" value="${adjustmentInItemInstance.unit}" 
+                                			noSelection="['':'']" />
+                                	</g:else>
                                 </td>
                             </tr>
                         
@@ -90,14 +94,19 @@
             </g:form>
         </div>
         <g:javascript>
+        	focusOnLoad("product\\.code");
+        
         	function getProduct(code) {
         		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code.toUpperCase()},
         			function(product) {
         				if (!jQuery.isEmptyObject(product)) {
+        					$("#product\\.id").val(product.id)
         					$("#span_productDescription").html(product.description);
         					updateUnits(product.units);
         				} else {
-        					alert("wala e")
+        					$("#product\\.id").val("")
+        					$("#span_productDescription").html("");
+        					$("#unit").html("");
         				}
         			}
         		);
@@ -120,7 +129,6 @@
         			selectUnit.options.add(option);
         		}
         	}
-        	
         </g:javascript>
     </body>
 </html>
