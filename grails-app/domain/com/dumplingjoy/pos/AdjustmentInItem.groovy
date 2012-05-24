@@ -7,9 +7,7 @@ class AdjustmentInItem {
 	Integer quantity
 	
     static constraints = {
-		product nullable: false
-		unit nullable: false
-		quantity nullable: false, min: 1
+		quantity min: 1
     }
 	
 }

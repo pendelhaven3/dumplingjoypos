@@ -1,6 +1,7 @@
 
 import com.dumplingjoy.pos.AdjustmentInSequenceNumber
 import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
+import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
 import com.dumplingjoy.pos.User;
 
 class BootStrap {
@@ -25,6 +26,9 @@ class BootStrap {
 		}
 		if (AdjustmentOutSequenceNumber.count() == 0) {
 			new AdjustmentOutSequenceNumber().save(failOnError: true)	
+		}
+		if (StockQuantityConversionSequenceNumber.count() == 0) {
+			new StockQuantityConversionSequenceNumber().save(failOnError: true)	
 		}
 	}
 	

@@ -85,7 +85,7 @@
                 	<th width="50"></th>
                 </tr>
                 <g:if test="${!productInstance.unitConversions.empty}">
-                    <g:each in="${productInstance.unitConversions.sort{it.from}}" status="i" var="unitConversion">
+                    <g:each in="${productInstance.unitConversions}" status="i" var="unitConversion">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                             <td>${unitConversion.fromUnit}</td>
                             <td>${unitConversion.toUnit}</td>

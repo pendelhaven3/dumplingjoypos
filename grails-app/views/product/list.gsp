@@ -28,6 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <g:if test="${!productInstanceList.empty}">
                     <g:each in="${productInstanceList}" status="i" var="productInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${productInstance.id}' />'">
                         
@@ -37,6 +38,12 @@
                         
                         </tr>
                     </g:each>
+                    </g:if>
+                    <g:else>
+                    	<tr>
+                    		<td colspan="2">No products found</td>
+                    	</tr>
+                    </g:else>
                     </tbody>
                 </table>
             </div>

@@ -1,11 +1,11 @@
 
 
-<%@ page import="com.dumplingjoy.pos.Product" %>
+<%@ page import="com.dumplingjoy.pos.StockQuantityConversion" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'product.label', default: 'Product')}" />
+        <g:set var="entityName" value="${message(code: 'stockQuantityConversion.label', default: 'StockQuantityConversion')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -18,42 +18,32 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${productInstance}">
+            <g:hasErrors bean="${stockQuantityConversionInstance}">
             <div class="errors">
-                <g:renderErrors bean="${productInstance}" as="list" />
+                <g:renderErrors bean="${stockQuantityConversionInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
+            	<g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="code"><g:message code="product.code.label" default="Code" /></label>
+                                    <label for="stockQuantityConversionNo"><g:message code="stockQuantityConversion.stockQuantityConversionNumber.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'code', 'errors')}">
-                                    <g:textField name="code" value="${productInstance?.code}" onblur="allCaps(this)" style="text-transform:uppercase" />
+                                <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionInstance, field: 'stockQuantityConversionNumber', 'errors')}">
+                                	To Be Assigned
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description"><g:message code="product.description.label" default="Description" /></label>
+                                    <label for="description"><g:message code="stockQuantityConversion.description.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${productInstance?.description}" />
-                                </td>
-                            </tr>
-                            
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                	Units
-                                </td>
-                                <td valign="top">
-                                	<g:each in="${com.dumplingjoy.pos.Unit.values()}" var="unit">
-                                		<g:checkBox name="productUnits" value="${unit}" checked="${false}" />&nbsp;${unit}
-                                	</g:each>
+                                <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionInstance, field: 'description', 'errors')}">
+                                    <g:textField name="description" value="${fieldValue(bean: stockQuantityConversionInstance, field: 'description')}" />
                                 </td>
                             </tr>
                         
@@ -69,5 +59,8 @@
                 </div>
             </g:form>
         </div>
+        <g:javascript>
+        	focusOnLoad("description")
+        </g:javascript>
     </body>
 </html>
