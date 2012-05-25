@@ -78,5 +78,8 @@
                 </div>
             </g:form>
         </div>
+        <g:javascript>
+        	focusOnLoad("convertedQuantity")
+        </g:javascript>
     </body>
 </html>

@@ -74,26 +74,29 @@
                         	<th>Product Description</th>
                         	<th>Unit</th>
                         	<th>Quantity</th>
+                        	<th width="90"></th>
                         </tr>
                     </thead>
                     <tbody>
                     <g:if test="${!adjustmentOutInstance.items.empty}">
                     <g:each in="${adjustmentOutInstance.items}" status="i" var="item">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}"
-                        	<g:if test="${!adjustmentOutInstance.posted}">
-                        		clickable" onclick="window.location='<g:createLink controller='adjustmentOutItem' action='edit' id='${item.id}' />'"
-                        	</g:if>
-                        >
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
                         	<td>${item.quantity}</td>
+                        	<td style="text-align:center">
+	                        	<g:if test="${!adjustmentOutInstance.posted}">
+	                       			<input type="button" value="Edit" onclick="editAdjustmentOutItem(${item.id})" />
+	                       			<input type="button" value="Delete" onclick="deleteAdjustmentOutItem(${item.id})" />
+	                        	</g:if>
+                        	</td>
                         </tr>
                     </g:each>
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="4">No items</td>
+                    		<td colspan="5">No items</td>
                     	</tr>
                     </g:else>
                     </tbody>
@@ -103,12 +106,36 @@
             <g:if test="${!adjustmentOutInstance.posted}">
 	            <div class="buttons">
 	                <g:form controller="adjustmentOutItem">
-	                    <g:hiddenField name="adjustmentOutId" value="${adjustmentOutInstance?.id}" />
+	                    <g:hiddenField name="adjustmentOut.id" value="${adjustmentOutInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
 	                </g:form>
 	            </div>
 	        </g:if>
             
         </div>
+        
+       	<g:form name="editAdjustmentOutItemForm" controller="adjustmentOutItem" action="edit">
+       		<g:hiddenField name="adjustmentOut.id" value="${adjustmentOutInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+       	<g:form name="deleteAdjustmentOutItemForm" controller="adjustmentOutItem" action="delete">
+       		<g:hiddenField name="adjustmentOut.id" value="${adjustmentOutInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+        
+        <g:javascript>
+        	function editAdjustmentOutItem(id) {
+        		var form = document.editAdjustmentOutItemForm;
+        		form.id.value = id
+        		form.submit()
+        	}
+        	function deleteAdjustmentOutItem(id) {
+        		if (confirm("Are you sure you want to remove this item?")) {
+	        		var form = document.deleteAdjustmentOutItemForm;
+	        		form.id.value = id
+	        		form.submit()
+        		}
+        	}
+        </g:javascript>
     </body>
 </html>

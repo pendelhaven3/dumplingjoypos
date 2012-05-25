@@ -100,9 +100,11 @@
         		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code.toUpperCase()},
         			function(product) {
         				if (!jQuery.isEmptyObject(product)) {
-        					$("#product\\.id").val(product.id)
-        					$("#span_productDescription").html(product.description);
-        					updateUnits(product.units);
+        					if ($("#product\\.id").val() != product.id) {
+	        					$("#product\\.id").val(product.id)
+	        					$("#span_productDescription").html(product.description);
+	        					updateUnits(product.units);
+        					}
         				} else {
         					$("#product\\.id").val("")
         					$("#span_productDescription").html("");

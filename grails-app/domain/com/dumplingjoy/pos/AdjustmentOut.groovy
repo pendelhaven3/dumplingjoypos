@@ -37,4 +37,8 @@ class AdjustmentOut {
 		save(failOnError:true)
 	}
 	
+	public boolean containsItem(AdjustmentOutItem item) {
+		return items.find {it.id != item.id && it.product.id == item.product?.id && it.unit == item.unit} != null
+	}
+
 }

@@ -58,6 +58,7 @@ environments {
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
+//        grails.serverURL = "http://dumplingjoypos.cloudfoundry.com"
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"

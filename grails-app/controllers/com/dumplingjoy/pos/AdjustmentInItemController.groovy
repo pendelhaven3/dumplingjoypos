@@ -33,8 +33,8 @@ class AdjustmentInItemController {
 		adjustmentInItemInstance.product = Product.get(params["product.id"])
 		
 		if (adjustmentInInstance.containsItem(adjustmentInItemInstance)) {
-			adjustmentInItemInstance.errors.reject("adjustmentIn.containsItem.message", 
-				[message(code: 'adjustmentIn.label')] as Object[], "adjustmentIn.containsItem.message")
+			adjustmentInItemInstance.errors.reject("default.containsItem.message", 
+				[message(code: 'adjustmentIn.label')] as Object[], "default.containsItem.message")
             render(view: "create", model: [adjustmentInItemInstance: adjustmentInItemInstance, adjustmentInInstance: adjustmentInInstance])
             return
 		}
@@ -61,7 +61,7 @@ class AdjustmentInItemController {
         def adjustmentInItemInstance = AdjustmentInItem.get(params.id)
         if (!adjustmentInItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem'), params.id])
-            redirect(action: "list")
+            redirect(controller: "adjustmentIn", action: "show", id: adjustmentInInstance.id)
             return
         }
 
@@ -79,7 +79,7 @@ class AdjustmentInItemController {
         AdjustmentInItem adjustmentInItemInstance = AdjustmentInItem.get(params.id)
         if (!adjustmentInItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem'), params.id])
-            redirect(action: "list")
+            redirect(controller: "adjustmentIn", action: "show", id: adjustmentInInstance.id)
             return
         }
 
@@ -89,24 +89,35 @@ class AdjustmentInItemController {
                 adjustmentInItemInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem')] as Object[],
                           "Another user has updated this AdjustmentInItem while you were editing")
-                render(view: "edit", model: [adjustmentInItemInstance: adjustmentInItemInstance])
+                render(view: "edit", model: [adjustmentInItemInstance: adjustmentInItemInstance, adjustmentInInstance: adjustmentInInstance])
                 return
             }
         }
 
+		// detach adjustmentInItemInstance from session to perform external validations first
+		// without saving changes immediately
 		adjustmentInItemInstance.discard()
         adjustmentInItemInstance.properties = params
+		adjustmentInItemInstance.product = Product.get(params["product.id"])
+		if (!adjustmentInItemInstance.product) {
+			adjustmentInItemInstance.unit = null
+		}
 		
 		if (adjustmentInInstance.containsItem(adjustmentInItemInstance)) {
-			adjustmentInItemInstance.errors.reject("adjustmentIn.containsItem.message",
-				[message(code: 'adjustmentIn.label')] as Object[], "adjustmentIn.containsItem.message")
+			adjustmentInItemInstance.errors.reject("default.containsItem.message",
+				[message(code: 'adjustmentIn.label')] as Object[], "default.containsItem.message")
 			render(view: "edit", model: [adjustmentInItemInstance: adjustmentInItemInstance, adjustmentInInstance: adjustmentInInstance])
 			return
 		}
 
+		// re-attach adjustmentInItemInstance to session after external validations pass
         adjustmentInItemInstance = AdjustmentInItem.get(params.id)
 		adjustmentInItemInstance.properties = params
-		
+		adjustmentInItemInstance.product = Product.get(params["product.id"])
+		if (!adjustmentInItemInstance.product) {
+			adjustmentInItemInstance.unit = null
+		}
+
         if (!adjustmentInItemInstance.save(flush: true)) {
             render(view: "edit", model: [adjustmentInItemInstance: adjustmentInItemInstance, adjustmentInInstance: adjustmentInInstance])
             return
@@ -127,7 +138,7 @@ class AdjustmentInItemController {
         def adjustmentInItemInstance = AdjustmentInItem.get(params.id)
         if (!adjustmentInItemInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem'), params.id])
-            redirect(controller: "adjustmentIn", action: "list")
+            redirect(controller: "adjustmentIn", action: "show", id: adjustmentInInstance.id)
             return
         }
 
@@ -140,7 +151,7 @@ class AdjustmentInItemController {
         }
         catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'adjustmentInItem.label', default: 'AdjustmentInItem'), params.id])
-            redirect(action: "show", id: params.id)
+            redirect(controller: "adjustmentIn", action: "show", id: adjustmentInInstance.id)
         }
     }
 }

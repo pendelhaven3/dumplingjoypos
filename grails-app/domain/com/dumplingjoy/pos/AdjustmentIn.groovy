@@ -35,7 +35,7 @@ class AdjustmentIn {
 	}
 	
 	public boolean containsItem(AdjustmentInItem item) {
-		return items.find {it.id != item.id && it.product.id == item.product.id && it.unit == item.unit} != null
+		return items.find {it.id != item.id && it.product.id == item.product?.id && it.unit == item.unit} != null
 	}
 	
 }
