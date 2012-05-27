@@ -102,7 +102,7 @@
         				if (!jQuery.isEmptyObject(product)) {
         					if ($("#product\\.id").val() != product.id) {
 	        					$("#product\\.id").val(product.id)
-	        					$("#span_productDescription").html(product.description);
+	        					$("#span_productDescription").text(product.description);
 	        					updateUnits(product.units);
         					}
         				} else {

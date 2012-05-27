@@ -70,8 +70,21 @@
                                 	</g:if>
                                 	<g:else>
                                 		<g:select name="unit" from="${adjustmentOutItemInstance.product.units}" value="${adjustmentOutItemInstance.unit}" 
-                                			noSelection="['':'']" />
+                                			noSelection="['':'']" onblur="updateAvailableQuantity()" />
                                 	</g:else>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="availableQuantity">Available Quantity</label>
+                                </td>
+                                <td valign="top" class="value">
+                                	<span id="span_availableQuantity">
+                                		<g:if test="${adjustmentOutItemInstance.product != null && adjustmentOutItemInstance.unit != null}">
+                                			${adjustmentOutItemInstance.product.unitQuantities.find{it.unit == adjustmentOutItemInstance.unit}.quantity}
+                                		</g:if>
+                                	</span>
                                 </td>
                             </tr>
                         
@@ -106,7 +119,7 @@
         				if (!jQuery.isEmptyObject(product)) {
         					if ($("#product\\.id").val() != product.id) {
 	        					$("#product\\.id").val(product.id)
-	        					$("#span_productDescription").html(product.description);
+	        					$("#span_productDescription").text(product.description);
 	        					updateUnits(product.units);
 	        				}
         				} else {
@@ -135,6 +148,27 @@
         			selectUnit.options.add(option);
         		}
         	}
+        	
+        	function updateAvailableQuantity() {
+        		var code = $("#product\\.code").val()
+        		var unit = $("#unit").val()
+        		
+        		if (code == "" || unit == "") {
+       				$("#span_availableQuantity").html("")
+        		} else {
+	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code.toUpperCase()},
+	        			function(product) {
+			        		for (var i=0; i < product.unitQuantities.length; i++) {
+			        			var unitQuantity = product.unitQuantities[i]
+			        			if (unit == unitQuantity.unit.name) {
+			        				$("#span_availableQuantity").text(unitQuantity.quantity);
+			        			}
+			        		}
+	        			}
+	        		);
+        		}
+        	}
+        	
         </g:javascript>
     </body>
 </html>

@@ -9,7 +9,18 @@ class AdjustmentOutItem {
     static constraints = {
 		product nullable: false
 		unit nullable: false
-		quantity nullable: false, min: 1
+		quantity nullable: false, min: 1, validator: validateEnoughQuantityAvailable
     }
+	
+	private static def validateEnoughQuantityAvailable = { Integer quantity, AdjustmentOutItem item ->
+		if (item.product && item.quantity > 0 && item.unit) {
+			UnitQuantity available = item.product.unitQuantities.find {it.unit == item.unit}
+			if (quantity > available.quantity) {
+				return "notenoughquantityavailable.message"
+			} else {
+				return true
+			}
+		}
+	}
 	
 }

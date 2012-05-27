@@ -108,14 +108,14 @@ class AdjustmentOutItemController {
 			return
 		}
 
-		// re-attach adjustmentInItemInstance to session
-        adjustmentOutItemInstance = AdjustmentInItem.get(params.id)
+		// re-attach adjustmentOutItemInstance to session
+        adjustmentOutItemInstance = AdjustmentOutItem.get(params.id)
 		adjustmentOutItemInstance.properties = params
 		adjustmentOutItemInstance.product = Product.get(params["product.id"])
 		if (!adjustmentOutItemInstance.product) {
 			adjustmentOutItemInstance.unit = null
 		}
-
+		
         if (!adjustmentOutItemInstance.save(flush: true)) {
             render(view: "edit", model: [adjustmentOutItemInstance: adjustmentOutItemInstance, adjustmentOutInstance: adjustmentOutInstance])
             return
