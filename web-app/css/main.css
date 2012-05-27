@@ -146,6 +146,11 @@ td.errors textarea {
     border: 1px solid red;
 }
 
+.postError td {
+	font-weight: bold;
+	color: red;
+}
+
 /* TABLES */
 
 table {

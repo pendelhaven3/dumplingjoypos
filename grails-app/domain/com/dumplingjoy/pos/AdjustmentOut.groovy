@@ -25,16 +25,29 @@ class AdjustmentOut {
 		items: AdjustmentOutItem
 	]
 	
-	public void post() {
-		items.each { AdjustmentOutItem item ->
-			UnitQuantity unitQuantity = item.product.unitQuantities.find {it.unit == item.unit}
-			unitQuantity.quantity -= item.quantity
-			unitQuantity.save(failOnError:true)
+	public boolean post() {
+		AdjustmentOut.withTransaction { status ->
+			items.each { AdjustmentOutItem item ->
+				UnitQuantity unitQuantity = item.product.unitQuantities.find {it.unit == item.unit}
+				unitQuantity.quantity -= item.quantity
+				if (unitQuantity.quantity < 0) {
+					errors.reject("postItem.notenoughquantityavailable.message", [item.product.description, item.unit] as Object[], 
+						"postItem.notenoughquantityavailable.message")
+					item.hasPostError = true
+				} else {
+					unitQuantity.save()
+				}
+			}
+			if (hasErrors()) {
+				status.setRollbackOnly()
+				return false
+			}
+			posted = true
+			postDate = new Date()
+			postedBy = ((User)springSecurityService.currentUser).username
+			save()
+			return true
 		}
-		posted = true
-		postDate = new Date()
-		postedBy = ((User)springSecurityService.currentUser).username
-		save(failOnError:true)
 	}
 	
 	public boolean containsItem(AdjustmentOutItem item) {

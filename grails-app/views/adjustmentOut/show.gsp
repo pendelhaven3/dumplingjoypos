@@ -18,6 +18,11 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <g:hasErrors bean="${adjustmentOutInstance}">
+            <div class="errors">
+                <g:renderErrors bean="${adjustmentOutInstance}" as="list" />
+            </div>
+            </g:hasErrors>
             <div class="dialog">
                 <table>
                     <tbody>
@@ -80,7 +85,7 @@
                     <tbody>
                     <g:if test="${!adjustmentOutInstance.items.empty}">
                     <g:each in="${adjustmentOutInstance.items}" status="i" var="item">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} <g:if test="${item.hasPostError}">postError</g:if>">
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>

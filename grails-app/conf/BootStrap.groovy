@@ -1,9 +1,12 @@
 
 import com.dumplingjoy.pos.AdjustmentInSequenceNumber
+import com.dumplingjoy.pos.AdjustmentOut;
+import com.dumplingjoy.pos.AdjustmentOutItem;
 import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
 import com.dumplingjoy.pos.Product;
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
 import com.dumplingjoy.pos.Unit;
+import com.dumplingjoy.pos.UnitQuantity
 import com.dumplingjoy.pos.User;
 
 class BootStrap {
@@ -12,6 +15,7 @@ class BootStrap {
 		setupInitialUser()
 		setupSequences()
 		setupDummyProducts()
+		setupAdjustmentOutPostErrorScenario()
     }
 	
     def destroy = {
@@ -46,4 +50,49 @@ class BootStrap {
 		}
 	}
 	
+	private void setupAdjustmentOutPostErrorScenario() {
+		UnitQuantity unitQuantity = Product.findByCode("PROD1").unitQuantities.find {it.unit == Unit.CSE}
+		unitQuantity.quantity = 1
+		unitQuantity.save(failOnError:true)
+		
+		UnitQuantity unitQuantity2 = Product.findByCode("PROD2").unitQuantities.find {it.unit == Unit.CSE}
+		unitQuantity2.quantity = 1
+		unitQuantity2.save(failOnError:true)
+		
+		AdjustmentOut adjustmentOut = new AdjustmentOut()
+		adjustmentOut.adjustmentOutNumber = AdjustmentOutSequenceNumber.getNextValue()
+		AdjustmentOutSequenceNumber.increment()
+		adjustmentOut.description = "Test Adjustment Out 1"
+		
+		AdjustmentOutItem adjustmentOutItem = new AdjustmentOutItem()
+		adjustmentOutItem.product = Product.findByCode("PROD1")
+		adjustmentOutItem.unit = Unit.CSE
+		adjustmentOutItem.quantity = 1
+		adjustmentOutItem.save(failOnError:true)
+
+		adjustmentOut.addToItems(adjustmentOutItem)
+		adjustmentOut.save(failOnError:true)
+		
+		AdjustmentOut adjustmentOut2 = new AdjustmentOut()
+		adjustmentOut2.adjustmentOutNumber = AdjustmentOutSequenceNumber.getNextValue()
+		AdjustmentOutSequenceNumber.increment()
+		adjustmentOut2.description = "Test Adjustment Out 2"
+		
+		AdjustmentOutItem adjustmentOutItem2 = new AdjustmentOutItem()
+		adjustmentOutItem2.product = Product.findByCode("PROD1")
+		adjustmentOutItem2.unit = Unit.CSE
+		adjustmentOutItem2.quantity = 1
+		adjustmentOutItem2.save(failOnError:true)
+
+		AdjustmentOutItem adjustmentOutItem3 = new AdjustmentOutItem()
+		adjustmentOutItem3.product = Product.findByCode("PROD2")
+		adjustmentOutItem3.unit = Unit.CSE
+		adjustmentOutItem3.quantity = 1
+		adjustmentOutItem3.save(failOnError:true)
+
+		adjustmentOut2.addToItems(adjustmentOutItem2)
+		adjustmentOut2.addToItems(adjustmentOutItem3)
+		adjustmentOut2.save(failOnError:true)
+	}
+		
 }

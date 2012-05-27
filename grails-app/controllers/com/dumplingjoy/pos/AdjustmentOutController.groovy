@@ -118,9 +118,12 @@ class AdjustmentOutController {
 			return
 		}
 		
-		adjustmentOutInstance.post()
+		if (!adjustmentOutInstance.post()) {
+            render(view: "show", model: [adjustmentOutInstance: adjustmentOutInstance])
+			return
+		}
 		
-		flash.message = message(code: 'adjustmentOut.posted.message')
+		flash.message = message(code: 'default.posted.message', args: [message(code: 'adjustmentOut.label')])
 		redirect(action: "show", id: params.id)
 	}
 	
