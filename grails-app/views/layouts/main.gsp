@@ -3,10 +3,15 @@
     <head>
         <title><g:layoutTitle default="Grails" /></title>
         <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.20.custom.css')}" />
+        <%--
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+		--%>
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <g:layoutHead />
         <g:javascript library="application" />
 		<g:javascript src="jquery/jquery-1.7.2.min.js" />
+		<g:javascript src="jquery/jquery-ui-1.8.20.custom.min.js" />
 		<g:javascript src="dumplingjoy.js" />
     </head>
     <body>

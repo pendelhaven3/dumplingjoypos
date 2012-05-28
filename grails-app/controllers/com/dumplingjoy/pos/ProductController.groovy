@@ -5,6 +5,7 @@ import grails.plugins.springsecurity.Secured
 
 import javax.servlet.http.HttpServletRequest
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.Row;
@@ -166,4 +167,20 @@ class ProductController {
 		}
 	}
 	
+	def select = {
+		render template: "select", model: [code: StringUtils.defaultString(params.code)]
+	}
+	
+	def searchProductsByCode = {
+		if (params.code?.trim()) {
+			if (params.code.equals("*")) {
+				render Product.findAll([sort:"code", order:"asc"]) as JSON
+			} else {
+				render Product.findAllByCodeIlike(params.code + "%", [sort:"code", order:"asc"]) as JSON
+			}
+		} else {
+			render ""
+		}
+	}
+
 }

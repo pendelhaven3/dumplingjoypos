@@ -45,6 +45,7 @@
                                 <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'product', 'errors')}">
                                 	<g:textField name="product.code" onblur="allCaps(this);getProduct(this.value);" style="text-transform:uppercase" 
                                 		value="${adjustmentInItemInstance?.product?.code}" />
+                                	<input type="button" value="Select" onclick="openSelectProductDialog()" />
                                 </td>
                             </tr>
                         
@@ -92,7 +93,8 @@
 		        	</span>
                 </div>
             </g:form>
-        </div>
+        </div>        
+        <div id="selectProductDialog" style="display:none" ></div>
         <g:javascript>
         	focusOnLoad("product\\.code");
         
@@ -102,8 +104,8 @@
         				if (!jQuery.isEmptyObject(product)) {
         					if ($("#product\\.id").val() != product.id) {
 	        					$("#product\\.id").val(product.id)
-	        					$("#span_productDescription").text(product.description);
-	        					updateUnits(product.units);
+	        					$("#span_productDescription").text(product.description)
+	        					updateUnits(product.units)
         					}
         				} else {
         					$("#product\\.id").val("")
@@ -131,6 +133,46 @@
         			selectUnit.options.add(option);
         		}
         	}
+
+        	function openSelectProductDialog() {
+        		var dialogDiv = $("#selectProductDialog");
+        		dialogDiv.dialog("open");
+        		$.get("${createLink(controller: 'product', action: 'select')}", {code: $("#product\\.code").val()},
+        			function(data) {
+        				dialogDiv.html(data)
+        			}
+				);        	
+			}
+			
+			$(document).ready(function() {
+	       		$("#selectProductDialog").dialog({
+	       			title: "Select Product",
+	       			autoOpen: false,
+	       			modal: true,
+	       			width: 800,
+	       			height: 600,
+	       			resizable: false
+	       		});
+			});
+			
+			function selectProduct(productCode) {
+        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},
+					function(product) {
+						if (product.id != $("#product\\.id").val()) {
+							$("#product\\.id").val(product.id)
+							$("#product\\.code").val(product.code)
+							$("#span_productDescription").text(product.description)
+							updateUnits(product.units)
+						}
+						$("#unit").focus()
+					}
+				);        	
+			}
+			
+			function closeDialog() {
+				$("#selectProductDialog").dialog("close");
+			}
+			
         </g:javascript>
     </body>
 </html>
