@@ -48,6 +48,7 @@
                                 <td valign="top" class="value ${hasErrors(bean: adjustmentInItemInstance, field: 'product', 'errors')}">
                                 	<g:textField name="product.code" onblur="allCaps(this);getProduct(this.value);" style="text-transform:uppercase" 
                                 		value="${adjustmentInItemInstance?.product?.code}" />
+                                	<input type="button" value="Select" onclick="openSelectProductDialog()" />
                                 </td>
                             </tr>
                         
@@ -97,6 +98,7 @@
                 </div>
             </g:form>
         </div>
+        <g:include view="common/includeSelectProduct.gsp" /> 
         <g:javascript>
         	focusOnLoad("product\\.code")
         	
