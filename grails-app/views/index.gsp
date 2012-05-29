@@ -22,22 +22,6 @@
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
         </div>
         
-        <%--
-        <div class="body">
-            <br/>
-
-            <div id="controllerList" class="dialog">
-                <ul>
-                    <li class="controller"><g:link controller="product">Product Maintenance</g:link></li>
-                    <li class="controller"><g:link controller="adjustmentIn">Adjustment In</g:link></li>
-                    <li class="controller"><g:link controller="adjustmentOut">Adjustment Out</g:link></li>
-                    <li class="controller"><g:link controller="stockQuantityConversion">Stock Quantity Conversion</g:link></li>
-                </ul>
-            </div>
-            
-        </div>
-        --%>
-        
         <div class="list" style="margin-left:40px">
         
         	<br/><br/>
@@ -57,6 +41,12 @@
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="stockQuantityConversion" />'">
                     <td>Stock Quantity Conversion</td>
+                </tr>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="pricingScheme" />'">
+                    <td>Pricing Schemes (under construction)</td>
+                </tr>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="salesRequisition" />'">
+                    <td>Sales Requisition (under construction)</td>
                 </tr>
         	</table>
         </div>

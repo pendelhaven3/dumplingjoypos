@@ -102,4 +102,12 @@ class Product {
 		}
 	}
 	
+	def afterInsert() {
+		updatePricingSchemes()
+	}
+	
+	private void updatePricingSchemes() {
+		
+	}
+	
 }

@@ -107,7 +107,7 @@
             <g:if test="${!stockQuantityConversionInstance.posted}">
 	            <div class="buttons">
 	                <g:form controller="stockQuantityConversionItem">
-	                    <g:hiddenField name="stockQuantityConversionId" value="${stockQuantityConversionInstance?.id}" />
+	                    <g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
 	                </g:form>
 	            </div>

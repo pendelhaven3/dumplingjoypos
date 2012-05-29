@@ -3,6 +3,7 @@ import com.dumplingjoy.pos.AdjustmentInSequenceNumber
 import com.dumplingjoy.pos.AdjustmentOut;
 import com.dumplingjoy.pos.AdjustmentOutItem;
 import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
+import com.dumplingjoy.pos.PricingScheme
 import com.dumplingjoy.pos.Product;
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
 import com.dumplingjoy.pos.Unit;
@@ -15,7 +16,8 @@ class BootStrap {
 		setupInitialUser()
 		setupSequences()
 		setupDummyProducts()
-		setupAdjustmentOutPostErrorScenario()
+		setupInitialPricingScheme()
+//		setupAdjustmentOutPostErrorScenario()
     }
 	
     def destroy = {
@@ -48,6 +50,12 @@ class BootStrap {
 			product.addToUnits(Unit.PCS)
 			product.save(failOnError:true)
 		}
+	}
+	
+	private void setupInitialPricingScheme() {
+		PricingScheme pricingScheme = new PricingScheme()
+		pricingScheme.description = "Canvasser"
+		pricingScheme.save(failOnError: true)
 	}
 	
 	private void setupAdjustmentOutPostErrorScenario() {

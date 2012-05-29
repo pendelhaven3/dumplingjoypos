@@ -42,5 +42,10 @@ class StockQuantityConversion {
 		postedBy = ((User)springSecurityService.currentUser).username
 		save(failOnError:true)
 	}
-	
+
+	public boolean containsItem(StockQuantityConversionItem item) {
+		return items.find {it.id != item.id && it.product.id == item.product?.id} != null
+	}
+
+
 }

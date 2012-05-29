@@ -16,7 +16,7 @@ class StockQuantityConversionItemController {
     }
 
     def create() {
-		def stockQuantityConversionInstance = StockQuantityConversion.get(params.stockQuantityConversionId)
+		StockQuantityConversion stockQuantityConversionInstance = StockQuantityConversion.get(params["stockQuantityConversion.id"])
 		if (!stockQuantityConversionInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversion.label'), params.id])
 			redirect(controller: "stockQuantityConversion", action: "list")
@@ -27,19 +27,30 @@ class StockQuantityConversionItemController {
     }
 
     def save() {
-		def stockQuantityConversionInstance = StockQuantityConversion.get(params.stockQuantityConversionId)
+		StockQuantityConversion stockQuantityConversionInstance = StockQuantityConversion.get(params["stockQuantityConversion.id"])
 		if (!stockQuantityConversionInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversion.label'), params.id])
 			redirect(controller: "stockQuantityConversion", action: "list")
 			return
 		}
 
-        def stockQuantityConversionItemInstance = new StockQuantityConversionItem(params)
-		stockQuantityConversionItemInstance.product = Product.findByCode(params.productCode)
+        StockQuantityConversionItem stockQuantityConversionItemInstance = new StockQuantityConversionItem(params)
+		stockQuantityConversionItemInstance.product = Product.get(params["product.id"])
+		
+		if (stockQuantityConversionInstance.containsItem(stockQuantityConversionItemInstance)) {
+			stockQuantityConversionItemInstance.errors.reject("default.containsItem.message", 
+				[message(code: 'stockQuantityConversionItem.label')] as Object[], "default.containsItem.message")
+            render(view: "create", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance])
+            return
+		}
+			
 		stockQuantityConversionInstance.addToItems(stockQuantityConversionItemInstance)
 		
         if (!stockQuantityConversionItemInstance.save(flush: true)) {
-            render(view: "create", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance])
+            render(view: "create", model: [
+				stockQuantityConversionItemInstance: stockQuantityConversionItemInstance,
+				stockQuantityConversionInstance: stockQuantityConversionInstance
+			])
             return
         }
 
