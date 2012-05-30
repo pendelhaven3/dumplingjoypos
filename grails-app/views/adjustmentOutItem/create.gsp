@@ -19,7 +19,12 @@
             </g:if>
             <g:hasErrors bean="${adjustmentOutItemInstance}">
             <div class="errors">
-                <g:renderErrors bean="${adjustmentOutItemInstance}" as="list" />
+            	<g:each var="error" in="${adjustmentOutItemInstance.errors.globalErrors}">
+            		<ul><li><g:message error="${error}" /></li></ul>
+            	</g:each>
+                <g:renderErrors bean="${adjustmentOutItemInstance}" field="product" />
+                <g:renderErrors bean="${adjustmentOutItemInstance}" field="unit" />
+                <g:renderErrors bean="${adjustmentOutItemInstance}" field="quantity" />
             </div>
             </g:hasErrors>
             <g:form action="save">
@@ -156,12 +161,14 @@
         		} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code.toUpperCase()},
 	        			function(product) {
-			        		for (var i=0; i < product.unitQuantities.length; i++) {
-			        			var unitQuantity = product.unitQuantities[i]
-			        			if (unit == unitQuantity.unit.name) {
-			        				$("#span_availableQuantity").text(unitQuantity.quantity);
-			        			}
-			        		}
+	        				if (!jQuery.isEmptyObject(product)) {
+				        		for (var i=0; i < product.unitQuantities.length; i++) {
+				        			var unitQuantity = product.unitQuantities[i]
+				        			if (unit == unitQuantity.unit.name) {
+				        				$("#span_availableQuantity").text(unitQuantity.quantity);
+				        			}
+				        		}
+	        				}
 	        			}
 	        		);
         		}

@@ -30,10 +30,14 @@
 					$("#span_productDescription").text(product.description)
 					updateUnits(product.units)
 				}
-				$("#unit").focus()
+				doAfterSelectProduct()
 			}
 		);        	
 	}
+	
+	function doAfterSelectProduct() {
+		$("#unit").focus()
+	}	
 	
 	function closeDialog() {
 		$("#selectProductDialog").dialog("close");

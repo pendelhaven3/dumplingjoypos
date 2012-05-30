@@ -6,15 +6,6 @@ class StockQuantityConversionItemController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index() {
-        redirect(action: "list", params: params)
-    }
-
-    def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [stockQuantityConversionItemInstanceList: StockQuantityConversionItem.list(params), stockQuantityConversionItemInstanceTotal: StockQuantityConversionItem.count()]
-    }
-
     def create() {
 		StockQuantityConversion stockQuantityConversionInstance = StockQuantityConversion.get(params["stockQuantityConversion.id"])
 		if (!stockQuantityConversionInstance) {
@@ -22,7 +13,7 @@ class StockQuantityConversionItemController {
 			redirect(controller: "stockQuantityConversion", action: "list")
 			return
 		}
-
+		
         [stockQuantityConversionItemInstance: new StockQuantityConversionItem(params), stockQuantityConversionInstance: stockQuantityConversionInstance]
     }
 
@@ -38,8 +29,8 @@ class StockQuantityConversionItemController {
 		stockQuantityConversionItemInstance.product = Product.get(params["product.id"])
 		
 		if (stockQuantityConversionInstance.containsItem(stockQuantityConversionItemInstance)) {
-			stockQuantityConversionItemInstance.errors.reject("default.containsItem.message", 
-				[message(code: 'stockQuantityConversionItem.label')] as Object[], "default.containsItem.message")
+			stockQuantityConversionItemInstance.errors.reject("stockQuantityConversion.containsItem.message", 
+				[] as Object[], "stockQuantityConversion.containsItem.message")
             render(view: "create", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance])
             return
 		}
@@ -58,70 +49,106 @@ class StockQuantityConversionItemController {
         redirect(controller: "stockQuantityConversion", action: "show", id: stockQuantityConversionInstance.id)
     }
 
-    def show() {
-        def stockQuantityConversionItemInstance = StockQuantityConversionItem.get(params.id)
-        if (!stockQuantityConversionItemInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), params.id])
-            redirect(action: "list")
-            return
-        }
-
-        [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance]
-    }
-
     def edit() {
+		StockQuantityConversion stockQuantityConversionInstance = StockQuantityConversion.get(params["stockQuantityConversion.id"])
+		if (!stockQuantityConversionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversion.label'), params.id])
+			redirect(controller: "stockQuantityConversion", action: "list")
+			return
+		}
+
         def stockQuantityConversionItemInstance = StockQuantityConversionItem.get(params.id)
         if (!stockQuantityConversionItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "stockQuantityConversion", action: "list")
             return
         }
 
-        [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance]
+        [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance]
     }
 
     def update() {
+		StockQuantityConversion stockQuantityConversionInstance = StockQuantityConversion.get(params["stockQuantityConversion.id"])
+		if (!stockQuantityConversionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversion.label'), params.id])
+			redirect(controller: "stockQuantityConversion", action: "list")
+			return
+		}
+
         def stockQuantityConversionItemInstance = StockQuantityConversionItem.get(params.id)
         if (!stockQuantityConversionItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "stockQuantityConversion", action: "list")
             return
         }
 
-        if (params.version) {
-            def version = params.version.toLong()
-            if (stockQuantityConversionItemInstance.version > version) {
-                stockQuantityConversionItemInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                          [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem')] as Object[],
-                          "Another user has updated this StockQuantityConversionItem while you were editing")
-                render(view: "edit", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance])
-                return
-            }
-        }
+		if (params.version) {
+			def version = params.version.toLong()
+			if (stockQuantityConversionItemInstance.version > version) {
+				stockQuantityConversionItemInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+						  [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem')] as Object[],
+						  "Another user has updated this StockQuantityConversionItem while you were editing")
+				render(view: "edit", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance])
+				return
+			}
+		}
 
-        stockQuantityConversionItemInstance.properties = params
+		// detach adjustmentInItemInstance from session to perform external validations first
+		// without saving changes immediately
+		stockQuantityConversionItemInstance.discard()
+		stockQuantityConversionItemInstance.properties = params
+		stockQuantityConversionItemInstance.product = Product.get(params["product.id"])
+		if (!stockQuantityConversionItemInstance.product) {
+			stockQuantityConversionItemInstance.fromUnit = null
+			stockQuantityConversionItemInstance.toUnit = null
+		}
+		
+		if (stockQuantityConversionInstance.containsItem(stockQuantityConversionItemInstance)) {
+			stockQuantityConversionItemInstance.errors.reject("default.containsItem.message",
+				[message(code: 'stockQuantityConversion.label')] as Object[], "default.containsItem.message")
+			render(view: "edit", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance])
+			return
+		}
+
+		// re-attach stockQuantityConversionItemInstance to session after external validations pass
+		stockQuantityConversionItemInstance = StockQuantityConversionItem.get(params.id)
+		stockQuantityConversionItemInstance.properties = params
+		stockQuantityConversionItemInstance.product = Product.get(params["product.id"])
+		if (!stockQuantityConversionItemInstance.product) {
+			stockQuantityConversionItemInstance.fromUnit = null
+			stockQuantityConversionItemInstance.toUnit = null
+		}
 
         if (!stockQuantityConversionItemInstance.save(flush: true)) {
-            render(view: "edit", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance])
+            render(view: "edit", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance])
             return
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), stockQuantityConversionItemInstance.id])
-        redirect(action: "show", id: stockQuantityConversionItemInstance.id)
+        redirect(controller: "stockQuantityConversion", action: "show", id: stockQuantityConversionInstance.id)
     }
 
     def delete() {
+		StockQuantityConversion stockQuantityConversionInstance = StockQuantityConversion.get(params["stockQuantityConversion.id"])
+		if (!stockQuantityConversionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversion.label'), params.id])
+			redirect(controller: "stockQuantityConversion", action: "list")
+			return
+		}
+
         def stockQuantityConversionItemInstance = StockQuantityConversionItem.get(params.id)
         if (!stockQuantityConversionItemInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "stockQuantityConversion", action: "list")
             return
         }
 
         try {
+			stockQuantityConversionInstance.removeFromItems(stockQuantityConversionItemInstance)
+			stockQuantityConversionInstance.save(failOnError:true)
             stockQuantityConversionItemInstance.delete(flush: true)
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "stockQuantityConversion", action: "show", id: stockQuantityConversionInstance.id)
         }
         catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'stockQuantityConversionItem.label', default: 'StockQuantityConversionItem'), params.id])

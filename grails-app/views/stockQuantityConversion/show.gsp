@@ -18,6 +18,11 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
+            <g:hasErrors bean="${stockQuantityConversionInstance}">
+            <div class="errors">
+                <g:renderErrors bean="${stockQuantityConversionInstance}" as="list" />
+            </div>
+            </g:hasErrors>
             <div class="dialog">
                 <table>
                     <tbody>
@@ -72,26 +77,29 @@
                         <tr>
                         	<th>Product Code</th>
                         	<th>Product Description</th>
-                        	<th>From Unit</th>
-                        	<th>To Unit</th>
-                        	<th>Quantity</th>
-                        	<th>Converted Quantity</th>
+                        	<th width="70">From Unit</th>
+                        	<th width="60">To Unit</th>
+                        	<th width="80">Quantity</th>
+                        	<th width="130">Converted Quantity</th>
+                        	<th width="90"></th>
                         </tr>
                     </thead>
                     <tbody>
                     <g:if test="${!stockQuantityConversionInstance.items.empty}">
                     <g:each in="${stockQuantityConversionInstance.items}" status="i" var="item">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}"
-                        	<g:if test="${!stockQuantityConversionInstance.posted}">
-                        		clickable" onclick="window.location='<g:createLink controller='stockQuantityConversionItem' action='edit' id='${item.id}' />'"
-                        	</g:if>
-                        >
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} <g:if test="${item.hasPostError}">postError</g:if>" >
                         	<td>${fieldValue(bean: item, field: "product.code")}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${fieldValue(bean: item, field: "fromUnit")}</td>
                         	<td>${fieldValue(bean: item, field: "toUnit")}</td>
                         	<td>${fieldValue(bean: item, field: "quantity")}</td>
-                        	<td>${fieldValue(bean: item, field: "convertedQuantity")}</td>
+                        	<td><g:formatNumber number="${item.convertedQuantity}" format="#0" /></td>
+                        	<td style="text-align:center">
+	                        	<g:if test="${!stockQuantityConversionInstance.posted}">
+	                       			<input type="button" value="Edit" onclick="editStockQuantityConversionItem(${item.id})" />
+	                       			<input type="button" value="Delete" onclick="deleteStockQuantityConversionItem(${item.id})" />
+	                        	</g:if>
+                        	</td>
                         </tr>
                     </g:each>
                     </g:if>
@@ -114,5 +122,30 @@
 	        </g:if>
             
         </div>
+        
+       	<g:form name="editStockQuantityConversionItemForm" controller="stockQuantityConversionItem" action="edit">
+       		<g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+       	<g:form name="deleteStockQuantityConversionItemForm" controller="stockQuantityConversionItem" action="delete">
+       		<g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+       	
+        <g:javascript>
+        	function editStockQuantityConversionItem(id) {
+        		var form = document.editStockQuantityConversionItemForm;
+        		form.id.value = id
+        		form.submit()
+        	}
+        	function deleteStockQuantityConversionItem(id) {
+        		if (confirm("Are you sure you want to remove this item?")) {
+	        		var form = document.deleteStockQuantityConversionItemForm;
+	        		form.id.value = id
+	        		form.submit()
+        		}
+        	}
+        </g:javascript>
+        
     </body>
 </html>

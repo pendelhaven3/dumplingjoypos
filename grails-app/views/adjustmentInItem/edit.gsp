@@ -19,7 +19,13 @@
             </g:if>
             <g:hasErrors bean="${adjustmentInItemInstance}">
             <div class="errors">
-                <g:renderErrors bean="${adjustmentInItemInstance}" as="list" />
+            	<g:each var="error" in="${adjustmentInItemInstance.errors.globalErrors}">
+            		<ul><li><g:message error="${error}" /></li></ul>
+            	</g:each>
+                <g:renderErrors bean="${adjustmentInItemInstance}" field="version" />
+                <g:renderErrors bean="${adjustmentInItemInstance}" field="product" />
+                <g:renderErrors bean="${adjustmentInItemInstance}" field="unit" />
+                <g:renderErrors bean="${adjustmentInItemInstance}" field="quantity" />
             </div>
             </g:hasErrors>
             <g:form method="post" >

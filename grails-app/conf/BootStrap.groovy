@@ -48,7 +48,12 @@ class BootStrap {
 			product.description = "Product " + i
 			product.addToUnits(Unit.CSE)
 			product.addToUnits(Unit.PCS)
-			product.save(failOnError:true)
+			product.save(failOnError: true)
+			
+			product.unitQuantities.each {
+				it.quantity = 100
+				it.save(failOnError: true)
+			}
 		}
 	}
 	

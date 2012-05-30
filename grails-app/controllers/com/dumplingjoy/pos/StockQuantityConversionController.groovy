@@ -12,6 +12,8 @@ class StockQuantityConversionController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "stockQuantityConversionNumber"
+		params.order = params.order ?: "desc"
         [stockQuantityConversionInstanceList: StockQuantityConversion.list(params), stockQuantityConversionInstanceTotal: StockQuantityConversion.count()]
     }
 
@@ -111,7 +113,10 @@ class StockQuantityConversionController {
 			return
 		}
 		
-		stockQuantityConversionInstance.post()
+		if (!stockQuantityConversionInstance.post()) {
+            render(view: "show", model: [stockQuantityConversionInstance: stockQuantityConversionInstance])
+			return
+		}
 		
 		flash.message = message(code: 'default.posted.message', args: [message(code: 'stockQuantityConversion.label')])
 		redirect(action: "show", id: params.id)

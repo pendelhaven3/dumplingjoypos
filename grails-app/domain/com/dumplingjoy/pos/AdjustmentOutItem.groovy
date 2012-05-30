@@ -19,7 +19,7 @@ class AdjustmentOutItem {
 		if (item.product && item.quantity > 0 && item.unit) {
 			UnitQuantity available = item.product.unitQuantities.find {it.unit == item.unit}
 			if (quantity > available.quantity) {
-				return "notenoughquantityavailable.message"
+				return "notEnoughQuantityAvailable.message"
 			} else {
 				return true
 			}

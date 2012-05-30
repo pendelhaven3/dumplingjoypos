@@ -18,9 +18,15 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <g:hasErrors bean="${stockQuantityConversionItemInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${stockQuantityConversionItemInstance}" />
-            </div>
+	            <div class="errors">
+	            	<g:each var="error" in="${stockQuantityConversionItemInstance.errors.globalErrors}">
+	            		<ul><li><g:message error="${error}" /></li></ul>
+	            	</g:each>
+	                <g:renderErrors bean="${stockQuantityConversionItemInstance}" field="product" />
+	                <g:renderErrors bean="${stockQuantityConversionItemInstance}" field="fromUnit" />
+	                <g:renderErrors bean="${stockQuantityConversionItemInstance}" field="toUnit" />
+	                <g:renderErrors bean="${stockQuantityConversionItemInstance}" field="quantity" />
+	            </div>
             </g:hasErrors>
             <g:form action="save">
                 <g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance?.id}" />
@@ -45,6 +51,7 @@
                                 <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionItemInstance, field: 'product', 'errors')}">
                                 	<g:textField name="product.code" onblur="allCaps(this);getProduct(this.value);" style="text-transform:uppercase" 
                                 		value="${stockQuantityConversionItemInstance?.product?.code}" />
+                                	<input type="button" value="Select" onclick="openSelectProductDialog()" />
                                 </td>
                             </tr>
                         
@@ -62,8 +69,13 @@
                                     <label for="fromUnit"><g:message code="stockQuantityConversionItem.fromUnit.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionItemInstance, field: 'fromUnit', 'errors')}">
-                                	<span id="span_fromUnit">${stockQuantityConversionItemInstance?.fromUnit}</span>
-                                	<g:hiddenField name="fromUnit" value="${stockQuantityConversionItemInstance?.fromUnit}" />
+                                	<g:if test="${stockQuantityConversionItemInstance?.product == null}">
+                                		<select name="fromUnit" id="fromUnit" noSelection="['':'']" onblur="updateAvailableQuantity()"></select>
+                                	</g:if>
+                                	<g:else>
+                                		<g:select name="fromUnit" from="${stockQuantityConversionItemInstance.product.units}" value="${stockQuantityConversionItemInstance.fromUnit}" 
+                                			noSelection="['':'']" onblur="updateAvailableQuantity()" />
+                                	</g:else>
                                 </td>
                             </tr>
                         
@@ -72,8 +84,13 @@
                                     <label for="toUnit"><g:message code="stockQuantityConversionItem.toUnit.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionItemInstance, field: 'toUnit', 'errors')}">
-                                	<span id="span_toUnit">${stockQuantityConversionItemInstance?.toUnit}</span>
-                                	<g:hiddenField name="toUnit" value="${stockQuantityConversionItemInstance?.toUnit}" />
+                                	<g:if test="${stockQuantityConversionItemInstance?.product == null}">
+                                		<select name="toUnit" id="toUnit" onblur="updateConvertedQuantity()"></select>
+                                	</g:if>
+                                	<g:else>
+                                		<g:select name="toUnit" from="${stockQuantityConversionItemInstance.product.units}" value="${stockQuantityConversionItemInstance.toUnit}" 
+                                			noSelection="['':'']" onblur="updateConvertedQuantity()" />
+                                	</g:else>
                                 </td>
                             </tr>
                         
@@ -105,7 +122,7 @@
                                 </td>
                                 <td valign="top" class="value">
                                 	<span id="span_convertedQuantity">
-                                		<g:if test="${stockQuantityConversionItemInstance.product != null && stockQuantityConversionItemInstance.quantity != null}">
+                                		<g:if test="${stockQuantityConversionItemInstance.product != null}">
                                 			${stockQuantityConversionItemInstance.convertedQuantity}
                                 		</g:if>
                                 	</span>
@@ -124,26 +141,27 @@
                 </div>
             </g:form>
         </div>
+        <g:include view="common/includeSelectProduct.gsp" /> 
         <g:javascript>
         	focusOnLoad("product\\.code");
         
         	function getProduct(code) {
-        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code.toUpperCase()},
+        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code},
         			function(product) {
         				if (!jQuery.isEmptyObject(product)) {
-        					$("#product\\.id").val(product.id)
-        					$("#span_productDescription").html(product.description);
-        					updateUnits(product.units);
-        					updateAvailableQuantity(product.unitQuantities)
-        					updateConvertedQuantity();
+        					if ($("#product\\.id").val() != product.id) {
+	        					$("#product\\.id").val(product.id)
+	        					$("#span_productDescription").html(product.description);
+	        					updateUnits(product.units);
+        					}
         				} else {
         					$("#product\\.id").val("")
         					$("#span_productDescription").html("");
         					
 			        		$("#span_fromUnit").html("")
-			        		$("#fromUnit").val("")
+			        		$("#fromUnit").html("")
 			        		$("#span_toUnit").html("")
-			        		$("#toUnit").val("")
+			        		$("#toUnit").html("")
 			        		
         					$("#span_availableQuantity").html("");
         					$("#span_convertedQuantity").html("");
@@ -153,55 +171,76 @@
         	}
         
         	function updateUnits(units) {
-        		if (units.length == 1) {
-        			alert("Only one unit has been specified for product. No conversion needed.")
-        			return
+        		var fields = ["fromUnit", "toUnit"]
+        		var doc = document;
+        		for (var c=0; c < fields.length; c++) {
+	        		var selectUnit = doc.getElementById(fields[c]);
+	        		selectUnit.innerHTML = "";
+	        		
+	     		    var emptyOption = doc.createElement("OPTION");
+	     		    emptyOption.text = "";
+	     		    emptyOption.value = "";
+	     		    selectUnit.options.add(emptyOption);
+	        		
+	        		for (var i=0; i < units.length; i++) {
+	        			var option = doc.createElement("OPTION");
+	        			option.text = units[i].name
+	        			option.value = units[i].name;
+	        			selectUnit.options.add(option);
+	        		}
         		}
-        		
-        		var fromUnit = units[0].name
-        		var toUnit = units[1].name
-        		
-        		$("#span_fromUnit").html(fromUnit)
-        		$("#fromUnit").val(fromUnit)
-        		$("#span_toUnit").html(toUnit)
-        		$("#toUnit").val(toUnit)
         	}
         	
-        	function updateAvailableQuantity(unitQuantities) {
+        	function updateAvailableQuantity() {
+        		var productCode = $("#product\\.code").val()
         		var fromUnit = $("#fromUnit").val()
-        		for (var i=0; i < unitQuantities.length; i++) {
-        			var unitQuantity = unitQuantities[i]
-        			if (fromUnit == unitQuantity.unit.name) {
-        				$("#span_availableQuantity").text(unitQuantity.quantity);
-        			}
-        		}
+        		
+        		if (productCode == "" || fromUnit == "") {
+       				$("#span_availableQuantity").html("");
+        		} else {
+	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},
+	        			function(product) {
+	        				if (!jQuery.isEmptyObject(product)) {
+				        		for (var i=0; i < product.unitQuantities.length; i++) {
+				        			var unitQuantity = product.unitQuantities[i]
+				        			if (fromUnit == unitQuantity.unit.name) {
+				        				$("#span_availableQuantity").html(unitQuantity.quantity);
+				        			}
+				        		}
+	        				}
+	        			}
+	        		);
+	        	}
 			}
 			
 			function updateConvertedQuantity() {
 				var productCode = $("#product\\.code").val()
 				var fromUnit = $("#fromUnit").val()
+				var toUnit = $("#toUnit").val()
 				var quantity = $("#quantity").val()
-
-				if (productCode != "" && isInteger(quantity)) {
+				
+				if (productCode == "" || fromUnit == "" || toUnit == "" || !isInteger(quantity)) {
+					$("#span_convertedQuantity").html("")
+				} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},
 	        			function(product) {
 	        				if (!jQuery.isEmptyObject(product)) {
 	        					for (var i=0; i < product.unitConversions.length; i++) {
 	        						var unitConversion = product.unitConversions[i]
-	        						if (unitConversion.fromUnit.name == fromUnit) {
+	        						if (unitConversion.fromUnit.name == fromUnit && unitConversion.toUnit.name == toUnit) {
 	        							$("#span_convertedQuantity").html(unitConversion.convertedQuantity * quantity)
 	        						}
 	        					}
-	        				} else {
-       							$("#span_convertedQuantity").html("")
 	        				}
 	        			}
 	        		);
-				} else {
-					$("#span_convertedQuantity").html("")
 				}
 			}
         	
+        	// override from includeSelectProduct.gsp
+        	function doAfterSelectProduct() {
+        		$("#fromUnit").focus()
+        	}
         </g:javascript>
     </body>
 </html>

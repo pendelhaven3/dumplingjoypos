@@ -31,8 +31,8 @@ class AdjustmentOut {
 				UnitQuantity unitQuantity = item.product.unitQuantities.find {it.unit == item.unit}
 				unitQuantity.quantity -= item.quantity
 				if (unitQuantity.quantity < 0) {
-					errors.reject("postItem.notenoughquantityavailable.message", [item.product.description, item.unit] as Object[], 
-						"postItem.notenoughquantityavailable.message")
+					errors.reject("postItem.notEnoughQuantityAvailable.message", [item.product.code, item.unit] as Object[], 
+						"postItem.notEnoughQuantityAvailable.message")
 					item.hasPostError = true
 				} else {
 					unitQuantity.save()

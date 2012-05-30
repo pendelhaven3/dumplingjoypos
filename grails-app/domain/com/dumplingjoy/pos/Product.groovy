@@ -101,7 +101,14 @@ class Product {
 			it.delete(failOnError:true)
 		}
 	}
-	
+
+	def getPossibleConversionProcesses() {
+		def conversionProcesses = []
+		unitConversions.each {
+			
+		}
+	}
+		
 	def afterInsert() {
 		updatePricingSchemes()
 	}
