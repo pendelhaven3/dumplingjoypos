@@ -54,11 +54,10 @@ grails.exceptionresolver.params.exclude = ['password']
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://dumplingjoypos.cloudfoundry.com"
+        grails.serverURL = "http://jcharmonypos.cloudfoundry.com"
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
-//        grails.serverURL = "http://dumplingjoypos.cloudfoundry.com"
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -96,3 +95,8 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.dumplingj
 grails.plugins.springsecurity.authority.className = 'com.dumplingjoy.pos.Role'
 
 grails.converters.json.default.deep=true
+
+grails.plugin.cloudfoundry.username = 'pj.miranda@orangeandbronze.com'
+grails.plugin.cloudfoundry.password = 'q5p74Y1n'
+grails.plugin.cloudfoundry.appname = 'jcharmonypos'
+grails.plugin.cloudfoundry.target = 'api.cloudfoundry.com'

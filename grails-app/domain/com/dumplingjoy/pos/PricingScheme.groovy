@@ -2,6 +2,8 @@ package com.dumplingjoy.pos
 
 class PricingScheme {
 
+	private static final String CANVASSER = "Canvasser"
+	
 	String description
 	List<ProductUnitPrice> unitPrices
 	
@@ -21,6 +23,10 @@ class PricingScheme {
 				addToUnitPrices(new ProductUnitPrice(product: product, unit: unit))
 			}
 		}
+	}
+	
+	public static PricingScheme getCanvasserPricingScheme() {
+		PricingScheme.findByDescription(CANVASSER)
 	}
 	
 }

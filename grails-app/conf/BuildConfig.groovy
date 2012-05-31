@@ -29,5 +29,6 @@ grails.project.dependency.resolution = {
         runtime 'mysql:mysql-connector-java:5.1.18'
         compile 'taglibs:standard:1.1.2'
 		runtime 'joda-time:joda-time:1.6'
+		compile 'org.grails.plugins:webxml:1.4.1'
     }
 }
