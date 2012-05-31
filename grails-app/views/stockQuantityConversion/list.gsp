@@ -20,11 +20,11 @@
             <div class="list">
                 <table>
                     <tr>
-                        <th><g:message code="stockQuantityConversion.stockQuantityConversionNumber.label" /></th>
+                        <th width="200"><g:message code="stockQuantityConversion.stockQuantityConversionNumber.label" /></th>
                         <th><g:message code="stockQuantityConversion.description.label" /></th>
-                        <th><g:message code="stockQuantityConversion.posted.label" /></th>
-                        <th><g:message code="stockQuantityConversion.postDate.label" /></th>
-                        <th><g:message code="stockQuantityConversion.postedBy.label" /></th>
+                        <th width="120"><g:message code="stockQuantityConversion.posted.label" /></th>
+                        <th width="120"><g:message code="stockQuantityConversion.postDate.label" /></th>
+                        <th width="150"><g:message code="stockQuantityConversion.postedBy.label" /></th>
                     </tr>
                     <g:if test="${!stockQuantityConversionInstanceList.empty}">
 	                    <g:each in="${stockQuantityConversionInstanceList}" status="i" var="stockQuantityConversionInstance">

@@ -1,7 +1,11 @@
 package com.dumplingjoy.pos
 
+import grails.plugins.springsecurity.Secured
+
 import org.springframework.dao.DataIntegrityViolationException
 
+
+@Secured("isFullyAuthenticated()")
 class PricingSchemeController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -12,6 +16,8 @@ class PricingSchemeController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "description"
+		params.order = params.order ?: "asc"
         [pricingSchemeInstanceList: PricingScheme.list(params), pricingSchemeInstanceTotal: PricingScheme.count()]
     }
 
@@ -103,4 +109,30 @@ class PricingSchemeController {
             redirect(action: "show", id: params.id)
         }
     }
+	
+	def showProductUnitPrices = {
+		def pricingSchemeInstance = PricingScheme.get(params.id)
+		if (!pricingSchemeInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'pricingScheme.label', default: 'PricingScheme'), params.id])
+			redirect(action: "list")
+			return
+		}
+		
+		Product productInstance = Product.get(params["product.id"])
+		if (!productInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'product.label')])
+			redirect(action: "show", id: pricingSchemeInstance.id)
+			return
+		}
+		
+		List<ProductUnitPrice> unitPrices = ProductUnitPrice.findAll("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ?",
+			[pricingSchemeInstance, productInstance])
+		
+		[
+			pricingSchemeInstance: pricingSchemeInstance,
+			productInstance: productInstance,
+			unitPrices: unitPrices
+		]
+	}
+	
 }

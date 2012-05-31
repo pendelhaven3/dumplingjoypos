@@ -15,6 +15,12 @@ environments {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             url = "jdbc:h2:mem:devDB"
+//			pooled = true
+//			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+//			url = "jdbc:mysql://localhost/dumplingjoypos"
+//			driverClassName = "com.mysql.jdbc.Driver"
+//			username = "root"
+//			password = "root"
         }
     }
     test {

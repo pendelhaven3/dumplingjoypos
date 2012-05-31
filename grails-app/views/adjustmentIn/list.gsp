@@ -20,11 +20,11 @@
             <div class="list">
                 <table>
                     <tr>
-                        <th><g:message code="adjustmentIn.adjustmentInNumber.label" /></th>
+                        <th width="150"><g:message code="adjustmentIn.adjustmentInNumber.label" /></th>
                         <th><g:message code="adjustmentIn.description.label" /></th>
-                        <th><g:message code="adjustmentIn.posted.label" /></th>
-                        <th><g:message code="adjustmentIn.postDate.label" /></th>
-                        <th><g:message code="adjustmentIn.postedBy.label" /></th>
+                        <th width="120"><g:message code="adjustmentIn.posted.label" /></th>
+                        <th width="120"><g:message code="adjustmentIn.postDate.label" /></th>
+                        <th width="150"><g:message code="adjustmentIn.postedBy.label" /></th>
                     </tr>
                     <g:if test="${!adjustmentInInstanceList.empty}">
 	                    <g:each in="${adjustmentInInstanceList}" status="i" var="adjustmentInInstance">

@@ -202,6 +202,10 @@ th.desc a {
 
 /* LIST */
 
+.list {
+	width: 1000px;
+}
+
 .list table {
     border-collapse: collapse;
 }
@@ -236,6 +240,10 @@ th.desc a {
 }
 
 /* DIALOG */
+
+.dialog {
+	width: 1000px;
+}
 
 .dialog table {
     padding: 5px 0;
@@ -297,6 +305,10 @@ th.desc a {
 }
 .buttons input.create {
     background: transparent url(../images/skin/database_add.png) 5px 50% no-repeat;
+    padding-left: 28px;
+}
+.buttons input.back {
+    background: transparent url(../images/skin/back.png) 5px 50% no-repeat;
     padding-left: 28px;
 }
 

@@ -102,19 +102,17 @@ class Product {
 		}
 	}
 
-	def getPossibleConversionProcesses() {
-		def conversionProcesses = []
-		unitConversions.each {
-			
-		}
-	}
-		
 	def afterInsert() {
-		updatePricingSchemes()
+		updateExistingPricingSchemes()
 	}
 	
-	private void updatePricingSchemes() {
-		
+	private void updateExistingPricingSchemes() {
+		PricingScheme.list().each { PricingScheme pricingScheme ->
+			units.each { Unit unit ->
+				pricingScheme.addToUnitPrices(new ProductUnitPrice(product: this, unit: unit))
+			}
+			pricingScheme.save(failOnError: true)
+		}
 	}
 	
 }

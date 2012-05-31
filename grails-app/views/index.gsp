@@ -43,10 +43,16 @@
                     <td>Stock Quantity Conversion</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="pricingScheme" />'">
-                    <td>Pricing Schemes (under construction)</td>
+                    <td>Pricing Schemes</td>
                 </tr>
-                <tr class="even clickable" onclick="window.location='<g:createLink controller="salesRequisition" />'">
-                    <td>Sales Requisition (under construction)</td>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="customer" />'">
+                    <td>Customer Maintenance</td>
+                </tr>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="salesRequisition" />'">
+                    <td>Sales Requisition</td>
+                </tr>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="salesInvoice" />'">
+                    <td>Sales Invoice</td>
                 </tr>
         	</table>
         </div>

@@ -10,4 +10,6 @@ class ProductUnitPrice {
 		price min: BigDecimal.ZERO
     }
 	
+	static belongsTo = [pricingScheme: PricingScheme]
+	
 }
