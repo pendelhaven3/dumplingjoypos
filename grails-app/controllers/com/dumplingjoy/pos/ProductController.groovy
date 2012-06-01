@@ -160,11 +160,10 @@ class ProductController {
 	
 	def getProductByCode = {
 		Product productInstance = Product.findByCode(params.code)
-		if (productInstance) {
-			render productInstance as JSON
-		} else {
+		if (!productInstance) {
 			render new ArrayList() as JSON
 		}
+		render new ProductJson(productInstance, PricingScheme.getCanvasserPricingScheme()) as JSON
 	}
 	
 	def select = {

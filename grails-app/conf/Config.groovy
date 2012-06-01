@@ -94,8 +94,6 @@ grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.dumplingjoy.
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.dumplingjoy.pos.UserRole'
 grails.plugins.springsecurity.authority.className = 'com.dumplingjoy.pos.Role'
 
-grails.converters.json.default.deep=true
-
 grails.plugin.cloudfoundry.username = 'pj.miranda@orangeandbronze.com'
 grails.plugin.cloudfoundry.password = 'q5p74Y1n'
 grails.plugin.cloudfoundry.appname = 'jcharmonypos'

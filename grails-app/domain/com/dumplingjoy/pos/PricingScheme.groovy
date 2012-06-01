@@ -29,4 +29,8 @@ class PricingScheme {
 		PricingScheme.findByDescription(CANVASSER)
 	}
 	
+	public List<ProductUnitPrice> getProductUnitPrices(Product product) {
+		ProductUnitPrice.findAll("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ?", [this, product])
+	}
+	
 }

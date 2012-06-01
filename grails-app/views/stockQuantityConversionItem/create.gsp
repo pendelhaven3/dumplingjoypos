@@ -184,8 +184,8 @@
 	        		
 	        		for (var i=0; i < units.length; i++) {
 	        			var option = doc.createElement("OPTION");
-	        			option.text = units[i].name
-	        			option.value = units[i].name;
+	        			option.text = units[i]
+	        			option.value = units[i]
 	        			selectUnit.options.add(option);
 	        		}
         		}
@@ -203,7 +203,7 @@
 	        				if (!jQuery.isEmptyObject(product)) {
 				        		for (var i=0; i < product.unitQuantities.length; i++) {
 				        			var unitQuantity = product.unitQuantities[i]
-				        			if (fromUnit == unitQuantity.unit.name) {
+				        			if (fromUnit == unitQuantity.unit) {
 				        				$("#span_availableQuantity").html(unitQuantity.quantity);
 				        			}
 				        		}
@@ -214,6 +214,7 @@
 			}
 			
 			function updateConvertedQuantity() {
+			
 				var productCode = $("#product\\.code").val()
 				var fromUnit = $("#fromUnit").val()
 				var toUnit = $("#toUnit").val()
@@ -227,7 +228,7 @@
 	        				if (!jQuery.isEmptyObject(product)) {
 	        					for (var i=0; i < product.unitConversions.length; i++) {
 	        						var unitConversion = product.unitConversions[i]
-	        						if (unitConversion.fromUnit.name == fromUnit && unitConversion.toUnit.name == toUnit) {
+	        						if (unitConversion.fromUnit == fromUnit && unitConversion.toUnit == toUnit) {
 	        							$("#span_convertedQuantity").html(unitConversion.convertedQuantity * quantity)
 	        						}
 	        					}

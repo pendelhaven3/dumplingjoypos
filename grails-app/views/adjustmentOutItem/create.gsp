@@ -146,8 +146,8 @@
         		
         		for (var i=0; i < units.length; i++) {
         			var option = doc.createElement("OPTION");
-        			option.text = units[i].name
-        			option.value = units[i].name;
+        			option.text = units[i]
+        			option.value = units[i]
         			selectUnit.options.add(option);
         		}
         	}
@@ -164,7 +164,7 @@
 	        				if (!jQuery.isEmptyObject(product)) {
 				        		for (var i=0; i < product.unitQuantities.length; i++) {
 				        			var unitQuantity = product.unitQuantities[i]
-				        			if (unit == unitQuantity.unit.name) {
+				        			if (unit == unitQuantity.unit) {
 				        				$("#span_availableQuantity").text(unitQuantity.quantity);
 				        			}
 				        		}

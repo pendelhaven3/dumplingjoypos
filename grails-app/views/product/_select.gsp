@@ -1,6 +1,6 @@
 
 <%@ page import="com.dumplingjoy.pos.Product" %>
-        <div class="body" style="width:750px">
+        <div class="body" style="width:750px;">
 			<table style="border:none">
 				<tr>
 					<td width="50" style="vertical-align:middle;" >Code</td>
@@ -11,7 +11,7 @@
 				</tr>
 			</table>
 			<br/>
-            <div class="list" style="height:375px;overflow-y:auto;">
+            <div class="list" style="width:750px; height:375px; overflow-y:auto;">
                 <table>
                     <thead>
                         <tr>
@@ -29,7 +29,7 @@
             
             <br/><br/>
             
-            <div>
+            <div style="width:750px;">
                 <table>
                     <thead>
                         <tr>
@@ -69,11 +69,11 @@
         		for (var i=0; i < product.units.length; i++) {
         			var unit = product.units[i]
         			var unitMap = new Object()
-        			unitMap.unit = unit.name
+        			unitMap.unit = unit
         			unitMap.unitPrice = 0
         			for (var j=0; j < product.unitQuantities.length; j++) {
         				var unitQuantity = product.unitQuantities[j] 
-        				if (unitQuantity.unit.name == unit.name) {
+        				if (unitQuantity.unit == unit) {
         					unitMap.quantity = unitQuantity.quantity
         				}
         			}
