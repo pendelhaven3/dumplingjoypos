@@ -30,9 +30,21 @@
                         <tbody>
                         
 	                        <tr class="prop">
+	                            <td valign="top" class="name">Id</td>
+	                            <td valign="top" class="value">${fieldValue(bean: productUnitPriceInstance, field: "pricingScheme.id")}</td>
+	                        </tr>
+	                        
+	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="pricingScheme.description.label" /></td>
 	                            <td valign="top" class="value">${fieldValue(bean: productUnitPriceInstance, field: "pricingScheme.description")}</td>
 	                        </tr>
+	                        
+	                    </tbody>
+	                </table>
+	            </div>
+	           	<div style="padding-top:5px;">
+	           		<table>
+	           			<tbody>
 	                        
 	                        <tr class="prop">
 	                            <td valign="top" class="name">Product Code</td>

@@ -30,6 +30,10 @@
                 <div class="dialog">
                     <table>
                         <tbody>
+	                        <tr class="prop">
+	                            <td valign="top" class="name">Id</td>
+	                            <td valign="top" class="value">${fieldValue(bean: pricingSchemeInstance, field: "id")}</td>
+	                        </tr>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="description"><g:message code="pricingScheme.description.label" /></label>

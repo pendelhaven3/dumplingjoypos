@@ -22,10 +22,19 @@
                 <table>
                     <tbody>
                         <tr class="prop">
+                            <td valign="top" class="name">Id</td>
+                            <td valign="top" class="value">${fieldValue(bean: pricingSchemeInstance, field: "id")}</td>
+                        </tr>
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="pricingScheme.description.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: pricingSchemeInstance, field: "description")}</td>
                         </tr>
-                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="dialog" style="padding-top:5px;">
+                <table>
+                    <tbody>
                         <tr class="prop">
                             <td valign="top" class="name">Product Code</td>
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "code")}</td>

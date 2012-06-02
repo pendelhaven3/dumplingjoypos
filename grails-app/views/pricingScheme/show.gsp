@@ -22,6 +22,10 @@
                 <table>
                     <tbody>
                         <tr class="prop">
+                            <td valign="top" class="name">Id</td>
+                            <td valign="top" class="value">${fieldValue(bean: pricingSchemeInstance, field: "id")}</td>
+                        </tr>
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="pricingScheme.description.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: pricingSchemeInstance, field: "description")}</td>
                         </tr>
@@ -41,6 +45,12 @@
             
             <h3>All Products</h3>
             <div class="list" style="padding-top:5px">
+            
+            	<br/>
+            	Description:&nbsp;&nbsp;&nbsp;<input type="text" name="description" id="description" value="${params.description}" />
+            	<input type="button" value="Search" onclick="search()" />
+            	<br/><br/>
+            
                 <table>
                     <thead>
                         <tr>
@@ -49,8 +59,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <g:if test="${!allProducts.empty}">
-                    <g:each in="${allProducts}" status="i" var="product">
+                    <g:if test="${!productInstanceList.empty}">
+                    <g:each in="${productInstanceList}" status="i" var="product">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="showProductUnitPrices(${product.id})" >
                         	<td>${fieldValue(bean: product, field: "code")}</td>
                         	<td>${fieldValue(bean: product, field: "description")}</td>
@@ -65,6 +75,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="paginateButtons">
+                <g:paginate total="${productInstanceTotal}" params="${[description: params.description, id: params.id]}" />
+            </div>
             
         </div>
         
@@ -74,10 +87,23 @@
        	</g:form>
         
         <g:javascript>
+        	focusOnLoad("description")
+        
         	function showProductUnitPrices(productId) {
         		var form = document.showProductUnitPricesForm;
         		form.elements["product.id"].value = productId
         		form.submit()
+        	}
+        	
+			$("#description").keydown(function (e){
+			    if(e.keyCode == 13){
+			    	search()
+			    }
+			})
+        	
+        	function search() {
+        		var description = $("#description").val()
+        		window.location = "${createLink(action: 'show', id: pricingSchemeInstance.id)}?description=" + encodeURIComponent(description)
         	}
         </g:javascript>
     </body>

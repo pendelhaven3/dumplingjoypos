@@ -2,6 +2,7 @@ package com.dumplingjoy.pos
 
 import grails.plugins.springsecurity.Secured
 
+import org.apache.commons.lang.StringUtils
 import org.springframework.dao.DataIntegrityViolationException
 
 
@@ -16,7 +17,7 @@ class PricingSchemeController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-		params.sort = params.sort ?: "description"
+		params.sort = params.sort ?: "id"
 		params.order = params.order ?: "asc"
         [pricingSchemeInstanceList: PricingScheme.list(params), pricingSchemeInstanceTotal: PricingScheme.count()]
     }
@@ -43,10 +44,30 @@ class PricingSchemeController {
             redirect(action: "list")
             return
         }
+		
+		params.sort = params.sort ?: "code"
+		params.order = params.order ?: "asc"
+
+		def productInstanceList = Product.withCriteria {
+			if (!StringUtils.isEmpty(params.description)) {
+				ilike("description", params.description + "%")
+			}
+			firstResult(params.int("offset") ?: 0)
+			maxResults(10)
+			order(params.sort, params.order)
+		}
+		
+		def productInstanceTotal
+		if (!StringUtils.isEmpty(params.description)) {
+			productInstanceTotal = Product.countByDescriptionIlike(params.description + "%")
+		} else {
+			productInstanceTotal = Product.count()
+		}
 
         [
 			pricingSchemeInstance: pricingSchemeInstance,
-			allProducts: Product.list([sort: "code", order: "asc"])
+			productInstanceList: productInstanceList,
+			productInstanceTotal: productInstanceTotal
 		]
     }
 

@@ -20,11 +20,13 @@
             <div class="list">
                 <table>
                     <tr>
+                        <th width="50">Id</th>
                         <th><g:message code="pricingScheme.description.label" /></th>
                     </tr>
                     <g:if test="${!pricingSchemeInstanceList.empty}">
 	                    <g:each in="${pricingSchemeInstanceList}" status="i" var="pricingSchemeInstance">
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${pricingSchemeInstance.id}' />'">
+	                            <td>${fieldValue(bean: pricingSchemeInstance, field: "id")}</td>
 	                            <td>${fieldValue(bean: pricingSchemeInstance, field: "description")}</td>
 	                        </tr>
 	                    </g:each>
