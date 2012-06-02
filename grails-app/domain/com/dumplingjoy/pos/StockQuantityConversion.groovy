@@ -8,15 +8,15 @@ class StockQuantityConversion {
 	transient springSecurityService
 	
 	Integer stockQuantityConversionNumber
-	String description
+	String remarks
 	List<StockQuantityConversionItem> items
 	boolean posted
 	Date postDate
 	String postedBy
 	
     static constraints = {
-		stockQuantityConversionNumber nullable: false, unique: true
-		description nullable: false, blank: false
+		stockQuantityConversionNumber unique: true
+		remarks blank: false
 		postDate nullable: true
 		postedBy nullable: true
     }

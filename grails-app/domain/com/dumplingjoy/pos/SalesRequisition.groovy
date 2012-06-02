@@ -23,10 +23,6 @@ class SalesRequisition {
 	
 	static hasMany = [items: SalesRequisitionItem]
 
-    static mapping = {
-        items cascade: 'none'
-    }
-	
 	static transients = ["totalAmount"]
 	
 	BigDecimal getTotalAmount() {

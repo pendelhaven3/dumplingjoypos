@@ -37,10 +37,10 @@
 	                        
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                  <label for="description"><g:message code="adjustmentOut.description.label" /></label>
+                                  <label for="remarks"><g:message code="adjustmentOut.remarks.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutInstance, field: 'description', 'errors')}">
-                                	<g:textField name="description" value="${adjustmentOutInstance.description}" />
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutInstance, field: 'remarks', 'errors')}">
+                                	<g:textField name="remarks" value="${adjustmentOutInstance.remarks}" />
                                 </td>
                             </tr>
                         
@@ -58,7 +58,7 @@
             </g:form>
         </div>
         <g:javascript>
-        	focusOnLoad("description")
+        	focusOnLoad("remarks")
         </g:javascript>
     </body>
 </html>

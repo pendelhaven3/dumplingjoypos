@@ -5,15 +5,15 @@ class AdjustmentIn {
 	transient springSecurityService
 	
 	Integer adjustmentInNumber
-	String description
+	String remarks
 	List<AdjustmentInItem> items
 	boolean posted
 	Date postDate
 	String postedBy
 	
     static constraints = {
-		adjustmentInNumber nullable: false, unique: true
-		description nullable: false, blank: false
+		adjustmentInNumber unique: true
+		remarks blank: false
 		postDate nullable: true
 		postedBy nullable: true
     }

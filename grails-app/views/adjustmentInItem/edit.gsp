@@ -43,10 +43,17 @@
 	                        </tr>
 	                        
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="adjustmentIn.description.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "description")}</td>
+	                            <td valign="top" class="name"><g:message code="adjustmentIn.remarks.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "remarks")}</td>
 	                        </tr>
 	                        
+	                    </tbody>
+	                </table>
+	            </div>
+	            
+	            <div style="padding-top:5px;">
+	            	<table>
+	            		<tbody>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                   <label for="product">Product Code</label>
@@ -63,7 +70,12 @@
                                     <label for="productDescription">Product Description</label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<span id="span_productDescription">${fieldValue(bean: adjustmentInItemInstance, field: "product.description")}</span>
+                                	<span id="span_productDescription">
+                                		<g:if test="${adjustmentInItemInstance.product != null}">
+                                			${fieldValue(bean: adjustmentInItemInstance, field: "product.description")}
+                                		</g:if>
+                                		<g:else>-</g:else>
+                               		</span>
                                 </td>
                             </tr>
                         
@@ -119,7 +131,7 @@
 	        				}
         				} else {
         					$("#product\\.id").val("")
-        					$("#span_productDescription").html("");
+        					$("#span_productDescription").html("-");
         					$("#unit").html("");
         				}
         			}

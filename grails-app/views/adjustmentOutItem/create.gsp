@@ -39,10 +39,16 @@
 	                        </tr>
 	                    
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="adjustmentOut.description.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "description")}</td>
+	                            <td valign="top" class="name"><g:message code="adjustmentOut.remarks.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "remarks")}</td>
 	                        </tr>
-	                    
+	                    </tbody>
+	                </table>
+	            </div>
+	            
+	            <div style="padding-top:5px;">
+	            	<table>
+	            		<tbody>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="productCode">Product Code</label>
@@ -59,7 +65,12 @@
                                     <label for="productDescription">Product Description</label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<span id="span_productDescription">${fieldValue(bean: adjustmentOutItemInstance, field: "product.description")}</span>
+                                	<span id="span_productDescription">
+                                		<g:if test="${adjustmentOutItemInstance.product != null}" >
+                                			${fieldValue(bean: adjustmentOutItemInstance, field: "product.description")}
+                                		</g:if>
+                                		<g:else>-</g:else>
+                                	</span>
                                 </td>
                             </tr>
                         
@@ -87,6 +98,7 @@
                                 		<g:if test="${adjustmentOutItemInstance.product != null && adjustmentOutItemInstance.unit != null}">
                                 			${adjustmentOutItemInstance.product.unitQuantities.find{it.unit == adjustmentOutItemInstance.unit}.quantity}
                                 		</g:if>
+                                		<g:else>-</g:else>
                                 	</span>
                                 </td>
                             </tr>
@@ -127,7 +139,7 @@
         					}
         				} else {
         					$("#product\\.id").val("")
-        					$("#span_productDescription").html("");
+        					$("#span_productDescription").html("-");
         					$("#unit").html("");
         				}
         			}
@@ -157,7 +169,7 @@
         		var unit = $("#unit").val()
         		
         		if (code == "" || unit == "") {
-       				$("#span_availableQuantity").html("")
+       				$("#span_availableQuantity").html("-")
         		} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code.toUpperCase()},
 	        			function(product) {

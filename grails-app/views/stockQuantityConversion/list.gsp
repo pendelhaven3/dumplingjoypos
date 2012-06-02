@@ -21,7 +21,7 @@
                 <table>
                     <tr>
                         <th width="200"><g:message code="stockQuantityConversion.stockQuantityConversionNumber.label" /></th>
-                        <th><g:message code="stockQuantityConversion.description.label" /></th>
+                        <th><g:message code="stockQuantityConversion.remarks.label" /></th>
                         <th width="120"><g:message code="stockQuantityConversion.posted.label" /></th>
                         <th width="120"><g:message code="stockQuantityConversion.postDate.label" /></th>
                         <th width="150"><g:message code="stockQuantityConversion.postedBy.label" /></th>
@@ -31,7 +31,7 @@
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${stockQuantityConversionInstance.id}' />'">
 	                        
 	                            <td>${fieldValue(bean: stockQuantityConversionInstance, field: "stockQuantityConversionNumber")}</td>
-	                            <td>${fieldValue(bean: stockQuantityConversionInstance, field: "description")}</td>
+	                            <td>${fieldValue(bean: stockQuantityConversionInstance, field: "remarks")}</td>
 	                            <td>${stockQuantityConversionInstance.posted ? "Yes" : "No"}</td>
 	                            <td><g:formatDate date="${stockQuantityConversionInstance.postDate}" format="MM/dd/yyyy" /></td>
 	                            <td>${fieldValue(bean: stockQuantityConversionInstance, field: "postedBy")}</td>

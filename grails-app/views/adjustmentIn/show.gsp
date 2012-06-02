@@ -26,14 +26,14 @@
                             <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "adjustmentInNumber")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="adjustmentIn.description.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "description")}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="adjustmentIn.posted.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "posted").equals("Y") ? "Yes" : "No"}</td>
+                            <td valign="top" class="name"><g:message code="adjustmentIn.remarks.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "remarks")}</td>
                         </tr>
                         <g:if test="${adjustmentInInstance.posted}">
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="adjustmentIn.posted.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: adjustmentInInstance, field: "posted").equals("true") ? "Yes" : "No"}</td>
+	                        </tr>
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="adjustmentIn.postDate.label" /></td>
 	                            <td valign="top" class="value"><g:formatDate date="${adjustmentInInstance.postDate}" format="MM/dd/yyyy" /></td>

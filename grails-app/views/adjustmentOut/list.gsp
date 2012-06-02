@@ -21,7 +21,7 @@
                 <table>
                     <tr>
                         <th width="150"><g:message code="adjustmentOut.adjustmentOutNumber.label" /></th>
-                        <th><g:message code="adjustmentOut.description.label" /></th>
+                        <th><g:message code="adjustmentOut.remarks.label" /></th>
                         <th width="120"><g:message code="adjustmentOut.posted.label" /></th>
                         <th width="120"><g:message code="adjustmentOut.postDate.label" /></th>
                         <th width="150"><g:message code="adjustmentOut.postedBy.label" /></th>
@@ -31,7 +31,7 @@
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${adjustmentOutInstance.id}' />'">
 	                        
 	                            <td>${fieldValue(bean: adjustmentOutInstance, field: "adjustmentOutNumber")}</td>
-	                            <td>${fieldValue(bean: adjustmentOutInstance, field: "description")}</td>
+	                            <td>${fieldValue(bean: adjustmentOutInstance, field: "remarks")}</td>
 	                            <td>${adjustmentOutInstance.posted ? "Yes" : "No"}</td>
 	                            <td><g:formatDate date="${adjustmentOutInstance.postDate}" format="MM/dd/yyyy" /></td>
 	                            <td>${fieldValue(bean: adjustmentOutInstance, field: "postedBy")}</td>

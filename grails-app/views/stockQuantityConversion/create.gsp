@@ -40,10 +40,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description"><g:message code="stockQuantityConversion.description.label" /></label>
+                                    <label for="remarks"><g:message code="stockQuantityConversion.remarks.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${fieldValue(bean: stockQuantityConversionInstance, field: 'description')}" />
+                                <td valign="top" class="value ${hasErrors(bean: stockQuantityConversionInstance, field: 'remarks', 'errors')}">
+                                    <g:textField name="remarks" value="${fieldValue(bean: stockQuantityConversionInstance, field: 'remarks')}" />
                                 </td>
                             </tr>
                         
@@ -60,7 +60,7 @@
             </g:form>
         </div>
         <g:javascript>
-        	focusOnLoad("description")
+        	focusOnLoad("remarks")
         </g:javascript>
     </body>
 </html>

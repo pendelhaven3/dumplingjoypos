@@ -31,14 +31,14 @@
                             <td valign="top" class="value">${fieldValue(bean: stockQuantityConversionInstance, field: "stockQuantityConversionNumber")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="stockQuantityConversion.description.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: stockQuantityConversionInstance, field: "description")}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="stockQuantityConversion.posted.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: stockQuantityConversionInstance, field: "posted").equals("Y") ? "Yes" : "No"}</td>
+                            <td valign="top" class="name"><g:message code="stockQuantityConversion.remarks.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: stockQuantityConversionInstance, field: "remarks")}</td>
                         </tr>
                         <g:if test="${stockQuantityConversionInstance.posted}">
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="stockQuantityConversion.posted.label" /></td>
+	                            <td valign="top" class="value">${stockQuantityConversionInstance.posted ? "Yes" : "No"}</td>
+	                        </tr>
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="stockQuantityConversion.postDate.label" /></td>
 	                            <td valign="top" class="value"><g:formatDate date="${stockQuantityConversionInstance.postDate}" format="MM/dd/yyyy" /></td>

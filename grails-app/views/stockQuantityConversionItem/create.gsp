@@ -40,10 +40,16 @@
 	                        </tr>
 	                    
 	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="stockQuantityConversion.description.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: stockQuantityConversionInstance, field: "description")}</td>
+	                            <td valign="top" class="name"><g:message code="stockQuantityConversion.remarks.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: stockQuantityConversionInstance, field: "remarks")}</td>
 	                        </tr>
-	                    
+	                    </tbody>
+	                </table>
+	            </div>
+	            
+	            <div style="padding-top:5px;">
+	            	<table>
+	            		<tbody>
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="productCode">Product Code</label>
@@ -60,7 +66,12 @@
                                     <label for="productDescription">Product Description</label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<span id="span_productDescription">${stockQuantityConversionItemInstance?.product?.description}</span>
+                                	<span id="span_productDescription">
+                                		<g:if test="${stockQuantityConversionItemInstance.product != null}">
+                                			${stockQuantityConversionItemInstance?.product?.description}
+                                		</g:if>
+                                		<g:else>-</g:else>
+                                	</span>
                                 </td>
                             </tr>
                         
@@ -103,6 +114,7 @@
                                 		<g:if test="${stockQuantityConversionItemInstance.product != null && stockQuantityConversionItemInstance.fromUnit != null}">
                                 			${stockQuantityConversionItemInstance.product.unitQuantities.find{it.unit == stockQuantityConversionItemInstance.fromUnit}.quantity}
                                 		</g:if>
+                                		<g:else>-</g:else>
                                 	</span>
                                 </td>
                             </tr>
@@ -125,6 +137,7 @@
                                 		<g:if test="${stockQuantityConversionItemInstance.product != null}">
                                 			${stockQuantityConversionItemInstance.convertedQuantity}
                                 		</g:if>
+                                		<g:else>-</g:else>
                                 	</span>
                                 </td>
                             </tr>
@@ -156,15 +169,13 @@
         					}
         				} else {
         					$("#product\\.id").val("")
-        					$("#span_productDescription").html("");
+        					$("#span_productDescription").html("-");
         					
-			        		$("#span_fromUnit").html("")
 			        		$("#fromUnit").html("")
-			        		$("#span_toUnit").html("")
 			        		$("#toUnit").html("")
 			        		
-        					$("#span_availableQuantity").html("");
-        					$("#span_convertedQuantity").html("");
+        					$("#span_availableQuantity").html("-");
+        					$("#span_convertedQuantity").html("-");
         				}
         			}
         		);
@@ -196,7 +207,7 @@
         		var fromUnit = $("#fromUnit").val()
         		
         		if (productCode == "" || fromUnit == "") {
-       				$("#span_availableQuantity").html("");
+       				$("#span_availableQuantity").html("-");
         		} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},
 	        			function(product) {
@@ -221,7 +232,7 @@
 				var quantity = $("#quantity").val()
 				
 				if (productCode == "" || fromUnit == "" || toUnit == "" || !isInteger(quantity)) {
-					$("#span_convertedQuantity").html("")
+					$("#span_convertedQuantity").html("-")
 				} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},
 	        			function(product) {
