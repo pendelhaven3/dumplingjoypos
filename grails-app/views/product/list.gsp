@@ -20,11 +20,17 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
+            
+            	<br/>
+            	Description:&nbsp;&nbsp;&nbsp;<input type="text" name="description" id="description" value="${params.description}" />
+            	<input type="button" value="Search" onclick="search()" />
+            	<br/><br/>
+            	
                 <table>
                     <thead>
                         <tr>
-                        	<g:sortableColumn property="code" title="Code" width="100" />
-                        	<g:sortableColumn property="description" title="Description" />
+                        	<g:sortableColumn property="code" title="Code" width="100" params="${[description: params.description]}" />
+                        	<g:sortableColumn property="description" title="Description" params="${[description: params.description]}" />
                         </tr>
                     </thead>
                     <tbody>
@@ -48,8 +54,22 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${productInstanceTotal}" />
+                <g:paginate total="${productInstanceTotal}" params="${[description: params.description]}" />
             </div>
         </div>
+        <g:javascript>
+        	focusOnLoad("description")
+        	
+			$("#description").keydown(function (e){
+			    if(e.keyCode == 13){
+			    	search()
+			    }
+			})
+        	
+        	function search() {
+        		var description = $("#description").val()
+        		window.location = "${createLink(action: 'list')}?description=" + encodeURIComponent(description)
+        	}
+        </g:javascript>
     </body>
 </html>

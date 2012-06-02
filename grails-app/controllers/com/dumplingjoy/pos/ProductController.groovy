@@ -26,11 +26,26 @@ class ProductController {
     }
 
     def list = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		params.sort = params.sort ?: "code"
 		params.order = params.order ?: "asc"
 		
-        [productInstanceList: Product.list(params), productInstanceTotal: Product.count()]
+		def productInstanceList = Product.withCriteria {
+			if (!StringUtils.isEmpty(params.description)) {
+				ilike("description", params.description + "%")
+			}
+			firstResult(params.int("offset") ?: 0)
+			maxResults(10)
+			order(params.sort, params.order)
+		}
+		
+		def productInstanceTotal
+		if (!StringUtils.isEmpty(params.description)) {
+			productInstanceTotal = Product.countByDescriptionIlike(params.description + "%")
+		} else {
+			productInstanceTotal = Product.count()
+		}
+		
+        [productInstanceList: productInstanceList, productInstanceTotal: productInstanceTotal]
     }
 
     def create = {

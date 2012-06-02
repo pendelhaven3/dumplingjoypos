@@ -116,6 +116,7 @@ class SalesRequisitionController {
 			return
 		}
 		
+		// force hibernate to load these properties
 		println salesRequisitionInstance.customer.name
 		println salesRequisitionInstance.pricingScheme.description
 		
@@ -123,8 +124,6 @@ class SalesRequisitionController {
 			render(view: "show", model: [salesRequisitionInstance: salesRequisitionInstance])
 			return
 		}
-		
-		println salesRequisitionInstance.posted
 		
 		flash.message = message(code: 'default.posted.message', args: [message(code: 'salesRequisition.label')])
 		redirect(action: "show", id: params.id)
