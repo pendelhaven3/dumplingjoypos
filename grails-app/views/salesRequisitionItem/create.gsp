@@ -31,6 +31,7 @@
                 <g:hiddenField name="salesRequisitionItem.id" value="${salesRequisitionItemInstance?.id}" />
                 <g:hiddenField name="salesRequisition.id" value="${salesRequisitionInstance?.id}" />
                 <g:hiddenField name="product.id" value="${salesRequisitionItemInstance?.product?.id}" />
+                <g:hiddenField name="pricingScheme.id" value="${salesRequisitionInstance?.pricingScheme?.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>
@@ -164,10 +165,9 @@
         
         	function getProduct() {
         		var productCode = $("#product\\.code").val()
-        		var pricingSchemeId = $("#pricingScheme\\.id").val()
         	
         		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", 
-        			{code: productCode, pricingSchemeId: pricingSchemeId},
+        			{code: productCode},
         			function(product) {
         				if (!jQuery.isEmptyObject(product)) {
         					if ($("#product\\.id").val() != product.id) {

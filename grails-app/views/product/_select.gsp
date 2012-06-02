@@ -45,7 +45,11 @@
         </div>
         <g:javascript>
         	function displayUnitPricesAndQuantities(productCode) {
-				$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},
+        		var salesRequisitionId = $("#salesRequisition\\.id").val()
+        		var pricingSchemeId = $("#pricingScheme\\.id").val()
+        		
+				$.get("${createLink(controller: 'product', action: 'getProductByCode')}", 
+					{code: productCode, pricingSchemeId: pricingSchemeId},
 					function(product) {
 						var tableBody = $("#unitPricesAndQuantitiesTableBody");
 						tableBody.empty();
@@ -70,7 +74,12 @@
         			var unit = product.units[i]
         			var unitMap = new Object()
         			unitMap.unit = unit
-        			unitMap.unitPrice = 0
+        			for (var j=0; j < product.unitPrices.length; j++) {
+        				var unitPrice = product.unitPrices[j] 
+        				if (unitPrice.unit == unit) {
+        					unitMap.unitPrice = unitPrice.price
+        				}
+        			}
         			for (var j=0; j < product.unitQuantities.length; j++) {
         				var unitQuantity = product.unitQuantities[j] 
         				if (unitQuantity.unit == unit) {
@@ -116,8 +125,9 @@
 					tableBody.html('<tr class="odd"><td colspan="2">Input code to search products</td></tr>');
         			return;
         		}
-        	
-				$.get("${createLink(controller: 'product', action: 'searchProductsByCode')}", {code: code},
+        		
+				$.get("${createLink(controller: 'product', action: 'searchProductsByCode')}",
+					{code: code},
 					function(products) {
 						var doc = document;
 						tableBody.empty();
