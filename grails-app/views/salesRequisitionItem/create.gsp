@@ -71,7 +71,12 @@
                                     <label for="productDescription">Product Description</label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<span id="span_productDescription">${fieldValue(bean: salesRequisitionItemInstance, field: "product.description")}</span>
+                                	<span id="span_productDescription">
+                                		<g:if test="${salesRequisitionItemInstance.product != null}">
+                                			${fieldValue(bean: salesRequisitionItemInstance, field: "product.description")}
+                                		</g:if>
+                                		<g:else>-</g:else>
+                                	</span>
                                 </td>
                             </tr>
                         
@@ -81,11 +86,11 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: salesRequisitionItemInstance, field: 'unit', 'errors')}">
                                 	<g:if test="${salesRequisitionItemInstance?.product == null}">
-                                		<select name="unit" id="unit" onblur="updateAvailableQuantity()"></select>
+                                		<select name="unit" id="unit" onblur="updateAvailableQuantityAndUnitPrice()"></select>
                                 	</g:if>
                                 	<g:else>
                                 		<g:select name="unit" from="${salesRequisitionItemInstance.product.units}" value="${salesRequisitionItemInstance.unit}" 
-                                			noSelection="['':'']" onblur="updateAvailableQuantity()" />
+                                			noSelection="['':'']" onblur="updateAvailableQuantityAndUnitPrice()" />
                                 	</g:else>
                                 </td>
                             </tr>
@@ -99,6 +104,21 @@
                                 		<g:if test="${salesRequisitionItemInstance.product != null && salesRequisitionItemInstance.unit != null}">
                                 			${salesRequisitionItemInstance.product.unitQuantities.find{it.unit == salesRequisitionItemInstance.unit}.quantity}
                                 		</g:if>
+                                		<g:else>-</g:else>
+                                	</span>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="unitPrice">Unit Price</label>
+                                </td>
+                                <td valign="top" class="value">
+                                	<span id="span_unitPrice">
+                                		<g:if test="${salesRequisitionItemInstance.product != null && salesRequisitionItemInstance.unit != null}">
+                                			<g:formatNumber number="${salesRequisitionItemInstance.unitPrice}" format="#,##0.00" />
+                                		</g:if>
+                                		<g:else>-</g:else>
                                 	</span>
                                 </td>
                             </tr>
@@ -108,7 +128,21 @@
                                     <label for="quantity"><g:message code="salesRequisitionItem.quantity.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: salesRequisitionItemInstance, field: 'quantity', 'errors')}">
-                                    <g:textField name="quantity" value="${salesRequisitionItemInstance.quantity}" />
+                                    <g:textField name="quantity" value="${salesRequisitionItemInstance.quantity}" onblur="updateAmount()" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="amount">Amount</label>
+                                </td>
+                                <td valign="top" class="value">
+                                	<span id="span_amount">
+                                		<g:if test="${salesRequisitionItemInstance.product != null && salesRequisitionItemInstance.unit != null && salesRequisitionItemInstance.quantity != null}">
+                                			<g:formatNumber number="${salesRequisitionItemInstance.amount}" format="#,##0.00" />
+                                		</g:if>
+                                		<g:else>-</g:else>
+                                	</span>
                                 </td>
                             </tr>
                         
@@ -143,7 +177,7 @@
         					}
         				} else {
         					$("#product\\.id").val("")
-        					$("#span_productDescription").html("");
+        					$("#span_productDescription").html("-");
         					$("#unit").html("");
         				}
         			}
@@ -168,14 +202,16 @@
         		}
         	}
         	
-        	function updateAvailableQuantity() {
+        	function updateAvailableQuantityAndUnitPrice() {
         		var code = $("#product\\.code").val()
         		var unit = $("#unit").val()
         		
         		if (code == "" || unit == "") {
-       				$("#span_availableQuantity").html("")
+       				$("#span_availableQuantity").html("-")
+       				$("#span_unitPrice").html("-")
         		} else {
-	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: code},
+	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", 
+	        			{code: code, pricingSchemeId: ${salesRequisitionInstance.pricingScheme.id}},
 	        			function(product) {
 	        				if (!jQuery.isEmptyObject(product)) {
 				        		for (var i=0; i < product.unitQuantities.length; i++) {
@@ -184,11 +220,44 @@
 				        				$("#span_availableQuantity").text(unitQuantity.quantity);
 				        			}
 				        		}
+				        		for (var i=0; i < product.unitPrices.length; i++) {
+				        			var unitPrice = product.unitPrices[i]
+				        			if (unit == unitPrice.unit) {
+				        				$("#span_unitPrice").text(unitPrice.formattedPrice);
+						        		var quantity = $("#quantity").val()
+						        		if (isInteger(quantity)) {
+				        					$("#span_amount").text(format("#,##0.00", unitPrice.price * quantity));
+						        		}
+				        			}
+				        		}
 	        				}
 	        			}
 	        		);
         		}
-        	
+			}
+			
+			function updateAmount() {
+        		var code = $("#product\\.code").val()
+        		var unit = $("#unit").val()
+        		var quantity = $("#quantity").val()
+        		
+        		if (code == "" || unit == "" || !isInteger(quantity)) {
+       				$("#span_amount").html("-")
+        		} else {
+	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", 
+	        			{code: code, pricingSchemeId: ${salesRequisitionInstance.pricingScheme.id}},
+	        			function(product) {
+	        				if (!jQuery.isEmptyObject(product)) {
+				        		for (var i=0; i < product.unitPrices.length; i++) {
+				        			var unitPrice = product.unitPrices[i]
+				        			if (unit == unitPrice.unit) {
+				        				$("#span_amount").text(format("#,##0.00", unitPrice.price * quantity));
+				        			}
+				        		}
+	        				}
+	        			}
+	        		);
+        		}
 			}
 			
         </g:javascript>

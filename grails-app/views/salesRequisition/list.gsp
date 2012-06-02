@@ -22,6 +22,9 @@
                     <tr>
                         <th width="150"><g:message code="salesRequisition.salesRequisitionNumber.label" /></th>
                         <th><g:message code="salesRequisition.customer.label" /></th>
+                        <th width="120"><g:message code="salesRequisition.posted.label" /></th>
+                        <th width="120"><g:message code="salesRequisition.postDate.label" /></th>
+                        <th width="150"><g:message code="salesRequisition.postedBy.label" /></th>
                     </tr>
                     <g:if test="${!salesRequisitionInstanceList.empty}">
 	                    <g:each in="${salesRequisitionInstanceList}" status="i" var="salesRequisitionInstance">
@@ -29,6 +32,9 @@
 	                        
 	                            <td>${fieldValue(bean: salesRequisitionInstance, field: "salesRequisitionNumber")}</td>
 	                            <td>${fieldValue(bean: salesRequisitionInstance, field: "customer.name")}</td>
+	                            <td>${salesRequisitionInstance.posted ? "Yes" : "No"}</td>
+	                            <td><g:formatDate date="${salesRequisitionInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                            <td>${fieldValue(bean: salesRequisitionInstance, field: "postedBy")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>

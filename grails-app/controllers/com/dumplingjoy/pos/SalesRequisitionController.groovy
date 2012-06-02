@@ -107,4 +107,27 @@ class SalesRequisitionController {
             redirect(action: "show", id: params.id)
         }
     }
+	
+	def postSalesRequisition() {
+		SalesRequisition salesRequisitionInstance = SalesRequisition.get(params.id)
+		if (!salesRequisitionInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'salesRequisition.label'), params.id])
+			redirect(action: "list")
+			return
+		}
+		
+		println salesRequisitionInstance.customer.name
+		println salesRequisitionInstance.pricingScheme.description
+		
+		if (!salesRequisitionInstance.post()) {
+			render(view: "show", model: [salesRequisitionInstance: salesRequisitionInstance])
+			return
+		}
+		
+		println salesRequisitionInstance.posted
+		
+		flash.message = message(code: 'default.posted.message', args: [message(code: 'salesRequisition.label')])
+		redirect(action: "show", id: params.id)
+	}
+
 }

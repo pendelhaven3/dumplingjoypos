@@ -1,5 +1,6 @@
 package com.dumplingjoy.pos
 
+import java.text.DecimalFormat
 import java.util.List;
 
 class ProductJson {
@@ -19,7 +20,11 @@ class ProductJson {
 		units = product.units.collect {it.toString()}
 		unitQuantities = product.unitQuantities.collect {[unit: it.unit.toString(), quantity: it.quantity]}
 		unitConversions = product.unitConversions.collect {[fromUnit: it.fromUnit.toString(), toUnit: it.toUnit.toString(), convertedQuantity: it.convertedQuantity]}
-		unitPrices = pricingScheme.getProductUnitPrices(product).collect {[unit: it.unit.toString(), price: it.price]}
+		unitPrices = pricingScheme.getProductUnitPrices(product).collect {[
+			unit: it.unit.toString(), 
+			price: it.price,
+			formattedPrice: new DecimalFormat("#,##0.00").format(it.price)
+		]}
 	}
 	
 }

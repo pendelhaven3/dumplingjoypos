@@ -162,8 +162,17 @@ class ProductController {
 		Product productInstance = Product.findByCode(params.code)
 		if (!productInstance) {
 			render new ArrayList() as JSON
+			return
 		}
-		render new ProductJson(productInstance, PricingScheme.getCanvasserPricingScheme()) as JSON
+		
+		PricingScheme pricingScheme = null
+		if (params["pricingSchemeId"]) {
+			pricingScheme = PricingScheme.get(params["pricingSchemeId"])
+		} else {
+			pricingScheme = PricingScheme.getCanvasserPricingScheme()
+		}
+		
+		render new ProductJson(productInstance, pricingScheme) as JSON
 	}
 	
 	def select = {
