@@ -58,6 +58,26 @@ class SalesRequisition {
 			postDate = new Date()
 			postedBy = ((User)springSecurityService.currentUser).username
 			save(failOnError: true, deepValidate: false)
+			
+			SalesInvoice salesInvoice = new SalesInvoice()
+			salesInvoice.salesInvoiceNumber = SalesInvoiceSequenceNumber.getNextValue()
+			SalesInvoiceSequenceNumber.increment()
+			salesInvoice.customer = customer
+			salesInvoice.pricingScheme = pricingScheme
+			salesInvoice.postDate = postDate
+			salesInvoice.postedBy = postedBy
+			
+			items.each { SalesRequisitionItem item ->
+				SalesInvoiceItem salesInvoiceItem = new SalesInvoiceItem()
+				salesInvoiceItem.product = item.product
+				salesInvoiceItem.unit = item.unit
+				salesInvoiceItem.quantity = item.quantity
+				salesInvoiceItem.unitPrice = item.getUnitPrice()
+				salesInvoice.addToItems(salesInvoiceItem)
+			}
+			
+			salesInvoice.save(failOnError: true)
+			
 			return true
 		}
 	}

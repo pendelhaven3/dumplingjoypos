@@ -14,7 +14,9 @@ class SalesRequisitionController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		params.sort = params.sort ?: "salesRequisitionNumber"
 		params.order = params.order ?: "desc"
-        [salesRequisitionInstanceList: SalesRequisition.list(params), salesRequisitionInstanceTotal: SalesRequisition.count()]
+		
+		def salesRequisitionInstanceList = SalesRequisition.findAllByPosted(false, params)
+        [salesRequisitionInstanceList: salesRequisitionInstanceList, salesRequisitionInstanceTotal: SalesRequisition.count()]
     }
 
     def create() {
@@ -117,8 +119,8 @@ class SalesRequisitionController {
 		}
 		
 		// force hibernate to load these properties
-		println salesRequisitionInstance.customer.name
-		println salesRequisitionInstance.pricingScheme.description
+		salesRequisitionInstance.customer.name
+		salesRequisitionInstance.pricingScheme.description
 		
 		if (!salesRequisitionInstance.post()) {
 			render(view: "show", model: [salesRequisitionInstance: salesRequisitionInstance])

@@ -1,92 +1,105 @@
 
 <%@ page import="com.dumplingjoy.pos.SalesInvoice" %>
-<!doctype html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'salesInvoice.label', default: 'SalesInvoice')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#show-salesInvoice" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="show-salesInvoice" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<ol class="property-list salesInvoice">
-			
-				<g:if test="${salesInvoiceInstance?.salesInvoiceNumber}">
-				<li class="fieldcontain">
-					<span id="salesInvoiceNumber-label" class="property-label"><g:message code="salesInvoice.salesInvoiceNumber.label" default="Sales Invoice Number" /></span>
-					
-						<span class="property-value" aria-labelledby="salesInvoiceNumber-label"><g:fieldValue bean="${salesInvoiceInstance}" field="salesInvoiceNumber"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${salesInvoiceInstance?.customer}">
-				<li class="fieldcontain">
-					<span id="customer-label" class="property-label"><g:message code="salesInvoice.customer.label" default="Customer" /></span>
-					
-						<span class="property-value" aria-labelledby="customer-label"><g:link controller="customer" action="show" id="${salesInvoiceInstance?.customer?.id}">${salesInvoiceInstance?.customer?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${salesInvoiceInstance?.items}">
-				<li class="fieldcontain">
-					<span id="items-label" class="property-label"><g:message code="salesInvoice.items.label" default="Items" /></span>
-					
-						<g:each in="${salesInvoiceInstance.items}" var="i">
-						<span class="property-value" aria-labelledby="items-label"><g:link controller="salesInvoiceItem" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${salesInvoiceInstance?.postDate}">
-				<li class="fieldcontain">
-					<span id="postDate-label" class="property-label"><g:message code="salesInvoice.postDate.label" default="Post Date" /></span>
-					
-						<span class="property-value" aria-labelledby="postDate-label"><g:formatDate date="${salesInvoiceInstance?.postDate}" /></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${salesInvoiceInstance?.postedBy}">
-				<li class="fieldcontain">
-					<span id="postedBy-label" class="property-label"><g:message code="salesInvoice.postedBy.label" default="Posted By" /></span>
-					
-						<span class="property-value" aria-labelledby="postedBy-label"><g:fieldValue bean="${salesInvoiceInstance}" field="postedBy"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${salesInvoiceInstance?.pricingScheme}">
-				<li class="fieldcontain">
-					<span id="pricingScheme-label" class="property-label"><g:message code="salesInvoice.pricingScheme.label" default="Pricing Scheme" /></span>
-					
-						<span class="property-value" aria-labelledby="pricingScheme-label"><g:link controller="pricingScheme" action="show" id="${salesInvoiceInstance?.pricingScheme?.id}">${salesInvoiceInstance?.pricingScheme?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-			</ol>
-			<g:form>
-				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
-					<g:link class="edit" action="edit" id="${salesInvoiceInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
-		</div>
-	</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="main" />
+        <g:set var="entityName" value="${message(code: 'salesInvoice.label')}" />
+        <title><g:message code="default.show.label" args="[entityName]" /></title>
+    </head>
+    <body>
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
+        </div>
+        <div class="body">
+            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+            </g:if>
+            <g:hasErrors bean="${salesInvoiceInstance}">
+            <div class="errors">
+                <g:renderErrors bean="${salesInvoiceInstance}" as="list" />
+            </div>
+            </g:hasErrors>
+            <div class="dialog">
+                <table>
+                    <tbody>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.salesInvoiceNumber.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "salesInvoiceNumber")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.customer.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "customer.name")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.pricingScheme.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "pricingScheme.description")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.postDate.label" /></td>
+                            <td valign="top" class="value"><g:formatDate date="${salesInvoiceInstance.postDate}" format="MM/dd/yyyy" /></td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.postedBy.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "postedBy")}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="buttons">
+                <g:form controller="salesRequisitionItem">
+                    <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Print" /></span>
+                </g:form>
+            </div>
+            
+			<br/><br/>
+            
+            <h3>Items</h3>
+            <div class="list" style="padding-top:5px">
+                <table>
+                    <thead>
+                        <tr>
+                        	<th width="100">Product Code</th>
+                        	<th>Product Description</th>
+                        	<th width="80">Unit</th>
+                        	<th width="80">Quantity</th>
+                        	<th width="90">Unit Price</th>
+                        	<th width="100">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <g:if test="${!salesInvoiceInstance.items.empty}">
+                    <g:each in="${salesInvoiceInstance.items}" status="i" var="item">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                        	<td>${item.product.code}</td>
+                        	<td>${fieldValue(bean: item, field: "product.description")}</td>
+                        	<td>${item.unit}</td>
+                        	<td>${item.quantity}</td>
+                        	<td><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
+                        	<td><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        </tr>
+                    </g:each>
+                    </g:if>
+                    <g:else>
+                    	<tr>
+                    		<td colspan="7">No items</td>
+                    	</tr>
+                    </g:else>
+                    </tbody>
+                </table>
+                
+                <g:if test="${!salesInvoiceInstance.items.empty}">
+	                <table style="margin-top:2px">
+	                	<tr>
+	                		<th style="text-align:right">Total Amount</th>
+	                		<th width="100"><g:formatNumber number="${salesInvoiceInstance.totalAmount}" format="#,##0.00" /></th>
+	                	</tr>
+	                </table>
+	            </g:if>
+            </div>
+        </div>        
+    </body>
 </html>

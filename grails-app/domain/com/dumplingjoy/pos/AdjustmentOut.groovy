@@ -35,7 +35,7 @@ class AdjustmentOut {
 						"postItem.notEnoughQuantityAvailable.message")
 					item.hasPostError = true
 				} else {
-					unitQuantity.save()
+					unitQuantity.save(failOnError: true)
 				}
 			}
 			if (hasErrors()) {
@@ -45,7 +45,7 @@ class AdjustmentOut {
 			posted = true
 			postDate = new Date()
 			postedBy = ((User)springSecurityService.currentUser).username
-			save()
+			save(failOnError: true)
 			return true
 		}
 	}

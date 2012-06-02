@@ -4,6 +4,7 @@ import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
 import com.dumplingjoy.pos.Customer
 import com.dumplingjoy.pos.PricingScheme
 import com.dumplingjoy.pos.Product;
+import com.dumplingjoy.pos.SalesInvoiceSequenceNumber
 import com.dumplingjoy.pos.SalesRequisitionSequenceNumber
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
 import com.dumplingjoy.pos.Unit;
@@ -40,6 +41,9 @@ class BootStrap {
 		}
 		if (SalesRequisitionSequenceNumber.count() == 0) {
 			new SalesRequisitionSequenceNumber().save(failOnError: true)	
+		}
+		if (SalesInvoiceSequenceNumber.count() == 0) {
+			new SalesInvoiceSequenceNumber().save(failOnError: true)	
 		}
 	}
 	

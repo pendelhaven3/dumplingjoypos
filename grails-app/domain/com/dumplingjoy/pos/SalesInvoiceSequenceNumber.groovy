@@ -15,7 +15,7 @@ class SalesInvoiceSequenceNumber {
 	public static void increment() {
 		SalesInvoiceSequenceNumber sequence = SalesInvoiceSequenceNumber.get(1)
 		sequence.value++
-		sequence.save()
+		sequence.save(failOnError: true)
 	}
 
 }
