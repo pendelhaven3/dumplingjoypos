@@ -1,62 +1,50 @@
 
 <%@ page import="com.dumplingjoy.pos.SalesInvoice" %>
-<!doctype html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'salesInvoice.label', default: 'SalesInvoice')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#list-salesInvoice" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-salesInvoice" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-				<thead>
-					<tr>
-					
-						<g:sortableColumn property="salesInvoiceNumber" title="${message(code: 'salesInvoice.salesInvoiceNumber.label', default: 'Sales Invoice Number')}" />
-					
-						<th><g:message code="salesInvoice.customer.label" default="Customer" /></th>
-					
-						<g:sortableColumn property="postDate" title="${message(code: 'salesInvoice.postDate.label', default: 'Post Date')}" />
-					
-						<g:sortableColumn property="postedBy" title="${message(code: 'salesInvoice.postedBy.label', default: 'Posted By')}" />
-					
-						<th><g:message code="salesInvoice.pricingScheme.label" default="Pricing Scheme" /></th>
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${salesInvoiceInstanceList}" status="i" var="salesInvoiceInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${salesInvoiceInstance.id}">${fieldValue(bean: salesInvoiceInstance, field: "salesInvoiceNumber")}</g:link></td>
-					
-						<td>${fieldValue(bean: salesInvoiceInstance, field: "customer")}</td>
-					
-						<td><g:formatDate date="${salesInvoiceInstance.postDate}" /></td>
-					
-						<td>${fieldValue(bean: salesInvoiceInstance, field: "postedBy")}</td>
-					
-						<td>${fieldValue(bean: salesInvoiceInstance, field: "pricingScheme")}</td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${salesInvoiceInstanceTotal}" />
-			</div>
-		</div>
-	</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="main" />
+        <g:set var="entityName" value="${message(code: 'salesInvoice.label', default: 'SalesInvoice')}" />
+        <title><g:message code="default.list.label" args="[entityName]" /></title>
+    </head>
+    <body>
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+        </div>
+        <div class="body">
+            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+            </g:if>
+            <div class="list">
+                <table>
+                    <tr>
+                        <th width="150"><g:message code="salesInvoice.salesInvoiceNumber.label" /></th>
+                        <th><g:message code="salesInvoice.customer.label" /></th>
+                        <th width="120"><g:message code="salesInvoice.postDate.label" /></th>
+                        <th width="150"><g:message code="salesInvoice.postedBy.label" /></th>
+                    </tr>
+                    <g:if test="${!salesInvoiceInstanceList.empty}">
+	                    <g:each in="${salesInvoiceInstanceList}" status="i" var="salesInvoiceInstance">
+	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${salesInvoiceInstance.id}' />'">
+	                        
+	                            <td>${fieldValue(bean: salesInvoiceInstance, field: "salesInvoiceNumber")}</td>
+	                            <td>${fieldValue(bean: salesInvoiceInstance, field: "customer.name")}</td>
+	                            <td><g:formatDate date="${salesInvoiceInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                            <td>${fieldValue(bean: salesInvoiceInstance, field: "postedBy")}</td>
+	                        </tr>
+	                    </g:each>
+                    </g:if>
+                    <g:else>
+                    	<tr>
+                    		<td colspan="4">No records found</td>
+                    	</tr>
+                    </g:else>
+                </table>
+            </div>
+            <div class="paginateButtons">
+                <g:paginate total="${salesInvoiceInstanceTotal}" />
+            </div>
+        </div>
+    </body>
 </html>

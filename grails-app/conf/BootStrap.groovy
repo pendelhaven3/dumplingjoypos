@@ -73,6 +73,7 @@ class BootStrap {
 		for (int i=1; i<=20; i++) {
 			Customer customer = new Customer()
 			customer.name = "Customer " + i
+			customer.address = "Address " + i
 			customer.defaultPricingScheme = PricingScheme.getCanvasserPricingScheme()
 			customer.save(failOnError: true)
 		}

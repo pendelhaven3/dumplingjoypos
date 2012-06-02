@@ -42,6 +42,15 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
+                                    <label for="address"><g:message code="customer.address.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: customerInstance, field: 'address', 'errors')}">
+                                    <g:textArea name="address" value="${fieldValue(bean: customerInstance, field: 'address')}" rows="3" cols="40" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
                                     <label for="defaultPricingScheme"><g:message code="customer.defaultPricingScheme.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: customerInstance, field: 'defaultPricingScheme', 'errors')}">
