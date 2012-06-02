@@ -49,9 +49,9 @@
                 </table>
             </div>
             <div class="buttons">
-                <g:form controller="salesRequisitionItem">
+                <g:form controller="report">
                     <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Print" /></span>
+                    <span class="button"><g:actionSubmit class="edit" action="generateSalesInvoice" value="Print" /></span>
                 </g:form>
             </div>
             
