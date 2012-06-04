@@ -17,13 +17,14 @@ import com.dumplingjoy.pos.User;
 
 class BootStrap {
 
+	def bootStrapService
+	
     def init = { servletContext ->
 		setupInitialUser()
 		setupSequences()
-		setupDummyProducts()
+		bootStrapService.importProductsFromExcel()
 		setupInitialPricingScheme() // must be placed after initial products have been created
 		setupDummyCustomers()
-		setupDummySalesInvoice()
     }
 	
     def destroy = {
@@ -53,22 +54,6 @@ class BootStrap {
 		}
 	}
 	
-	private void setupDummyProducts() {
-		for (int i=1; i<=20; i++) {
-			Product product = new Product()
-			product.code = "PROD" + i
-			product.description = "Product " + i
-			product.addToUnits(Unit.CSE)
-			product.addToUnits(Unit.PCS)
-			product.save(failOnError: true)
-			
-			product.unitQuantities.each {
-				it.quantity = 100
-				it.save(failOnError: true)
-			}
-		}
-	}
-	
 	private void setupInitialPricingScheme() {
 		PricingScheme pricingScheme = new PricingScheme()
 		pricingScheme.description = "Canvasser"
@@ -89,41 +74,41 @@ class BootStrap {
 		}
 	}
 	
-	private void setupDummySalesInvoice() {
-		SalesRequisition salesRequisition = new SalesRequisition()
-		salesRequisition.salesRequisitionNumber = SalesRequisitionSequenceNumber.getNextValue()	
-		SalesRequisitionSequenceNumber.increment()
-		salesRequisition.customer = Customer.get(1)
-		salesRequisition.pricingScheme = PricingScheme.getCanvasserPricingScheme()
-		salesRequisition.orderType = "Walk-in"
-		salesRequisition.postedBy = "TESTING"
-		salesRequisition.createdBy = "TESTING"
-		
-		Product productInstance = Product.get(1)
-		
-		List<ProductUnitPrice> unitPrices = PricingScheme.getCanvasserPricingScheme().getProductUnitPrices(productInstance)
-		ProductUnitPrice unitPrice = unitPrices.find {it.unit == Unit.CSE}
-		unitPrice.price = new BigDecimal("125234.36")
-		unitPrice.save(failOnError: true)
-		
-		unitPrice = unitPrices.find {it.unit == Unit.PCS}
-		unitPrice.price = new BigDecimal("69.78")
-		unitPrice.save(failOnError: true)
-
-		SalesRequisitionItem item = new SalesRequisitionItem()
-		item.product = productInstance
-		item.unit = Unit.CSE
-		item.quantity = 8
-		salesRequisition.addToItems(item)
-		
-		item = new SalesRequisitionItem()
-		item.product = productInstance
-		item.unit = Unit.PCS
-		item.quantity = 1
-		salesRequisition.addToItems(item)
-		
-		salesRequisition.save(failOnError: true)
-		salesRequisition.post()
-	}
+//	private void setupDummySalesInvoice() {
+//		SalesRequisition salesRequisition = new SalesRequisition()
+//		salesRequisition.salesRequisitionNumber = SalesRequisitionSequenceNumber.getNextValue()	
+//		SalesRequisitionSequenceNumber.increment()
+//		salesRequisition.customer = Customer.get(1)
+//		salesRequisition.pricingScheme = PricingScheme.getCanvasserPricingScheme()
+//		salesRequisition.orderType = "Walk-in"
+//		salesRequisition.postedBy = "TESTING"
+//		salesRequisition.createdBy = "TESTING"
+//		
+//		Product productInstance = Product.get(1)
+//		
+//		List<ProductUnitPrice> unitPrices = PricingScheme.getCanvasserPricingScheme().getProductUnitPrices(productInstance)
+//		ProductUnitPrice unitPrice = unitPrices.find {it.unit == Unit.CSE}
+//		unitPrice.price = new BigDecimal("125234.36")
+//		unitPrice.save(failOnError: true)
+//		
+//		unitPrice = unitPrices.find {it.unit == Unit.PCS}
+//		unitPrice.price = new BigDecimal("69.78")
+//		unitPrice.save(failOnError: true)
+//
+//		SalesRequisitionItem item = new SalesRequisitionItem()
+//		item.product = productInstance
+//		item.unit = Unit.CSE
+//		item.quantity = 8
+//		salesRequisition.addToItems(item)
+//		
+//		item = new SalesRequisitionItem()
+//		item.product = productInstance
+//		item.unit = Unit.PCS
+//		item.quantity = 1
+//		salesRequisition.addToItems(item)
+//		
+//		salesRequisition.save(failOnError: true)
+//		salesRequisition.post()
+//	}
 	
 }
