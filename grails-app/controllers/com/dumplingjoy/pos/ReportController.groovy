@@ -1,57 +1,27 @@
 package com.dumplingjoy.pos
 
-import grails.plugins.springsecurity.Secured
+import com.dumplingjoy.pos.report.SalesInvoiceReportDto
 
 class ReportController {
 
 	def jasperService
 	
 	def generateSalesInvoice() {
-//		def employee = Employee.get(params.id)
-//		
-//		def resumeData = new ResumeDTO(employee, "true".equals(params.includeName))
-//		resumeData.projectHistory = ProjectMember.findAllByEmployee(employee, [sort: "startDate", order: "desc"]).collect { new ProjectHistoryDTO(it) }
+		def salesInvoiceInstance = SalesInvoice.get(params.id)
 		
-//		forceHibernateToLoadResumeDataProperties(resumeData)
-		
-		def resumeData = new SalesInvoice()
+		salesInvoiceInstance.customer.refresh()
+		salesInvoiceInstance.pricingScheme.refresh()
+		salesInvoiceInstance.items.each {
+			it.refresh()
+			it.product.refresh()
+		}
 		
 		params._format = "PDF"
 		params._file = "salesInvoice"
 		params._name = "salesInvoice"
-		chain(controller: 'jasper', action: 'index', model: [data: [resumeData]], params: params)
+		params.SUBREPORT_DIR = "jasperreports/"
+//		chain(controller: 'jasper', action: 'index', model: [data: [new SalesInvoiceReportDto(salesInvoiceInstance)]], params: params)
+		chain(controller: 'jasper', action: 'index', model: [data: [salesInvoiceInstance]], params: params)
 	}
 	
-//	private void forceHibernateToLoadResumeDataProperties(ResumeDTO resumeData) {
-//		Employee employee = resumeData.employee
-//		
-//		employee.fullName
-//		if (employee.position) {
-//			employee.position.name
-//		}
-//		resumeData.projectHistory.each {
-//			it.project.name
-//			it.project.client.name
-//		}
-//		employee.certifications.each {
-//			it.name
-//		}
-//		employee.seminars.each {
-//			it.title
-//		}
-//		employee.affiliations.each {
-//			it.position
-//			it.organizationName
-//		}
-//		employee.skills.each {
-//			it.skill
-//			it.type.name
-//		}
-//		
-//		resumeData.education.each { EducationDTO it ->
-//			it.universityName
-//		}
-//		
-//	}
-
 }

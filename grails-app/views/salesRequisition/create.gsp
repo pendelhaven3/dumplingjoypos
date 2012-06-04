@@ -22,7 +22,12 @@
             </g:if>
             <g:hasErrors bean="${salesRequisitionInstance}">
             <div class="errors">
-                <g:renderErrors bean="${salesRequisitionInstance}" as="list" />
+            	<g:each var="error" in="${salesRequisitionInstance.errors.globalErrors}">
+            		<ul><li><g:message error="${error}" /></li></ul>
+            	</g:each>
+                <g:renderErrors bean="${salesRequisitionInstance}" field="customer" />
+                <g:renderErrors bean="${salesRequisitionInstance}" field="pricingScheme" />
+                <g:renderErrors bean="${salesRequisitionInstance}" field="deliveryType" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -57,6 +62,16 @@
                                 <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'pricingScheme', 'errors')}">
                                 	<g:select name="pricingScheme.id" from="${com.dumplingjoy.pos.PricingScheme.list([sort: "description", order: "asc"])}" value="${salesRequisitionInstance.pricingScheme?.id}" 
                                 		optionKey="id" optionValue="description" noSelection="['':'']" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="deliveryType"><g:message code="salesRequisition.deliveryType.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'deliveryType', 'errors')}">
+                                	<g:select name="deliveryType" from="${SalesRequisition.constraints.deliveryType.inList}" value="${salesRequisitionInstance.deliveryType}" 
+                                		noSelection="['':'']" />
                                 </td>
                             </tr>
                         

@@ -10,6 +10,7 @@ class SalesRequisition {
 	Integer salesRequisitionNumber
 	Customer customer
 	PricingScheme pricingScheme
+	String deliveryType
 	List<SalesRequisitionItem> items
 	boolean posted
 	Date postDate
@@ -17,6 +18,7 @@ class SalesRequisition {
 
     static constraints = {
 		salesRequisitionNumber unique: true
+		deliveryType blank: false, inList: ["Delivery", "Walk-in"]
 		postDate nullable: true
 		postedBy nullable: true
     }
@@ -56,7 +58,9 @@ class SalesRequisition {
 			}
 			posted = true
 			postDate = new Date()
-			postedBy = ((User)springSecurityService.currentUser).username
+			if (springSecurityService.currentUser) {
+				postedBy = ((User)springSecurityService.currentUser).username
+			}
 			save(failOnError: true, deepValidate: false)
 			
 			SalesInvoice salesInvoice = new SalesInvoice()
@@ -64,6 +68,7 @@ class SalesRequisition {
 			SalesInvoiceSequenceNumber.increment()
 			salesInvoice.customer = customer
 			salesInvoice.pricingScheme = pricingScheme
+			salesInvoice.deliveryType = deliveryType
 			salesInvoice.postDate = postDate
 			salesInvoice.postedBy = postedBy
 			

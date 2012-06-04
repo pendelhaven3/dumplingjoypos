@@ -38,6 +38,10 @@
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "pricingScheme.description")}</td>
                         </tr>
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.deliveryType.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "deliveryType")}</td>
+                        </tr>
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesInvoice.postDate.label" /></td>
                             <td valign="top" class="value"><g:formatDate date="${salesInvoiceInstance.postDate}" format="MM/dd/yyyy" /></td>
                         </tr>
@@ -51,7 +55,7 @@
             <div class="buttons">
                 <g:form controller="report">
                     <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="generateSalesInvoice" value="Print" /></span>
+                    <span class="button"><g:actionSubmit class="print" action="generateSalesInvoice" value="Print" /></span>
                 </g:form>
             </div>
             
