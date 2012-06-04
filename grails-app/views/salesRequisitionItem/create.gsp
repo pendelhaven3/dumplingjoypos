@@ -225,7 +225,7 @@
 				        			if (unit == unitPrice.unit) {
 				        				$("#span_unitPrice").text(unitPrice.formattedPrice);
 						        		var quantity = $("#quantity").val()
-						        		if (isInteger(quantity)) {
+						        		if (isPositiveInteger(quantity)) {
 				        					$("#span_amount").text(format("#,##0.00", unitPrice.price * quantity));
 						        		}
 				        			}
@@ -241,7 +241,7 @@
         		var unit = $("#unit").val()
         		var quantity = $("#quantity").val()
         		
-        		if (code == "" || unit == "" || !isInteger(quantity)) {
+        		if (code == "" || unit == "" || !isPositiveInteger(quantity)) {
        				$("#span_amount").html("-")
         		} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", 

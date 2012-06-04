@@ -8,22 +8,24 @@ class SalesInvoice {
 	Integer salesInvoiceNumber
 	Customer customer
 	PricingScheme pricingScheme
-	String deliveryType
+	String orderType
 	List<SalesInvoiceItem> items
 	Date postDate
 	String postedBy
+	String encodedBy
 
     static constraints = {
 		salesInvoiceNumber unique: true
-		deliveryType blank: false, inList: ["Delivery", "Walk-in"]
+		orderType blank: false, inList: ["Delivery", "Walk-in"]
 		postedBy blank: false
+		encodedBy blank: false
     }
 	
 	static hasMany = [items: SalesInvoiceItem]
 
-	static transients = ["totalAmount", "salesInvoiceNo"]
+	static transients = ["totalAmount", "salesInvoiceNo", "totalQuantity"]
 	
-	BigDecimal getTotalAmount() {
+	public BigDecimal getTotalAmount() {
 		BigDecimal totalAmount = BigDecimal.ZERO
 		items.each {
 			totalAmount = totalAmount.add(it.amount)
@@ -33,6 +35,14 @@ class SalesInvoice {
 	
 	public Integer getSalesInvoiceNo() {
 		salesInvoiceNumber
+	}
+	
+	public int getTotalQuantity() {
+		int totalQuantity = 0
+		items.each {
+			totalQuantity += it.quantity
+		}
+		totalQuantity
 	}
 
 }

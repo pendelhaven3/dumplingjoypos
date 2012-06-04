@@ -1,7 +1,13 @@
-package com.dumplingjoy.pos
+package com.dumplingjoy.pos.json
 
 import java.text.DecimalFormat
 import java.util.List;
+
+import com.dumplingjoy.pos.PricingScheme;
+import com.dumplingjoy.pos.Product;
+import com.dumplingjoy.pos.ProductUnitPrice;
+import com.dumplingjoy.pos.UnitConversion;
+import com.dumplingjoy.pos.UnitQuantity;
 
 class ProductJson {
 

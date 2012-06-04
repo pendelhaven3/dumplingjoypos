@@ -6,6 +6,14 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'salesInvoice.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <style>
+			.prop .name {
+			    width: auto;
+			}
+			.prop .value {
+			    width: auto;
+			}
+        </style>
     </head>
     <body>
         <div class="nav">
@@ -26,28 +34,26 @@
                 <table>
                     <tbody>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesInvoice.salesInvoiceNumber.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "salesInvoiceNumber")}</td>
+                            <td valign="top" class="name" style="width:150px;"><g:message code="salesInvoice.salesInvoiceNumber.label" /></td>
+                            <td valign="top" class="value" style="width:450px;">${fieldValue(bean: salesInvoiceInstance, field: "salesInvoiceNumber")}</td>
+                            <td valign="top" class="name" style="width:100px;"><g:message code="salesInvoice.encodedBy.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "encodedBy")}</td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesInvoice.customer.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "customer.name")}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesInvoice.pricingScheme.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "pricingScheme.description")}</td>
-                        </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesInvoice.deliveryType.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "deliveryType")}</td>
-                        </tr>
-                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesInvoice.postDate.label" /></td>
                             <td valign="top" class="value"><g:formatDate date="${salesInvoiceInstance.postDate}" format="MM/dd/yyyy" /></td>
                         </tr>
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.pricingScheme.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "pricingScheme.description")}</td>
                             <td valign="top" class="name"><g:message code="salesInvoice.postedBy.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "postedBy")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.orderType.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "orderType")}</td>
                         </tr>
                     </tbody>
                 </table>

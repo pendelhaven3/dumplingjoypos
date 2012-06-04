@@ -12,7 +12,7 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
         <style>
         	#selection td {
-        		font: 10pt Verdana;
+        		font: 12pt Verdana;
         		font-weight: bold;
         	}
         </style>
@@ -26,7 +26,7 @@
         
         	<br/><br/>
         	
-        	<table id="selection" style="width:300px">
+        	<table id="selection" style="width:400px">
         		<tr>
         			<th>Menu Items</th>
         		</tr>
@@ -53,6 +53,15 @@
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="salesInvoice" />'">
                     <td>Sales Invoice</td>
+                </tr>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="purchaseOrder" />'">
+                    <td>Purchase Order (under construction)</td>
+                </tr>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
+                    <td>Receiving Receipt (under construction)</td>
+                </tr>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
+                    <td>Reports (under construction)</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="user" />'">
                     <td>User Maintenance (under construction)</td>

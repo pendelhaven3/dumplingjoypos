@@ -14,7 +14,7 @@ html * {
 body {
     background: #fff;
     color: #333;
-    font: 11px verdana, arial, helvetica, sans-serif;
+    font: 12px verdana, arial, helvetica, sans-serif;
 }
 #grailsLogo {
 	padding:20px;
@@ -34,7 +34,7 @@ h1 {
 }
 
 h3 {
-    font-size: 11px;
+    font-size: 12px;
     color: green;
 }
 
@@ -45,7 +45,7 @@ ul {
 input, select, textarea {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
-    font: 11px verdana, arial, helvetica, sans-serif;
+    font: 12px verdana, arial, helvetica, sans-serif;
     margin: 2px 0;
     padding: 2px 4px;
 }
@@ -66,7 +66,7 @@ input:focus, select:focus, textarea:focus {
 
 .body {
     float: left;
-    margin: 0 15px 10px 15px;
+    margin: 0 15px 12px 15px;
 }
 
 /* NAVIGATION MENU */
@@ -82,13 +82,13 @@ input:focus, select:focus, textarea:focus {
 .loginHeader {
 	float:right;
 	padding-right: 20px;
-	font: 11px verdana;
+	font: 12px verdana;
 	position: relative;
 	top: 12px;
 }
 
 .menuButton {
-    font-size: 10px;
+    font-size: 12px;
     padding: 0 5px;
 }
 .menuButton a {
@@ -117,7 +117,7 @@ input:focus, select:focus, textarea:focus {
     background: #f3f8fc url(../images/skin/information.png) 8px 50% no-repeat;
     border: 1px solid #b2d1ff;
     color: #006dba;
-    margin: 10px 0 5px 0;
+    margin: 12px 0 5px 0;
     padding: 5px 5px 5px 30px
 }
 
@@ -125,7 +125,7 @@ div.errors {
     background: #fff3f3;
     border: 1px solid red;
     color: #cc0000;
-    margin: 10px 0 5px 0;
+    margin: 12px 0 5px 0;
     padding: 5px 0 5px 0;
 }
 div.errors ul {
@@ -163,7 +163,7 @@ tr {
     border: 0;
 }
 td, th {
-    font: 11px verdana, arial, helvetica, sans-serif;
+    font: 12px verdana, arial, helvetica, sans-serif;
     line-height: 12px;
     padding: 5px 6px;
     text-align: left;
@@ -172,7 +172,7 @@ td, th {
 th {
     background: #fff url(../images/skin/shadow.jpg);
     color: #666;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     line-height: 17px;
     padding: 2px 6px;
@@ -180,7 +180,7 @@ th {
 th a:link, th a:visited, th a:hover {
     color: #333;
     display: block;
-    font-size: 10px;
+    font-size: 12px;
     text-decoration: none;
     width: 100%;
 }
@@ -205,7 +205,7 @@ th.desc a {
 /* LIST */
 
 .list {
-	width: 1000px;
+	width: 960px;
 }
 
 .list table {
@@ -225,9 +225,9 @@ th.desc a {
     border: 1px solid #ccc;
     border-top: 0;
     color: #666;
-    font-size: 10px;
+    font-size: 12px;
     overflow: hidden;
-    padding: 10px 3px;
+    padding: 12px 3px;
 }
 .paginateButtons a {
     background: #fff;
@@ -244,7 +244,7 @@ th.desc a {
 /* DIALOG */
 
 .dialog {
-	width: 1000px;
+	width: 960px;
 }
 
 .dialog table {
@@ -271,7 +271,7 @@ th.desc a {
     background: #fff url(../images/skin/shadow.jpg) bottom repeat-x;
     border: 1px solid #ccc;
     color: #666;
-    font-size: 10px;
+    font-size: 12px;
     margin-top: 5px;
     overflow: hidden;
     padding: 0;
@@ -283,7 +283,7 @@ th.desc a {
     border: 0;
     color: #333;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     margin-left: 3px;
     overflow: visible;
@@ -320,4 +320,8 @@ th.desc a {
 
 tr.clickable:hover {
 	cursor: pointer;
+}
+
+.right {
+	text-align: right;
 }

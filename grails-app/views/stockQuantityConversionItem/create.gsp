@@ -231,7 +231,7 @@
 				var toUnit = $("#toUnit").val()
 				var quantity = $("#quantity").val()
 				
-				if (productCode == "" || fromUnit == "" || toUnit == "" || !isInteger(quantity)) {
+				if (productCode == "" || fromUnit == "" || toUnit == "" || !isPositiveInteger(quantity)) {
 					$("#span_convertedQuantity").html("-")
 				} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", {code: productCode},

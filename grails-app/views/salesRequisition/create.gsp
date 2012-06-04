@@ -27,7 +27,7 @@
             	</g:each>
                 <g:renderErrors bean="${salesRequisitionInstance}" field="customer" />
                 <g:renderErrors bean="${salesRequisitionInstance}" field="pricingScheme" />
-                <g:renderErrors bean="${salesRequisitionInstance}" field="deliveryType" />
+                <g:renderErrors bean="${salesRequisitionInstance}" field="orderType" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -67,10 +67,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="deliveryType"><g:message code="salesRequisition.deliveryType.label" /></label>
+                                    <label for="orderType"><g:message code="salesRequisition.orderType.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'deliveryType', 'errors')}">
-                                	<g:select name="deliveryType" from="${SalesRequisition.constraints.deliveryType.inList}" value="${salesRequisitionInstance.deliveryType}" 
+                                <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'orderType', 'errors')}">
+                                	<g:select name="orderType" from="${SalesRequisition.constraints.orderType.inList}" value="${salesRequisitionInstance.orderType}" 
                                 		noSelection="['':'']" />
                                 </td>
                             </tr>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="salesInvoiceItems" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.9487171000000099"/>
-	<property name="ireport.x" value="157"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="product.code" class="java.lang.String"/>
 	<field name="product.description" class="java.lang.String"/>
@@ -14,18 +14,6 @@
 	</background>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="80" height="20"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Product Code]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="365" y="0" width="25" height="20"/>
 				<box>
@@ -75,7 +63,7 @@
 				<text><![CDATA[Amount]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="80" y="0" width="285" height="20"/>
+				<reportElement x="0" y="0" width="365" height="20"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -97,19 +85,7 @@
 	<detail>
 		<band height="15" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="80" height="15"/>
-				<box topPadding="1" leftPadding="2">
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{product.code}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="80" y="0" width="265" height="15"/>
+				<reportElement x="0" y="0" width="345" height="15"/>
 				<box topPadding="1" leftPadding="2">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>

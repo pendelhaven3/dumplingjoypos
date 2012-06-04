@@ -1,6 +1,5 @@
 package com.dumplingjoy.pos
 
-import com.dumplingjoy.pos.report.SalesInvoiceReportDto
 
 class ReportController {
 
@@ -20,7 +19,6 @@ class ReportController {
 		params._file = "salesInvoice"
 		params._name = "salesInvoice"
 		params.SUBREPORT_DIR = "jasperreports/"
-//		chain(controller: 'jasper', action: 'index', model: [data: [new SalesInvoiceReportDto(salesInvoiceInstance)]], params: params)
 		chain(controller: 'jasper', action: 'index', model: [data: [salesInvoiceInstance]], params: params)
 	}
 	

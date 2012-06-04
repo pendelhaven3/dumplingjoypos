@@ -10,29 +10,31 @@ class SalesRequisition {
 	Integer salesRequisitionNumber
 	Customer customer
 	PricingScheme pricingScheme
-	String deliveryType
+	String orderType
 	List<SalesRequisitionItem> items
 	boolean posted
 	Date postDate
 	String postedBy
+	String createdBy
 
     static constraints = {
 		salesRequisitionNumber unique: true
-		deliveryType blank: false, inList: ["Delivery", "Walk-in"]
+		orderType blank: false, inList: ["Delivery", "Walk-in"]
 		postDate nullable: true
 		postedBy nullable: true
+		createdBy nullable: true
     }
 	
 	static hasMany = [items: SalesRequisitionItem]
 
-	static transients = ["totalAmount"]
+	static transients = ["totalAmount", "totalDiscountedAmount", "totalNetAmount"]
 	
-	BigDecimal getTotalAmount() {
-		BigDecimal totalAmount = BigDecimal.ZERO
+	public BigDecimal getTotalAmount() {
+		BigDecimal total = BigDecimal.ZERO
 		items.each {
-			totalAmount = totalAmount.add(it.amount)
+			total = total.add(it.amount)
 		}
-		totalAmount
+		total
 	}
 
 	public boolean containsItem(SalesRequisitionItem item) {
@@ -68,9 +70,10 @@ class SalesRequisition {
 			SalesInvoiceSequenceNumber.increment()
 			salesInvoice.customer = customer
 			salesInvoice.pricingScheme = pricingScheme
-			salesInvoice.deliveryType = deliveryType
+			salesInvoice.orderType = orderType
 			salesInvoice.postDate = postDate
 			salesInvoice.postedBy = postedBy
+			salesInvoice.encodedBy = createdBy
 			
 			items.each { SalesRequisitionItem item ->
 				SalesInvoiceItem salesInvoiceItem = new SalesInvoiceItem()
@@ -85,6 +88,28 @@ class SalesRequisition {
 			
 			return true
 		}
+	}
+	
+	def beforeInsert() {
+		if (springSecurityService.currentUser) {
+			createdBy = ((User)springSecurityService.currentUser).username
+		}
+	}
+	
+	public BigDecimal getTotalDiscountedAmount() {
+		BigDecimal total = BigDecimal.ZERO
+		items.each {
+			total = total.add(it.discountedAmount)
+		}
+		total
+	}
+
+	public BigDecimal getTotalNetAmount() {
+		BigDecimal total = BigDecimal.ZERO
+		items.each {
+			total = total.add(it.netAmount)
+		}
+		total
 	}
 
 }

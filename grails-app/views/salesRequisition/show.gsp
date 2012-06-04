@@ -6,6 +6,14 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'salesRequisition.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <style>
+			.prop .name {
+			    width: auto;
+			}
+			.prop .value {
+			    width: auto;
+			}
+        </style>
     </head>
     <body>
         <div class="nav">
@@ -27,8 +35,10 @@
                 <table>
                     <tbody>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesRequisition.salesRequisitionNumber.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "salesRequisitionNumber")}</td>
+                            <td valign="top" class="name" style="width:150px;"><g:message code="salesRequisition.salesRequisitionNumber.label" /></td>
+                            <td valign="top" class="value" style="width:450px;">${fieldValue(bean: salesRequisitionInstance, field: "salesRequisitionNumber")}</td>
+                            <td valign="top" class="name" style="width:100px;"><g:message code="salesRequisition.createdBy.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "createdBy")}</td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesRequisition.customer.label" /></td>
@@ -39,8 +49,8 @@
                             <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "pricingScheme.description")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesRequisition.deliveryType.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "deliveryType")}</td>
+                            <td valign="top" class="name"><g:message code="salesRequisition.orderType.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "orderType")}</td>
                         </tr>
                         <g:if test="${salesRequisitionInstance.posted}">
 	                        <tr class="prop">
@@ -67,7 +77,7 @@
 	            <div class="buttons">
 	                <g:form>
 	                    <g:hiddenField name="id" value="${salesRequisitionInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="postSalesRequisition" value="Post" onclick="return confirm('Are you sure you want to post this Adjustment Out?');" /></span>
+	                    <span class="button"><g:actionSubmit class="edit" action="postSalesRequisition" value="Post" onclick="return confirm('Are you sure you want to post this Sales Requisition?');" /></span>
 	                </g:form>
 	            </div>
             </g:if>
@@ -79,13 +89,13 @@
                 <table>
                     <thead>
                         <tr>
-                        	<th>Product Code</th>
+                        	<th width="100">Product Code</th>
                         	<th>Product Description</th>
-                        	<th>Unit</th>
-                        	<th>Quantity</th>
-                        	<th>Unit Price</th>
+                        	<th width="30">Unit</th>
+                        	<th width="50">Quantity</th>
+                        	<th width="80">Unit Price</th>
                         	<th width="100">Amount</th>
-                        	<th width="90"></th>
+                        	<th width="170"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,12 +105,13 @@
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
-                        	<td>${item.quantity}</td>
-                        	<td><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
-                        	<td><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td class="right">${item.quantity}</td>
+                        	<td width="80" class="right"><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
+                        	<td width="80" class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
                         	<td style="text-align:center">
 	                        	<g:if test="${!salesRequisitionInstance.posted}">
 	                       			<input type="button" value="Edit" onclick="editSalesRequisitionItem(${item.id})" />
+	                       			<input type="button" value="Discounts" onclick="editSalesRequisitionItemDiscounts(${item.id})" />
 	                       			<input type="button" value="Delete" onclick="deleteSalesRequisitionItem(${item.id})" />
 	                        	</g:if>
                         	</td>
@@ -118,9 +129,19 @@
                 <g:if test="${!salesRequisitionInstance.items.empty}">
 	                <table style="margin-top:2px">
 	                	<tr>
-	                		<th style="text-align:right">Total Amount</th>
-	                		<th width="100"><g:formatNumber number="${salesRequisitionInstance.totalAmount}" format="#,##0.00" /></th>
-	                		<th width="90"></th>
+	                		<th class="right">Sub Total</th>
+	                		<th width="100" class="right"><g:formatNumber number="${salesRequisitionInstance.totalAmount}" format="#,##0.00" /></th>
+	                		<th width="170"></th>
+	                	</tr>
+	                	<tr>
+	                		<th class="right">Discount</th>
+	                		<th class="right"><g:formatNumber number="${salesRequisitionInstance.totalDiscountedAmount}" format="#,##0.00" /></th>
+	                		<th></th>
+	                	</tr>
+	                	<tr>
+	                		<th class="right">Net Amount</th>
+	                		<th class="right"><g:formatNumber number="${salesRequisitionInstance.totalNetAmount}" format="#,##0.00" /></th>
+	                		<th></th>
 	                	</tr>
 	                </table>
 	            </g:if>
@@ -141,6 +162,10 @@
        		<g:hiddenField name="salesRequisition.id" value="${salesRequisitionInstance.id}" />
        		<g:hiddenField name="id" />
        	</g:form>
+       	<g:form name="editSalesRequisitionItemDiscountsForm" controller="salesRequisitionItem" action="editDiscounts">
+       		<g:hiddenField name="salesRequisition.id" value="${salesRequisitionInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
        	<g:form name="deleteSalesRequisitionItemForm" controller="salesRequisitionItem" action="delete">
        		<g:hiddenField name="salesRequisition.id" value="${salesRequisitionInstance.id}" />
        		<g:hiddenField name="id" />
@@ -158,6 +183,11 @@
 	        		form.id.value = id
 	        		form.submit()
         		}
+        	}
+        	function editSalesRequisitionItemDiscounts(id) {
+        		var form = document.editSalesRequisitionItemDiscountsForm;
+        		form.id.value = id
+        		form.submit()
         	}
         </g:javascript>
     </body>
