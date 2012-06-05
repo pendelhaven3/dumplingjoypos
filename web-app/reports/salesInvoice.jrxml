@@ -15,6 +15,7 @@
 	<field name="encodedBy" class="java.lang.String"/>
 	<field name="totalDiscountedAmount" class="java.math.BigDecimal"/>
 	<field name="totalNetAmount" class="java.math.BigDecimal"/>
+	<field name="pricingScheme.id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -82,6 +83,16 @@ DELIVERY RECEIPT]]></text>
 				<reportElement x="70" y="26" width="100" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{orderType}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="26" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[Remarks:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="26" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{pricingScheme.id}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
