@@ -29,8 +29,8 @@ class BootStrapService implements ApplicationContextAware {
 			Cell codeCell = row.getCell(0)
 			if (codeCell && !codeCell.getStringCellValue().isEmpty()) {
 				Product product = new Product()
-				product.code = codeCell.getStringCellValue()
-				product.description = row.getCell(1).getStringCellValue()
+				product.code = codeCell.getStringCellValue().trim()
+				product.description = row.getCell(1).getStringCellValue().trim()
 				
 				// UNITS
 				

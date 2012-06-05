@@ -60,11 +60,20 @@
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
                     <td>Receiving Receipt (under construction)</td>
                 </tr>
-                <tr class="even clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
                     <td>Reports (under construction)</td>
                 </tr>
-                <tr class="odd clickable" onclick="window.location='<g:createLink controller="user" />'">
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="user" />'">
                     <td>User Maintenance (under construction)</td>
+                </tr>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="supplier" />'">
+                    <td>Suppliers</td>
+                </tr>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="manufacturer" />'">
+                    <td>Manufacturers (under construction)</td>
+                </tr>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="productCategory" />'">
+                    <td>Product Categories (under construction)</td>
                 </tr>
         	</table>
         </div>

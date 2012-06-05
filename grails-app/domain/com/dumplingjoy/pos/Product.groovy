@@ -137,6 +137,7 @@ class Product {
 
 	def afterInsert() {
 		updateExistingPricingSchemes()
+		insertProductUnitCost()
 	}
 	
 	private void updateExistingPricingSchemes() {
@@ -152,6 +153,17 @@ class Product {
 		ProductUnitPrice.withNewSession { session ->
 			ProductUnitPrice.findAllByProduct(this).each {
 				it.delete(failOnError: true)
+			}
+		}
+	}
+	
+	private void insertProductUnitCost() {
+		ProductUnitCost.withNewSession { session -> 
+			units.each { Unit unit ->
+				ProductUnitCost unitCost = new ProductUnitCost()
+				unitCost.product = this
+				unitCost.unit = unit
+				unitCost.save(failOnError: true)
 			}
 		}
 	}
