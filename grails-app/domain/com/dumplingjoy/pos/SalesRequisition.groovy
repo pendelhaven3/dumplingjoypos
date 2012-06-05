@@ -81,6 +81,10 @@ class SalesRequisition {
 				salesInvoiceItem.unit = item.unit
 				salesInvoiceItem.quantity = item.quantity
 				salesInvoiceItem.unitPrice = item.getUnitPrice()
+				salesInvoiceItem.discount1 = item.discount1
+				salesInvoiceItem.discount2 = item.discount2
+				salesInvoiceItem.discount3 = item.discount3
+				salesInvoiceItem.flatRateDiscount = item.flatRateDiscount
 				salesInvoice.addToItems(salesInvoiceItem)
 			}
 			

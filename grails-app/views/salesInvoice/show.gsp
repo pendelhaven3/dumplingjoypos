@@ -74,9 +74,9 @@
                         <tr>
                         	<th width="100">Product Code</th>
                         	<th>Product Description</th>
-                        	<th width="80">Unit</th>
-                        	<th width="80">Quantity</th>
-                        	<th width="90">Unit Price</th>
+                        	<th width="30">Unit</th>
+                        	<th width="50">Quantity</th>
+                        	<th width="80">Unit Price</th>
                         	<th width="100">Amount</th>
                         </tr>
                     </thead>
@@ -87,9 +87,9 @@
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
-                        	<td>${item.quantity}</td>
-                        	<td><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
-                        	<td><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td class="right">${item.quantity}</td>
+                        	<td class="right"><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
                         </tr>
                     </g:each>
                     </g:if>
@@ -104,8 +104,16 @@
                 <g:if test="${!salesInvoiceInstance.items.empty}">
 	                <table style="margin-top:2px">
 	                	<tr>
-	                		<th style="text-align:right">Total Amount</th>
-	                		<th width="100"><g:formatNumber number="${salesInvoiceInstance.totalAmount}" format="#,##0.00" /></th>
+	                		<th class="right">Sub Total</th>
+	                		<th width="100" class="right"><g:formatNumber number="${salesInvoiceInstance.totalAmount}" format="#,##0.00" /></th>
+	                	</tr>
+	                	<tr>
+	                		<th class="right">Discount</th>
+	                		<th class="right"><g:formatNumber number="${salesInvoiceInstance.totalDiscountedAmount}" format="#,##0.00" /></th>
+	                	</tr>
+	                	<tr>
+	                		<th class="right">Net Amount</th>
+	                		<th class="right"><g:formatNumber number="${salesInvoiceInstance.totalNetAmount}" format="#,##0.00" /></th>
 	                	</tr>
 	                </table>
 	            </g:if>

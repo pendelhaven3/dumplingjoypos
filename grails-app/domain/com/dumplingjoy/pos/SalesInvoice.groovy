@@ -23,7 +23,7 @@ class SalesInvoice {
 	
 	static hasMany = [items: SalesInvoiceItem]
 
-	static transients = ["totalAmount", "salesInvoiceNo", "totalQuantity"]
+	static transients = ["totalAmount", "salesInvoiceNo", "totalQuantity", "totalDiscountedAmount", "totalNetAmount"]
 	
 	public BigDecimal getTotalAmount() {
 		BigDecimal totalAmount = BigDecimal.ZERO
@@ -43,6 +43,22 @@ class SalesInvoice {
 			totalQuantity += it.quantity
 		}
 		totalQuantity
+	}
+	
+	public BigDecimal getTotalDiscountedAmount() {
+		BigDecimal total = BigDecimal.ZERO
+		items.each {
+			total = total.add(it.discountedAmount)
+		}
+		total
+	}
+
+	public BigDecimal getTotalNetAmount() {
+		BigDecimal total = BigDecimal.ZERO
+		items.each {
+			total = total.add(it.netAmount)
+		}
+		total
 	}
 
 }

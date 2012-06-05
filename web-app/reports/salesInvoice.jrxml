@@ -13,6 +13,8 @@
 	<field name="totalAmount" class="java.math.BigDecimal"/>
 	<field name="totalQuantity" class="java.lang.Integer"/>
 	<field name="encodedBy" class="java.lang.String"/>
+	<field name="totalDiscountedAmount" class="java.math.BigDecimal"/>
+	<field name="totalNetAmount" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -91,14 +93,14 @@ DELIVERY RECEIPT]]></text>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "salesInvoiceItems.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="20">
+		<band height="45">
 			<staticText>
-				<reportElement x="415" y="0" width="70" height="20"/>
+				<reportElement x="415" y="15" width="70" height="15"/>
 				<textElement/>
-				<text><![CDATA[Net Amount:]]></text>
+				<text><![CDATA[Discount:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="485" y="0" width="70" height="20"/>
+				<reportElement x="485" y="0" width="70" height="15"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{totalAmount})]]></textFieldExpression>
 			</textField>
@@ -121,6 +123,26 @@ DELIVERY RECEIPT]]></text>
 				<reportElement x="190" y="0" width="30" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{totalQuantity}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="0" width="70" height="15"/>
+				<textElement/>
+				<text><![CDATA[Sub Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="30" width="70" height="15"/>
+				<textElement/>
+				<text><![CDATA[Net Amount:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="485" y="15" width="70" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["(" + new DecimalFormat("#,##0.00").format($F{totalDiscountedAmount}) + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="485" y="30" width="70" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{totalNetAmount})]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="80">
