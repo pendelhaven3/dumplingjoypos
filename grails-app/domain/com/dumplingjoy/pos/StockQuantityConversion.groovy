@@ -25,6 +25,8 @@ class StockQuantityConversion {
 		items: StockQuantityConversionItem
 	]
 	
+	static transients = ["sqcNo"]
+	
 	public boolean post() {
 		StockQuantityConversion.withTransaction { status ->
 			items.each { StockQuantityConversionItem item ->
@@ -60,5 +62,8 @@ class StockQuantityConversion {
 		return items.find {it.id != item.id && it.product.id == item.product?.id && it.fromUnit == item.fromUnit && it.toUnit == item.toUnit} != null
 	}
 
+	public Integer getSqcNo() {
+		stockQuantityConversionNumber
+	}
 
 }

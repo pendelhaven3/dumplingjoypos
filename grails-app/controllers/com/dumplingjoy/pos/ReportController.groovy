@@ -22,4 +22,21 @@ class ReportController {
 		chain(controller: 'jasper', action: 'index', model: [data: [salesInvoiceInstance]], params: params)
 	}
 	
+	def generateStockQuantityConversion() {
+		def stockQuantityConversionInstance = StockQuantityConversion.get(params.id)
+		stockQuantityConversionInstance.items.each {
+			it.refresh()
+			it.product.refresh()
+			it.product.unitConversions.each {
+				it.refresh()
+			}
+		}
+		
+		params._format = "PDF"
+		params._file = "stockConversion"
+		params._name = "stockConversion"
+		params.SUBREPORT_DIR = "jasperreports/"
+		chain(controller: 'jasper', action: 'index', model: [data: [stockQuantityConversionInstance]], params: params)
+	}
+	
 }

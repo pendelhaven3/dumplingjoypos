@@ -67,6 +67,15 @@
 	                </g:form>
 	            </div>
             </g:if>
+ 
+            <g:if test="${stockQuantityConversionInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="report">
+	                    <g:hiddenField name="id" value="${stockQuantityConversionInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="print" action="generateStockQuantityConversion" value="Print" /></span>
+	                </g:form>
+	            </div>
+            </g:if>
 
 			<br/><br/>
             

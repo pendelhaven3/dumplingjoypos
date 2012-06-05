@@ -20,7 +20,7 @@
             <div class="list">
                 <table>
                     <tr>
-                        <th width="200"><g:message code="stockQuantityConversion.stockQuantityConversionNumber.label" /></th>
+                        <th width="210"><g:message code="stockQuantityConversion.stockQuantityConversionNumber.label" /></th>
                         <th><g:message code="stockQuantityConversion.remarks.label" /></th>
                         <th width="120"><g:message code="stockQuantityConversion.posted.label" /></th>
                         <th width="120"><g:message code="stockQuantityConversion.postDate.label" /></th>

@@ -32,6 +32,8 @@ class BootStrapService implements ApplicationContextAware {
 				product.code = codeCell.getStringCellValue()
 				product.description = row.getCell(1).getStringCellValue()
 				
+				// UNITS
+				
 				Cell caseUnitCell = row.getCell(2)
 				if (caseUnitCell.getCellType() == Cell.CELL_TYPE_NUMERIC && caseUnitCell.getNumericCellValue() > 0) {
 					product.addToUnits(Unit.CSE)
@@ -58,6 +60,41 @@ class BootStrapService implements ApplicationContextAware {
 					product.addToUnits(Unit.PCS)
 				} else if (piecesUnitCell.getCellType() == Cell.CELL_TYPE_STRING && !piecesUnitCell.getStringCellValue().isEmpty()) {
 					product.addToUnits(Unit.PCS)
+				}
+				
+				// UNIT CONVERSIONS
+				
+				if (product.units.find {it == Unit.CSE} && caseUnitCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					if (product.units.find {it == Unit.CTN && cartonUnitCell.getCellType() == Cell.CELL_TYPE_NUMERIC}) {
+						UnitConversion unitConversion = new UnitConversion()
+						unitConversion.fromUnit = Unit.CSE
+						unitConversion.toUnit = Unit.CTN
+						unitConversion.convertedQuantity = (int)(caseUnitCell.getNumericCellValue() / cartonUnitCell.getNumericCellValue())
+						product.addToUnitConversions(unitConversion)
+					}
+					if (product.units.find {it == Unit.DOZ}) {
+						UnitConversion unitConversion = new UnitConversion()
+						unitConversion.fromUnit = Unit.CSE
+						unitConversion.toUnit = Unit.DOZ
+						unitConversion.convertedQuantity = (int)(caseUnitCell.getNumericCellValue() / 12)
+						product.addToUnitConversions(unitConversion)
+					}
+					if (product.units.find {it == Unit.PCS}) {
+						UnitConversion unitConversion = new UnitConversion()
+						unitConversion.fromUnit = Unit.CSE
+						unitConversion.toUnit = Unit.PCS
+						unitConversion.convertedQuantity = (int)caseUnitCell.getNumericCellValue()
+						product.addToUnitConversions(unitConversion)
+					}
+				}
+				if (product.units.find {it == Unit.CTN} && cartonUnitCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+					if (product.units.find {it == Unit.PCS}) {
+						UnitConversion unitConversion = new UnitConversion()
+						unitConversion.fromUnit = Unit.CTN
+						unitConversion.toUnit = Unit.PCS
+						unitConversion.convertedQuantity = (int)cartonUnitCell.getNumericCellValue()
+						product.addToUnitConversions(unitConversion)
+					}
 				}
 				
 				product.save(failOnError:true)

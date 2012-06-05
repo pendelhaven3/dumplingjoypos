@@ -147,33 +147,31 @@ class ProductController {
         }
     }
 	
-	def importExcel = { }
-	
-	def doImportExcel = {
-		Workbook workbook = getUploadedWorkbook(request, "excelFile")
-		Sheet sheet = workbook.getSheetAt(0)
-		Iterator<Row> rows = sheet.iterator()
-		rows.next() // ignore header row
-		
-		for (Row row : rows) {
-			Cell codeCell = row.getCell(0)
-			if (codeCell && !codeCell.getStringCellValue().isEmpty()) {
-				Product product = new Product()
-				product.code = codeCell.getStringCellValue()
-				product.description = row.getCell(1).getStringCellValue()
-				product.save(failOnError:true)
-			}
-		}
-		
-        flash.message = "Excel file imported."
-		redirect action: "list"
-	}
-	
-	private Workbook getUploadedWorkbook(HttpServletRequest request, String excelFileParameterName) {
-		MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
-		CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile(excelFileParameterName)
-		return new HSSFWorkbook(file.getInputStream())
-	}
+//	def doImportExcel = {
+//		Workbook workbook = getUploadedWorkbook(request, "excelFile")
+//		Sheet sheet = workbook.getSheetAt(0)
+//		Iterator<Row> rows = sheet.iterator()
+//		rows.next() // ignore header row
+//		
+//		for (Row row : rows) {
+//			Cell codeCell = row.getCell(0)
+//			if (codeCell && !codeCell.getStringCellValue().isEmpty()) {
+//				Product product = new Product()
+//				product.code = codeCell.getStringCellValue()
+//				product.description = row.getCell(1).getStringCellValue()
+//				product.save(failOnError:true)
+//			}
+//		}
+//		
+//        flash.message = "Excel file imported."
+//		redirect action: "list"
+//	}
+//	
+//	private Workbook getUploadedWorkbook(HttpServletRequest request, String excelFileParameterName) {
+//		MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
+//		CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile(excelFileParameterName)
+//		return new HSSFWorkbook(file.getInputStream())
+//	}
 	
 	def getProductByCode = {
 		Product productInstance = Product.findByCode(params.code)

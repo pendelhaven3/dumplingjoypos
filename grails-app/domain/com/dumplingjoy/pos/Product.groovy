@@ -5,6 +5,8 @@ class Product {
 	String code
 	String description
 	List<Unit> units
+	List<UnitQuantity> unitQuantities
+	List<UnitConversion> unitConversions
 	
     static constraints = {
 		code nullable:false, blank:false, unique:true
@@ -19,7 +21,7 @@ class Product {
 	
 	def beforeInsert() {
 		createUnitQuantities()
-		createUnitConversions()
+//		createUnitConversions()
 	}
 	
 	private void createUnitQuantities() {
@@ -30,7 +32,7 @@ class Product {
 
 	def beforeUpdate() {
 		createUnitQuantitiesForNewUnits()
-		createUnitConversionsForNewUnits()
+//		createUnitConversionsForNewUnits()
 	}
 	
 	private void createUnitQuantitiesForNewUnits() {
