@@ -12,4 +12,6 @@ class UnitConversion {
 		convertedQuantity nullable: false, min: 0
     }
 	
+	static belongsTo = [product: Product]
+	
 }

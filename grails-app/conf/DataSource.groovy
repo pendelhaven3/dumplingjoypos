@@ -17,7 +17,7 @@ environments {
             url = "jdbc:h2:mem:devDB"
 //			pooled = true
 //			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-//			url = "jdbc:mysql://localhost/dumplingjoypos"
+//			url = "jdbc:mysql://localhost/jcharmonypos"
 //			driverClassName = "com.mysql.jdbc.Driver"
 //			username = "root"
 //			password = "root"

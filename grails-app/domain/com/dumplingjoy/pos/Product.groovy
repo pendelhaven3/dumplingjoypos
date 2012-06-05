@@ -21,7 +21,7 @@ class Product {
 	
 	def beforeInsert() {
 		createUnitQuantities()
-//		createUnitConversions()
+		createUnitConversions()
 	}
 	
 	private void createUnitQuantities() {
@@ -32,7 +32,8 @@ class Product {
 
 	def beforeUpdate() {
 		createUnitQuantitiesForNewUnits()
-//		createUnitConversionsForNewUnits()
+		updateUnitConversions()
+//		updateProductUnitPrice()
 	}
 	
 	private void createUnitQuantitiesForNewUnits() {
@@ -44,15 +45,44 @@ class Product {
 	}
 	
 	private void createUnitConversions() {
-		if (units && units.size() > 1) {
-			addToUnitConversions(new UnitConversion(fromUnit: units.min(), toUnit: units.max(), convertedQuantity: 0))
+		if (units.find {it == Unit.CSE}) {
+			if (units.find {it == Unit.CTN}) {
+				if (!unitConversions.find {it.fromUnit == Unit.CSE && it.toUnit == Unit.CTN}) {
+					UnitConversion unitConversion = new UnitConversion()
+					unitConversion.fromUnit = Unit.CSE
+					unitConversion.toUnit = Unit.CTN
+					unitConversion.convertedQuantity = 0
+					addToUnitConversions(unitConversion)
+				}
+			}
+			if (units.find {it == Unit.DOZ}) {
+				if (!unitConversions.find {it.fromUnit == Unit.CSE && it.toUnit == Unit.DOZ}) {
+					UnitConversion unitConversion = new UnitConversion()
+					unitConversion.fromUnit = Unit.CSE
+					unitConversion.toUnit = Unit.DOZ
+					unitConversion.convertedQuantity = 0
+					addToUnitConversions(unitConversion)
+				}
+			}
+			if (units.find {it == Unit.PCS}) {
+				if (!unitConversions.find {it.fromUnit == Unit.CSE && it.toUnit == Unit.PCS}) {
+					UnitConversion unitConversion = new UnitConversion()
+					unitConversion.fromUnit = Unit.CSE
+					unitConversion.toUnit = Unit.PCS
+					unitConversion.convertedQuantity = 0
+					addToUnitConversions(unitConversion)
+				}
+			}
 		}
-	}
-
-	private void createUnitConversionsForNewUnits() {
-		if (units && units.size() > 1) {
-			if (!unitConversions.find {it.fromUnit == units.min() && it.toUnit == units.max()}) {
-				addToUnitConversions(new UnitConversion(fromUnit: units.min(), toUnit: units.max(), convertedQuantity: 0))
+		if (units.find {it == Unit.CTN}) {
+			if (units.find {it == Unit.PCS}) {
+				if (!unitConversions.find {it.fromUnit == Unit.CTN && it.toUnit == Unit.PCS}) {
+					UnitConversion unitConversion = new UnitConversion()
+					unitConversion.fromUnit = Unit.CTN
+					unitConversion.toUnit = Unit.PCS
+					unitConversion.convertedQuantity = 0
+					addToUnitConversions(unitConversion)
+				}
 			}
 		}
 	}
@@ -91,17 +121,18 @@ class Product {
 	}
 	
 	public void updateUnitConversions() {
-		List<UnitConversion> toRemove = new ArrayList<UnitConversion>()
-		unitConversions.each { UnitConversion unitConversion ->
-			if (!units.contains(unitConversion.fromUnit) || !units.contains(unitConversion.toUnit)) {
-				toRemove.add(unitConversion)
+		UnitConversion.withNewSession { session ->
+			Unit.values().each { Unit unit ->
+				if (!units.find {it == unit}) {
+					unitConversions.find {it.fromUnit == unit || it.toUnit == unit}.each {
+						removeFromUnitConversions(it)
+						it.delete(failOnError: true)
+					}
+				}
 			}
+			createUnitConversions()
 		}
-		toRemove.each {
-			removeFromUnitConversions(it)
-			save(failOnError:true)
-			it.delete(failOnError:true)
-		}
+		
 	}
 
 	def afterInsert() {
@@ -114,6 +145,14 @@ class Product {
 				pricingScheme.addToUnitPrices(new ProductUnitPrice(product: this, unit: unit))
 			}
 			pricingScheme.save(failOnError: true)
+		}
+	}
+	
+	def beforeDelete() {
+		ProductUnitPrice.withNewSession { session ->
+			ProductUnitPrice.findAllByProduct(this).each {
+				it.delete(failOnError: true)
+			}
 		}
 	}
 	

@@ -77,7 +77,7 @@
         			for (var j=0; j < product.unitPrices.length; j++) {
         				var unitPrice = product.unitPrices[j] 
         				if (unitPrice.unit == unit) {
-        					unitMap.unitPrice = unitPrice.price
+        					unitMap.unitPrice = unitPrice.formattedPrice
         				}
         			}
         			for (var j=0; j < product.unitQuantities.length; j++) {
