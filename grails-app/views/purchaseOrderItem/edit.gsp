@@ -59,9 +59,15 @@
                                     <label for="productCode">Product Code</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: purchaseOrderItemInstance, field: 'product', 'errors')}">
-                                	<g:textField name="product.code" onblur="allCaps(this);getProduct(this.value)" style="text-transform:uppercase" 
-                                		value="${purchaseOrderItemInstance?.product?.code}" />
-                                	<input type="button" value="Select" onclick="openSelectProductDialog()" />
+                                	<g:if test="${!purchaseOrderInstance.ordered}">
+	                                	<g:textField name="product.code" onblur="allCaps(this);getProduct(this.value)" style="text-transform:uppercase" 
+	                                		value="${purchaseOrderItemInstance?.product?.code}" />
+	                                	<input type="button" value="Select" onclick="openSelectProductDialog()" />
+	                                </g:if>
+	                                <g:else>
+	                                	${fieldValue(bean: purchaseOrderItemInstance, field: "product.code")}
+	                                	<g:hiddenField name="product.code" value="${purchaseOrderItemInstance.product.code}" />
+	                                </g:else>
                                 </td>
                             </tr>
                         
@@ -84,13 +90,16 @@
                                     <label for="unit"><g:message code="purchaseOrderItem.unit.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: purchaseOrderItemInstance, field: 'unit', 'errors')}">
-                                	<g:if test="${purchaseOrderItemInstance?.product == null}">
-                                		<select name="unit" id="unit" onblur="updateCost(); updateAmount();"></select>
-                                	</g:if>
-                                	<g:else>
-                                		<g:select name="unit" from="${purchaseOrderItemInstance.product.units}" value="${purchaseOrderItemInstance.unit}" 
-                                			noSelection="['':'']" onblur="updateCost(); updateAmount();" />
-                                	</g:else>
+                                	<g:if test="${!purchaseOrderInstance.ordered}">
+	                                	<g:if test="${purchaseOrderItemInstance?.product == null}">
+	                                		<select name="unit" id="unit" onblur="updateCost(); updateAmount();"></select>
+	                                	</g:if>
+	                                	<g:else>
+	                                		<g:select name="unit" from="${purchaseOrderItemInstance.product.units}" value="${purchaseOrderItemInstance.unit}" 
+	                                			noSelection="['':'']" onblur="updateCost(); updateAmount();" />
+	                                	</g:else>
+	                                </g:if>
+	                                <g:else>${fieldValue(bean: purchaseOrderItemInstance, field: "unit")}</g:else>
                                 </td>
                             </tr>
                         	
@@ -110,12 +119,33 @@
                             
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="quantity"><g:message code="purchaseOrderItem.quantity.label" /></label>
+                                    <label for="quantity">
+                                    	<g:if test="${!purchaseOrderInstance.ordered}">
+                                    		<g:message code="purchaseOrderItem.quantity.label" />
+                                    	</g:if>
+                                    	<g:else>
+                                    		Ordered Quantity
+                                    	</g:else>
+                                    </label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: purchaseOrderItemInstance, field: 'quantity', 'errors')}">
-                                    <g:textField name="quantity" value="${purchaseOrderItemInstance.quantity}" onblur="updateAmount()" />
+                                    <g:if test="${!purchaseOrderInstance.ordered}">
+                                    	<g:textField name="quantity" value="${purchaseOrderItemInstance.quantity}" onblur="updateAmount()" />
+                                    </g:if>
+                                    <g:else>${fieldValue(bean: purchaseOrderItemInstance, field: "quantity")}</g:else>
                                 </td>
                             </tr>
+                            
+                            <g:if test="${purchaseOrderInstance.ordered}">
+	                            <tr class="prop">
+	                                <td valign="top" class="name">
+	                                    <label for="actualQuantity"><g:message code="purchaseOrderItem.actualQuantity.label" /></label>
+	                                </td>
+	                                <td valign="top" class="value ${hasErrors(bean: purchaseOrderItemInstance, field: 'actualQuantity', 'errors')}">
+                                    	<g:textField name="actualQuantity" value="${purchaseOrderItemInstance.actualQuantity}" onblur="updateAmount()" />
+	                                </td>
+	                            </tr>
+                            </g:if>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -132,10 +162,18 @@
                                 </td>
                                 <td valign="top" class="value">
                                 	<span id="span_amount">
-                                		<g:if test="${purchaseOrderItemInstance.quantity != null && purchaseOrderItemInstance.cost != null}">
-                                			<g:formatNumber number="${purchaseOrderItemInstance.amount}" format="#,##0.00" />
-                                		</g:if>
-                                		<g:else>-</g:else>
+        								<g:if test="${!purchaseOrderInstance.ordered}">
+	                                		<g:if test="${purchaseOrderItemInstance.quantity != null && purchaseOrderItemInstance.cost != null}">
+	                                			<g:formatNumber number="${purchaseOrderItemInstance.amount}" format="#,##0.00" />
+	                                		</g:if>
+	                                		<g:else>-</g:else>
+	                                	</g:if>
+	                                	<g:else>
+	                                		<g:if test="${purchaseOrderItemInstance.actualQuantity != null && purchaseOrderItemInstance.cost != null}">
+	                                			<g:formatNumber number="${purchaseOrderItemInstance.amount}" format="#,##0.00" />
+	                                		</g:if>
+	                                		<g:else>-</g:else>
+	                                	</g:else>
                                 	</span>
                                 </td>
                             </tr>
@@ -155,7 +193,12 @@
         </div>
         <g:include view="common/includeSelectProduct.gsp" /> 
         <g:javascript>
-        	focusOnLoad("product\\.code")        
+        	<g:if test="${!purchaseOrderInstance.ordered}">
+        		focusOnLoad("product\\.code")        
+        	</g:if>
+        	<g:else>
+        		focusOnLoad("actualQuantity")        
+        	</g:else>
         
         	function getProduct() {
         		var productCode = $("#product\\.code").val()
@@ -223,7 +266,8 @@
 			}
 			
 			function updateAmount() {
-        		var quantity = $("#quantity").val()
+				var quantityField = '${purchaseOrderInstance.ordered ? "actualQuantity" : "quantity"}'
+        		var quantity = $("#" + quantityField).val()
         		var cost = $("#cost").val()
         		
         		if (!isPositiveInteger(quantity) || !isPositiveDecimal(cost)) {

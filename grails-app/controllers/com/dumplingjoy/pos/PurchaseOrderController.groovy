@@ -110,4 +110,45 @@ class PurchaseOrderController {
             redirect(action: "show", id: params.id)
         }
     }
+	
+	def markAsOrdered() {
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params.id)
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label')])
+			redirect(action: "list")
+			return
+		}
+		
+		purchaseOrderInstance.ordered = true
+		
+		if (!purchaseOrderInstance.save(failOnError: true, flush: true)) {
+			render(view: "show", model: [purchaseOrderInstance: purchaseOrderInstance])
+			return
+		}
+		
+		flash.message = message(code: 'purchaseOrder.markAsOrdered.message')
+		redirect(action: "show", id: params.id)
+	}
+
+//	def postSalesRequisition() {
+//		SalesRequisition salesRequisitionInstance = SalesRequisition.get(params.id)
+//		if (!salesRequisitionInstance) {
+//			flash.message = message(code: 'default.not.found.message', args: [message(code: 'salesRequisition.label'), params.id])
+//			redirect(action: "list")
+//			return
+//		}
+//		
+//		// force hibernate to load these properties
+//		salesRequisitionInstance.customer.name
+//		salesRequisitionInstance.pricingScheme.description
+//		
+//		if (!salesRequisitionInstance.post()) {
+//			render(view: "show", model: [salesRequisitionInstance: salesRequisitionInstance])
+//			return
+//		}
+//		
+//		flash.message = message(code: 'default.posted.message', args: [message(code: 'salesRequisition.label')])
+//		redirect(controller: "salesInvoice", action: "show", id: salesRequisitionInstance.salesInvoiceId)
+//	}
+
 }

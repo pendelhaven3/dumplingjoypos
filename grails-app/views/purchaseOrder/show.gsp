@@ -6,6 +6,7 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'purchaseOrder.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <%--
         <style>
 			.prop .name {
 			    width: auto;
@@ -14,6 +15,7 @@
 			    width: auto;
 			}
         </style>
+        --%>
     </head>
     <body>
         <div class="nav">
@@ -46,6 +48,10 @@
                             <td valign="top" class="name"><g:message code="purchaseOrder.supplier.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "supplier.name")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="purchaseOrder.ordered.label" /></td>
+                            <td valign="top" class="value">${purchaseOrderInstance.ordered ? "Yes" : "No"}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -53,16 +59,28 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+           			<g:if test="${!purchaseOrderInstance.ordered}">
+                    	<span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    </g:if>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="postPurchaseOrder" value="Post" onclick="return confirm('Are you sure you want to post this Purchase Order?');" /></span>
-                </g:form>
-            </div>
+            <g:if test="${!purchaseOrderInstance.ordered}">
+	            <div class="buttons">
+	                <g:form>
+	                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit" action="markAsOrdered" value="Mark As Ordered" onclick="return confirm('Are you sure you want to mark this Purchase Order as ordered?');" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
+            <g:if test="${purchaseOrderInstance.ordered}">
+	            <div class="buttons">
+	                <g:form>
+	                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit" action="postPurchaseOrder" value="Post" onclick="return confirm('Are you sure you want to post this Purchase Order?');" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
 	            
 			<br/><br/>
             
@@ -74,9 +92,12 @@
                         	<th width="100">Product Code</th>
                         	<th>Product Description</th>
                         	<th width="30">Unit</th>
-                        	<th width="50">Quantity</th>
+                        	<th width="85">${purchaseOrderInstance.ordered ? "Ordered Qty" : "Quantity"}</th>
+                        	<g:if test="${purchaseOrderInstance.ordered}">
+                        		<th width="70">Actual Qty</th>
+                        	</g:if>
                         	<th width="80">Cost</th>
-                        	<th width="100">Amount</th>
+                        	<th width="95">Amount</th>
                         	<th width="100"></th>
                         </tr>
                     </thead>
@@ -88,11 +109,16 @@
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
                         	<td class="right">${item.quantity}</td>
+                        	<g:if test="${purchaseOrderInstance.ordered}">
+                        		<td class="right">${fieldValue(bean: item, field: "actualQuantity")}</td>
+                        	</g:if>
                         	<td width="80" class="right"><g:formatNumber number="${item.cost}" format="#,##0.00" /></td>
                         	<td width="80" class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
                         	<td style="text-align:center">
                        			<input type="button" value="Edit" onclick="editPurchaseOrderItem(${item.id})" />
-                       			<input type="button" value="Delete" onclick="deletePurchaseOrderItem(${item.id})" />
+           						<g:if test="${!(purchaseOrderInstance.ordered && item.quantity > 0)}">
+                       				<input type="button" value="Delete" onclick="deletePurchaseOrderItem(${item.id})" />
+                       			</g:if>
                         	</td>
                         </tr>
                     </g:each>
@@ -109,9 +135,16 @@
 	                <table style="margin-top:2px;">
 	                	<tr class="odd">
 	                		<td class="right bold">Total Amount</td>
-	                		<td width="100" class="right bold"><g:formatNumber number="${purchaseOrderInstance.totalAmount}" format="#,##0.00" /></td>
+	                		<td width="95" class="right bold"><g:formatNumber number="${purchaseOrderInstance.totalAmount}" format="#,##0.00" /></td>
 	                		<td width="100"></td>
 	                	</tr>
+                        <g:if test="${purchaseOrderInstance.ordered}">
+		                	<tr class="odd">
+		                		<td class="right bold">Original Total Amount</td>
+		                		<td width="95" class="right bold"><g:formatNumber number="${purchaseOrderInstance.originalTotalAmount}" format="#,##0.00" /></td>
+		                		<td width="100"></td>
+		                	</tr>
+		                </g:if>
 	                </table>
 	            </g:if>
 	            

@@ -1,5 +1,6 @@
 package com.dumplingjoy.pos
 
+import java.math.RoundingMode
 import java.util.Date;
 import java.util.List;
 
@@ -58,7 +59,7 @@ class SalesInvoice {
 		items.each {
 			total = total.add(it.netAmount)
 		}
-		total
+		total.setScale(0, RoundingMode.CEILING)
 	}
 
 }

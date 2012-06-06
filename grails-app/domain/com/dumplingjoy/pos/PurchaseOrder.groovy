@@ -4,6 +4,8 @@ class PurchaseOrder {
 
 	Integer purchaseOrderNumber
 	Supplier supplier
+	boolean ordered
+	boolean posted
 	
 	List<PurchaseOrderItem> items
 	
@@ -13,6 +15,8 @@ class PurchaseOrder {
 	
 	static hasMany = [items: PurchaseOrderItem]
 
+	static transients = ["totalAmount", "originalTotalAmount"]
+	
 	public boolean containsItem(PurchaseOrderItem item) {
 		return items.find {it.id != item.id && it.product.id == item.product?.id && it.unit == item.unit} != null
 	}
@@ -21,6 +25,14 @@ class PurchaseOrder {
 		BigDecimal total = BigDecimal.ZERO
 		items.each {
 			total = total.add(it.amount)
+		}
+		total
+	}
+	
+	public BigDecimal getOriginalTotalAmount() {
+		BigDecimal total = BigDecimal.ZERO
+		items.each {
+			total = total.add(it.originalAmount)
 		}
 		total
 	}

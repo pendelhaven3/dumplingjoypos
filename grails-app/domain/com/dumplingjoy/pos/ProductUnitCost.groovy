@@ -4,10 +4,12 @@ class ProductUnitCost {
 
 	Product product
 	Unit unit
-	BigDecimal cost = BigDecimal.ZERO
+	BigDecimal grossCost = BigDecimal.ZERO
+	BigDecimal finalCost = BigDecimal.ZERO
 	
     static constraints = {
-		cost min: BigDecimal.ZERO
+		grossCost min: BigDecimal.ZERO
+		finalCost min: BigDecimal.ZERO
     }
 	
 }

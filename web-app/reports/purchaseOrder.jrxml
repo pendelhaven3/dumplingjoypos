@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales Invoice" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.331000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<field name="customer.name" class="java.lang.String"/>
+	<field name="customer.address" class="java.lang.String"/>
+	<field name="postDate" class="java.util.Date"/>
+	<field name="salesInvoiceNo" class="java.lang.Integer"/>
+	<field name="mode" class="java.lang.String"/>
+	<field name="items" class="java.util.Collection"/>
+	<field name="totalAmount" class="java.math.BigDecimal"/>
+	<field name="totalQuantity" class="java.lang.Integer"/>
+	<field name="encodedBy" class="java.lang.String"/>
+	<field name="totalDiscountedAmount" class="java.math.BigDecimal"/>
+	<field name="totalNetAmount" class="java.math.BigDecimal"/>
+	<field name="pricingScheme.id" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="70"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[JC HARMONY SELLING INC.
+251 GEN. P. ALVAREZ ST. CALOOCAN CITY
+TEL.NO. 362-1785 323-5946
+
+DELIVERY RECEIPT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Customer:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="13" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Address:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="0" width="315" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer.name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="60" y="13" width="315" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer.address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="13" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="13" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{postDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="0" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[D.R. No.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="0" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{salesInvoiceNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="26" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Mode:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="26" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{mode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="26" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[PS:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="26" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{pricingScheme.id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="39" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Remarks:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{items})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "salesInvoiceItems.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="45">
+			<staticText>
+				<reportElement x="415" y="15" width="70" height="15"/>
+				<textElement/>
+				<text><![CDATA[Discount:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="485" y="0" width="70" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{totalAmount})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total Items =>]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="0" width="30" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{items}.size()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="110" y="0" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total Qty =>]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="0" width="30" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{totalQuantity}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="415" y="0" width="70" height="15"/>
+				<textElement/>
+				<text><![CDATA[Sub Total:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="30" width="70" height="15"/>
+				<textElement/>
+				<text><![CDATA[Net Amount:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="485" y="15" width="70" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["(" + new DecimalFormat("#,##0.00").format($F{totalDiscountedAmount}) + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="485" y="30" width="70" height="15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{totalNetAmount})]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="80">
+			<staticText>
+				<reportElement x="0" y="20" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Prepared by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Checked by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Received by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="20" width="120" height="20"/>
+				<textElement/>
+				<text><![CDATA[____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="40" width="120" height="20"/>
+				<textElement/>
+				<text><![CDATA[____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="60" width="120" height="20"/>
+				<textElement/>
+				<text><![CDATA[____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="435" y="60" width="120" height="20"/>
+				<textElement/>
+				<text><![CDATA[____________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="60" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Approved by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20"/>
+				<textElement/>
+				<text><![CDATA[Encoded by:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{encodedBy}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

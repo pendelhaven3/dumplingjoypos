@@ -28,7 +28,7 @@
                 <g:renderErrors bean="${purchaseOrderItemInstance}" field="cost" />
             </div>
             </g:hasErrors>
-            <g:form action="save">
+            <g:form action="save" autocomplete="off">
                 <g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance?.id}" />
                 <g:hiddenField name="product.id" value="${purchaseOrderItemInstance?.product?.id}" />
                 <g:hiddenField name="supplier.id" value="${purchaseOrderInstance?.supplier.id}" />

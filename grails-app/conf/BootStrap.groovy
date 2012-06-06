@@ -13,6 +13,7 @@ import com.dumplingjoy.pos.SalesRequisition
 import com.dumplingjoy.pos.SalesRequisitionItem
 import com.dumplingjoy.pos.SalesRequisitionSequenceNumber
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
+import com.dumplingjoy.pos.Supplier
 import com.dumplingjoy.pos.Unit;
 import com.dumplingjoy.pos.User;
 
@@ -28,7 +29,7 @@ class BootStrap {
 		setupInitialPricingScheme() // must be placed after initial products have been created
 		setupDummyCustomers()
 //		setupDummySalesInvoice()
-//		setupDummyCosts()
+		setupDummyCosts()
     }
 	
     def destroy = {
@@ -135,13 +136,19 @@ class BootStrap {
 	}
 	
 	private void setupDummyCosts() {
-		def productUnitCost = ProductUnitCost.findByProductAndUnit(Product.findByCode("ARIP101"), Unit.CSE)
-		productUnitCost.cost = new BigDecimal("25431.46")
-		productUnitCost.save(failOnError: true)
-		
-		productUnitCost = ProductUnitCost.findByProductAndUnit(Product.findByCode("ARIP101"), Unit.DOZ)
-		productUnitCost.cost = new BigDecimal("81.36")
-		productUnitCost.save(failOnError: true)
+		ProductUnitCost.list().each {
+			if (it.unit == Unit.CSE) {
+				it.grossCost = (int)(Math.random() * 4000) + 1000
+			} else if (it.unit == Unit.CTN) {
+				it.grossCost = (int)(Math.random() * 700) + 300
+			} else if (it.unit == Unit.DOZ) {
+				it.grossCost = (int)(Math.random() * 200) + 100
+			} else {
+				it.grossCost = (int)(Math.random() * 80) + 20
+			}
+			it.finalCost = it.grossCost.multiply(new BigDecimal("0.90"))
+			it.save(failOnError: true)
+		}
 	}
 	
 }

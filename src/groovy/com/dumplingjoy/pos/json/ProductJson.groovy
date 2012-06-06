@@ -32,8 +32,10 @@ class ProductJson {
 		]}
 		unitCosts = ProductUnitCost.findAllByProduct(product).collect {[
 			unit: it.unit.toString(),
-			cost: it.cost,
-			formattedCost: new DecimalFormat("#,##0.00").format(it.cost)
+			grossCost: it.grossCost,
+			formattedGrossCost: new DecimalFormat("#,##0.00").format(it.grossCost),
+			finalCost: it.finalCost,
+			formattedFinalCost: new DecimalFormat("#,##0.00").format(it.finalCost)
 		]}
 	}
 	
