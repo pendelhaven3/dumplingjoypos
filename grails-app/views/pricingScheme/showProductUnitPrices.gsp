@@ -63,6 +63,9 @@
                         <tr>
                         	<th>Unit</th>
                         	<th>Selling Price</th>
+                        	<th>Final Cost</th>
+                        	<th>Profit Amount</th>
+                        	<th>Profit Percentage (%)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,6 +74,9 @@
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="editProductUnitPrice(${unitPrice.id})" >
                         	<td>${fieldValue(bean: unitPrice, field: "unit")}</td>
                         	<td><g:formatNumber number="${unitPrice.price}" format="#,##0.00" /></td>
+                        	<td><g:formatNumber number="${unitPrice.cost}" format="#,##0.00" /></td>
+                        	<td><g:formatNumber number="${unitPrice.profitAmount}" format="#,##0.00" /></td>
+                        	<td><g:formatNumber number="${unitPrice.profitPercentage}" format="0.00" /></td>
                         </tr>
                     </g:each>
                     </g:if>

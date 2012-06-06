@@ -149,6 +149,8 @@ class PricingSchemeController {
 		List<ProductUnitPrice> unitPrices = ProductUnitPrice.findAll("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ?",
 			[pricingSchemeInstance, productInstance])
 		
+		unitPrices.each {it.retrieveUnitCost()}
+		
 		[
 			pricingSchemeInstance: pricingSchemeInstance,
 			productInstance: productInstance,

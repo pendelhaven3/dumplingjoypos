@@ -17,7 +17,8 @@ class ProductUnitPriceController {
             redirect(action: "list")
             return
         }
-
+		
+		productUnitPriceInstance.retrieveUnitCost()
         [productUnitPriceInstance: productUnitPriceInstance]
     }
 
@@ -43,6 +44,7 @@ class ProductUnitPriceController {
         productUnitPriceInstance.properties = params
 
         if (!productUnitPriceInstance.save(flush: true)) {
+			productUnitPriceInstance.retrieveUnitCost()
             render(view: "edit", model: [productUnitPriceInstance: productUnitPriceInstance])
             return
         }

@@ -61,14 +61,41 @@
 	                            <td valign="top" class="value">${fieldValue(bean: productUnitPriceInstance, field: "unit")}</td>
 	                        </tr>
 	                        
+	                        <tr class="prop">
+	                            <td valign="top" class="name">Final Cost</td>
+	                            <td valign="top" class="value">
+	                            	<g:formatNumber number="${productUnitPriceInstance.cost}" format="#,##0.00" />
+	                            	<g:hiddenField name="cost" value="${productUnitPriceInstance.cost}" />
+	                            </td>
+	                        </tr>
+	                        
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="price"><g:message code="productUnitPrice.price.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productUnitPriceInstance, field: 'price', 'errors')}">
-                                    <g:textField name="price" value="${productUnitPriceInstance.price}" />
+                                    <g:textField name="price" value="${productUnitPriceInstance.price}" 
+                                    	onblur="updateProfitAmountAndPercentage()" />
                                 </td>
                             </tr>
+                            
+	                        <tr class="prop">
+	                            <td valign="top" class="name">Profit Amount</td>
+	                            <td valign="top" class="value">
+	                            	<input type="text" id="profitAmount" 
+	                            		<g:if test="${productUnitPriceInstance.price != null}">value="${productUnitPriceInstance.profitAmount}"</g:if>
+                                    	onblur="updateSellingPriceAndProfitPercentage()" />
+	                            </td>
+	                        </tr>
+                        
+	                        <tr class="prop">
+	                            <td valign="top" class="name">Profit Percentage (%)</td>
+	                            <td valign="top" class="value">
+	                            	<input type="text" id="profitPercentage"
+	                            		<g:if test="${productUnitPriceInstance.price != null}">value="${productUnitPriceInstance.profitPercentage}"</g:if>
+                                    	onblur="updateSellingPriceAndProfitAmount()" />
+	                            </td>
+	                        </tr>
                         
                         </tbody>
                     </table>
@@ -87,6 +114,44 @@
         	function cancel() {
 				window.location = "<g:createLink controller='pricingScheme' action='showProductUnitPrices' 
 					id='${productUnitPriceInstance.pricingScheme.id}' params='["product.id": "${productUnitPriceInstance.product.id}"]' />"        		
+        	}
+        	
+        	function updateProfitAmountAndPercentage() {
+        		var price = $("#price").val()
+        		
+        		if (isPositiveDecimal(price)) {
+        			var cost = $("#cost").val()
+	        		$("#profitAmount").val((price - cost).toFixed(2))
+	        		$("#profitPercentage").val(((price - cost)/cost * 100).toFixed(2))
+        		} else {
+	        		$("#profitAmount").val("")
+	        		$("#profitPercentage").val("")
+        		}
+        	}
+        	
+        	function updateSellingPriceAndProfitPercentage() {
+        		var profitAmount = $("#profitAmount").val()
+
+        		if (isPositiveDecimal(profitAmount)) {
+        			var cost = parseFloat($("#cost").val())
+        			profitAmount = parseFloat(profitAmount)
+	        		$("#price").val((cost + profitAmount).toFixed(2))
+	        		$("#profitPercentage").val((profitAmount/cost * 100).toFixed(2))
+        		} else {
+	        		$("#profitPercentage").val("")
+        		}
+        	}
+        	
+        	function updateSellingPriceAndProfitAmount() {
+        		var profitPercentage = $("#profitPercentage").val()
+
+        		if (isPositiveDecimal(profitAmount)) {
+        			var cost = parseFloat($("#cost").val())
+	        		$("#price").val((cost * (profitPercentage/100) + cost).toFixed(2))
+	        		$("#profitAmount").val(($("#price").val() - cost).toFixed(2))
+        		} else {
+	        		$("#profitAmount").val("")
+        		}
         	}
         </g:javascript>
     </body>
