@@ -10,19 +10,21 @@ class SalesRequisition {
 	Integer salesRequisitionNumber
 	Customer customer
 	PricingScheme pricingScheme
-	String orderType
+	String mode
 	List<SalesRequisitionItem> items
 	boolean posted
 	Date postDate
 	String postedBy
 	String createdBy
+	Long salesInvoiceId
 
     static constraints = {
 		salesRequisitionNumber unique: true
-		orderType blank: false, inList: ["Delivery", "Walk-in"]
+		mode blank: false, inList: ["Delivery", "Walk-in"]
 		postDate nullable: true
 		postedBy nullable: true
 		createdBy nullable: true
+		salesInvoiceId nullable: true
     }
 	
 	static hasMany = [items: SalesRequisitionItem]
@@ -70,7 +72,7 @@ class SalesRequisition {
 			SalesInvoiceSequenceNumber.increment()
 			salesInvoice.customer = customer
 			salesInvoice.pricingScheme = pricingScheme
-			salesInvoice.orderType = orderType
+			salesInvoice.mode = mode
 			salesInvoice.postDate = postDate
 			salesInvoice.postedBy = postedBy
 			salesInvoice.encodedBy = createdBy
@@ -89,7 +91,7 @@ class SalesRequisition {
 			}
 			
 			salesInvoice.save(failOnError: true)
-			
+			salesInvoiceId = salesInvoice.id
 			return true
 		}
 	}

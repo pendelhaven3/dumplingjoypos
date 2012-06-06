@@ -128,7 +128,7 @@ class SalesRequisitionController {
 		}
 		
 		flash.message = message(code: 'default.posted.message', args: [message(code: 'salesRequisition.label')])
-		redirect(action: "show", id: params.id)
+		redirect(controller: "salesInvoice", action: "show", id: salesRequisitionInstance.salesInvoiceId)
 	}
 
 }

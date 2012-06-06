@@ -98,7 +98,7 @@ class BootStrap {
 		SalesRequisitionSequenceNumber.increment()
 		salesRequisition.customer = Customer.get(1)
 		salesRequisition.pricingScheme = PricingScheme.getCanvasserPricingScheme()
-		salesRequisition.orderType = "Walk-in"
+		salesRequisition.mode = "Walk-in"
 		salesRequisition.postedBy = "TESTING"
 		salesRequisition.createdBy = "TESTING"
 		

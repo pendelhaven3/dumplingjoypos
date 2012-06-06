@@ -49,8 +49,8 @@
                             <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "pricingScheme.description")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesRequisition.orderType.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "orderType")}</td>
+                            <td valign="top" class="name"><g:message code="salesRequisition.mode.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "mode")}</td>
                         </tr>
                         <g:if test="${salesRequisitionInstance.posted}">
 	                        <tr class="prop">

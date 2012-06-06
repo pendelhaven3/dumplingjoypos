@@ -52,8 +52,8 @@
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "postedBy")}</td>
                         </tr>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="salesInvoice.orderType.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "orderType")}</td>
+                            <td valign="top" class="name"><g:message code="salesInvoice.mode.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "mode")}</td>
                         </tr>
                     </tbody>
                 </table>

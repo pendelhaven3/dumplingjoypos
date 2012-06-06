@@ -8,7 +8,7 @@ class SalesInvoice {
 	Integer salesInvoiceNumber
 	Customer customer
 	PricingScheme pricingScheme
-	String orderType
+	String mode
 	List<SalesInvoiceItem> items
 	Date postDate
 	String postedBy
@@ -16,7 +16,7 @@ class SalesInvoice {
 
     static constraints = {
 		salesInvoiceNumber unique: true
-		orderType blank: false, inList: ["Delivery", "Walk-in"]
+		mode blank: false, inList: ["Delivery", "Walk-in"]
 		postedBy blank: false
 		encodedBy blank: false
     }
