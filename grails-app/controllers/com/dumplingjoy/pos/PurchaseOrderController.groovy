@@ -1,7 +1,11 @@
 package com.dumplingjoy.pos
 
+import grails.plugins.springsecurity.Secured
+
 import org.springframework.dao.DataIntegrityViolationException
 
+
+@Secured("isFullyAuthenticated()")
 class PurchaseOrderController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

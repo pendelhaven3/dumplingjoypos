@@ -77,7 +77,8 @@
                         	<th width="30">Unit</th>
                         	<th width="50">Quantity</th>
                         	<th width="80">Unit Price</th>
-                        	<th width="100">Amount</th>
+                        	<th width="90">Amount</th>
+                        	<th width="75"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,11 @@
                         	<td class="right">${item.quantity}</td>
                         	<td class="right"><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
                         	<td class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td class="center">
+                        		<g:if test="${item.discounted}">
+                        			<input type="button" value="Discounts" onclick="showItemDiscounts(${item.id})" />
+                        		</g:if>
+                        	</td>
                         </tr>
                     </g:each>
                     </g:if>
@@ -103,21 +109,37 @@
                 
                 <g:if test="${!salesInvoiceInstance.items.empty}">
 	                <table style="margin-top:2px">
-	                	<tr>
-	                		<th class="right">Sub Total</th>
-	                		<th width="100" class="right"><g:formatNumber number="${salesInvoiceInstance.totalAmount}" format="#,##0.00" /></th>
+	                	<tr class="odd">
+	                		<td class="right bold">Sub Total</td>
+	                		<td width="90" class="right bold"><g:formatNumber number="${salesInvoiceInstance.totalAmount}" format="#,##0.00" /></td>
+	                		<td width="75"></td>
 	                	</tr>
-	                	<tr>
-	                		<th class="right">Discount</th>
-	                		<th class="right"><g:formatNumber number="${salesInvoiceInstance.totalDiscountedAmount}" format="#,##0.00" /></th>
+	                	<tr class="odd" style="color:red">
+	                		<td class="right bold">Discount</td>
+	                		<td class="right bold"><g:formatNumber number="${salesInvoiceInstance.totalDiscountedAmount}" format="#,##0.00" /></td>
+	                		<td></td>
 	                	</tr>
-	                	<tr>
-	                		<th class="right">Net Amount</th>
-	                		<th class="right"><g:formatNumber number="${salesInvoiceInstance.totalNetAmount}" format="#,##0.00" /></th>
+	                	<tr class="odd">
+	                		<td class="right bold">Net Amount</td>
+	                		<td class="right bold"><g:formatNumber number="${salesInvoiceInstance.totalNetAmount}" format="#,##0.00" /></td>
+	                		<td></td>
 	                	</tr>
 	                </table>
 	            </g:if>
             </div>
-        </div>        
+        </div>  
+        
+        <g:form name="showItemDiscountsForm" controller="salesInvoiceItem" action="showDiscounts">
+       		<g:hiddenField name="salesInvoice.id" value="${salesInvoiceInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+       	
+        <g:javascript>
+        	function showItemDiscounts(id) {
+        		var form = document.showItemDiscountsForm;
+        		form.id.value = id
+        		form.submit()
+        	}
+        </g:javascript>
     </body>
 </html>

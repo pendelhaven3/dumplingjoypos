@@ -162,7 +162,6 @@
                 </div>
             </g:form>
         </div>
-        <g:include view="common/includeSelectProduct.gsp" /> 
         <g:javascript>
         	focusOnLoad("discount1")
         	

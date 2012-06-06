@@ -1,13 +1,12 @@
 package com.dumplingjoy.pos
 
-import java.math.RoundingMode
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 
 import org.springframework.dao.DataIntegrityViolationException
 
-import com.dumplingjoy.pos.util.Percentage
-
+@Secured("isFullyAuthenticated()")
 class SalesRequisitionItemController {
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

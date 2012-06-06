@@ -1,6 +1,5 @@
 package com.dumplingjoy.pos
 
-import java.math.BigDecimal;
 import java.math.RoundingMode
 
 import com.dumplingjoy.pos.util.Percentage
@@ -21,7 +20,7 @@ class SalesInvoiceItem {
 	
 	static belongsTo = [salesInvoice: SalesInvoice]
 
-	static transients = ["amount", "discountedAmount", "netAmount"]
+	static transients = ["amount", "discountedAmount", "netAmount", "discounted"]
 
 	BigDecimal getAmount() {
 		unitPrice.multiply(BigDecimal.valueOf((long)quantity)).setScale(2, RoundingMode.HALF_UP);
@@ -46,6 +45,13 @@ class SalesInvoiceItem {
 			netAmount = netAmount.subtract(flatRateDiscount)
 		}
 		netAmount
+	}
+	
+	public boolean isDiscounted() {
+		discount1.compareTo(BigDecimal.ZERO) == 1 ||
+		discount2.compareTo(BigDecimal.ZERO) == 1 ||
+		discount3.compareTo(BigDecimal.ZERO) == 1 ||
+		flatRateDiscount.compareTo(BigDecimal.ZERO) == 1
 	}
 
 }

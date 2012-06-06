@@ -127,21 +127,21 @@
                 </table>
                 
                 <g:if test="${!salesRequisitionInstance.items.empty}">
-	                <table style="margin-top:2px">
-	                	<tr>
-	                		<th class="right">Sub Total</th>
-	                		<th width="100" class="right"><g:formatNumber number="${salesRequisitionInstance.totalAmount}" format="#,##0.00" /></th>
-	                		<th width="170"></th>
+	                <table style="margin-top:2px;">
+	                	<tr class="odd">
+	                		<td class="right bold">Sub Total</td>
+	                		<td width="100" class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalAmount}" format="#,##0.00" /></td>
+	                		<td width="170"></td>
 	                	</tr>
-	                	<tr>
-	                		<th class="right">Discount</th>
-	                		<th class="right"><g:formatNumber number="${salesRequisitionInstance.totalDiscountedAmount}" format="#,##0.00" /></th>
-	                		<th></th>
+	                	<tr class="odd" style="color:red">
+	                		<td class="right bold">Discount</td>
+	                		<td class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalDiscountedAmount}" format="#,##0.00" /></td>
+	                		<td></td>
 	                	</tr>
-	                	<tr>
-	                		<th class="right">Net Amount</th>
-	                		<th class="right"><g:formatNumber number="${salesRequisitionInstance.totalNetAmount}" format="#,##0.00" /></th>
-	                		<th></th>
+	                	<tr class="odd">
+	                		<td class="right bold">Net Amount</td>
+	                		<td class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalNetAmount}" format="#,##0.00" /></td>
+	                		<td></td>
 	                	</tr>
 	                </table>
 	            </g:if>

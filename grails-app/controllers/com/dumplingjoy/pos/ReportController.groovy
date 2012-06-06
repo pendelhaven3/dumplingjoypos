@@ -1,6 +1,8 @@
 package com.dumplingjoy.pos
 
+import grails.plugins.springsecurity.Secured
 
+@Secured("isFullyAuthenticated()")
 class ReportController {
 
 	def jasperService
