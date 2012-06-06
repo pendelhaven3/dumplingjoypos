@@ -5,7 +5,7 @@
 				<tr>
 					<td width="50" style="vertical-align:middle;" >Code</td>
 					<td>
-						<input type="text" id="__selectProductCode" style="text-transform:uppercase;" onkeyup="searchProducts(this.value)" 
+						<input type="text" id="__selectProductCode" style="text-transform:uppercase;" onkeyup="allCaps(this); searchProducts(this.value);" 
 							value="${code}" />
 					</td>
 				</tr>
@@ -126,8 +126,10 @@
         			return;
         		}
         		
+        		var supplierId = $("#supplier\\.id").val()
+        		
 				$.get("${createLink(controller: 'product', action: 'searchProductsByCode')}",
-					{code: code},
+					{code: code, supplierId: supplierId},
 					function(products) {
 						var doc = document;
 						tableBody.empty();

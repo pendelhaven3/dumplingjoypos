@@ -147,34 +147,21 @@ class ProductController {
         }
     }
 	
-//	def doImportExcel = {
-//		Workbook workbook = getUploadedWorkbook(request, "excelFile")
-//		Sheet sheet = workbook.getSheetAt(0)
-//		Iterator<Row> rows = sheet.iterator()
-//		rows.next() // ignore header row
-//		
-//		for (Row row : rows) {
-//			Cell codeCell = row.getCell(0)
-//			if (codeCell && !codeCell.getStringCellValue().isEmpty()) {
-//				Product product = new Product()
-//				product.code = codeCell.getStringCellValue()
-//				product.description = row.getCell(1).getStringCellValue()
-//				product.save(failOnError:true)
-//			}
-//		}
-//		
-//        flash.message = "Excel file imported."
-//		redirect action: "list"
-//	}
-//	
-//	private Workbook getUploadedWorkbook(HttpServletRequest request, String excelFileParameterName) {
-//		MultipartHttpServletRequest mpr = (MultipartHttpServletRequest)request
-//		CommonsMultipartFile file = (CommonsMultipartFile) mpr.getFile(excelFileParameterName)
-//		return new HSSFWorkbook(file.getInputStream())
-//	}
-	
 	def getProductByCode = {
-		Product productInstance = Product.findByCode(params.code)
+		Supplier supplierInstance = null
+		if (params["supplierId"]) {
+			supplierInstance = Supplier.get(params["supplierId"])
+		}
+		
+		Product productInstance = null
+		if (supplierInstance) {
+			productInstance = Product.find("from Product p where p.code = ? and p in " +
+				"(select supplierProducts from Supplier s inner join s.products supplierProducts where s.id = ?)",
+				[params.code, supplierInstance.id])
+		} else {
+			productInstance = Product.findByCode(params.code)
+		}
+		
 		if (!productInstance) {
 			render new ArrayList() as JSON
 			return
@@ -195,14 +182,31 @@ class ProductController {
 	}
 	
 	def searchProductsByCode = {
+		Supplier supplierInstance = null
+		if (params["supplierId"]) {
+			supplierInstance = Supplier.get(params["supplierId"])
+		}
+
 		if (params.code?.trim()) {
+			
 			if (params.code.equals("*")) {
-				render Product.findAll([sort:"code", order:"asc"]) as JSON
+				if (supplierInstance) {
+					render supplierInstance.products.sort {it.code} as JSON
+				} else {
+					render Product.findAll([sort:"code", order:"asc"]) as JSON
+				}
 			} else {
-				render Product.findAllByCodeIlike(params.code + "%", [sort:"code", order:"asc"]) as JSON
+				if (supplierInstance) {
+					render Product.executeQuery("select supplierProducts from Supplier s inner join s.products supplierProducts " +
+						"where s.id = ? and supplierProducts.code like ?)",
+						[supplierInstance.id, params.code + "%"]) as JSON
+				} else {
+					render Product.findAllByCodeIlike(params.code + "%", [sort:"code", order:"asc"]) as JSON
+				}
 			}
+			
 		} else {
-			render ""
+			render new ArrayList() as JSON
 		}
 	}
 	

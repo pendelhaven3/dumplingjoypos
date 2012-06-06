@@ -16,7 +16,7 @@
    			autoOpen: false,
    			modal: true,
    			width: 800,
-   			height: 600,
+   			height: 640,
    			resizable: false
    		});
 	});

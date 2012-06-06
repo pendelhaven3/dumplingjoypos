@@ -16,6 +16,8 @@ class PurchaseOrderController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "purchaseOrderNumber"
+		params.order = params.order ?: "desc"
         [purchaseOrderInstanceList: PurchaseOrder.list(params), purchaseOrderInstanceTotal: PurchaseOrder.count()]
     }
 
@@ -25,10 +27,12 @@ class PurchaseOrderController {
 
     def save() {
         def purchaseOrderInstance = new PurchaseOrder(params)
+		purchaseOrderInstance.purchaseOrderNumber = PurchaseOrderSequenceNumber.getNextValue()
         if (!purchaseOrderInstance.save(flush: true)) {
             render(view: "create", model: [purchaseOrderInstance: purchaseOrderInstance])
             return
         }
+		PurchaseOrderSequenceNumber.increment()
 
 		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrder.label', default: 'PurchaseOrder'), purchaseOrderInstance.id])
         redirect(action: "show", id: purchaseOrderInstance.id)
@@ -76,6 +80,8 @@ class PurchaseOrderController {
         }
 
         purchaseOrderInstance.properties = params
+		purchaseOrderInstance.supplier.discard() // I have no idea why I have to do this to make it work T__T
+		purchaseOrderInstance.supplier = Supplier.get(params["supplier.id"])
 
         if (!purchaseOrderInstance.save(flush: true)) {
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])

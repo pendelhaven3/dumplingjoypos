@@ -1,12 +1,13 @@
 
-import java.text.DecimalFormat
 
 import com.dumplingjoy.pos.AdjustmentInSequenceNumber
 import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
 import com.dumplingjoy.pos.Customer
 import com.dumplingjoy.pos.PricingScheme
 import com.dumplingjoy.pos.Product;
+import com.dumplingjoy.pos.ProductUnitCost
 import com.dumplingjoy.pos.ProductUnitPrice
+import com.dumplingjoy.pos.PurchaseOrderSequenceNumber
 import com.dumplingjoy.pos.SalesInvoiceSequenceNumber
 import com.dumplingjoy.pos.SalesRequisition
 import com.dumplingjoy.pos.SalesRequisitionItem
@@ -27,6 +28,7 @@ class BootStrap {
 		setupInitialPricingScheme() // must be placed after initial products have been created
 		setupDummyCustomers()
 //		setupDummySalesInvoice()
+//		setupDummyCosts()
     }
 	
     def destroy = {
@@ -53,6 +55,9 @@ class BootStrap {
 		}
 		if (SalesInvoiceSequenceNumber.count() == 0) {
 			new SalesInvoiceSequenceNumber().save(failOnError: true)	
+		}
+		if (PurchaseOrderSequenceNumber.count() == 0) {
+			new PurchaseOrderSequenceNumber().save(failOnError: true)	
 		}
 	}
 	
@@ -127,6 +132,16 @@ class BootStrap {
 		
 		salesRequisition.save(failOnError: true)
 //		salesRequisition.post()
+	}
+	
+	private void setupDummyCosts() {
+		def productUnitCost = ProductUnitCost.findByProductAndUnit(Product.findByCode("ARIP101"), Unit.CSE)
+		productUnitCost.cost = new BigDecimal("25431.46")
+		productUnitCost.save(failOnError: true)
+		
+		productUnitCost = ProductUnitCost.findByProductAndUnit(Product.findByCode("ARIP101"), Unit.DOZ)
+		productUnitCost.cost = new BigDecimal("81.36")
+		productUnitCost.save(failOnError: true)
 	}
 	
 }

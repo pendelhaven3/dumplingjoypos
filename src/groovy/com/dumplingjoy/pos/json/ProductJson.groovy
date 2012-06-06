@@ -5,9 +5,7 @@ import java.util.List;
 
 import com.dumplingjoy.pos.PricingScheme;
 import com.dumplingjoy.pos.Product;
-import com.dumplingjoy.pos.ProductUnitPrice;
-import com.dumplingjoy.pos.UnitConversion;
-import com.dumplingjoy.pos.UnitQuantity;
+import com.dumplingjoy.pos.ProductUnitCost
 
 class ProductJson {
 
@@ -15,9 +13,10 @@ class ProductJson {
 	String code
 	String description
 	List<String> units
-	List<UnitQuantity> unitQuantities
-	List<UnitConversion> unitConversions
-	List<ProductUnitPrice> unitPrices
+	def unitQuantities
+	def unitConversions
+	def unitPrices
+	def unitCosts
 	
 	public ProductJson(Product product, PricingScheme pricingScheme) {
 		id = product.id
@@ -30,6 +29,11 @@ class ProductJson {
 			unit: it.unit.toString(), 
 			price: it.price,
 			formattedPrice: new DecimalFormat("#,##0.00").format(it.price)
+		]}
+		unitCosts = ProductUnitCost.findAllByProduct(product).collect {[
+			unit: it.unit.toString(),
+			cost: it.cost,
+			formattedCost: new DecimalFormat("#,##0.00").format(it.cost)
 		]}
 	}
 	

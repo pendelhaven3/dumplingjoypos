@@ -1,56 +1,153 @@
 
 <%@ page import="com.dumplingjoy.pos.PurchaseOrder" %>
-<!doctype html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'purchaseOrder.label', default: 'PurchaseOrder')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#show-purchaseOrder" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="show-purchaseOrder" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<ol class="property-list purchaseOrder">
-			
-				<g:if test="${purchaseOrderInstance?.items}">
-				<li class="fieldcontain">
-					<span id="items-label" class="property-label"><g:message code="purchaseOrder.items.label" default="Items" /></span>
-					
-						<g:each in="${purchaseOrderInstance.items}" var="i">
-						<span class="property-value" aria-labelledby="items-label"><g:link controller="purchaseOrderItem" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${purchaseOrderInstance?.supplier}">
-				<li class="fieldcontain">
-					<span id="supplier-label" class="property-label"><g:message code="purchaseOrder.supplier.label" default="Supplier" /></span>
-					
-						<span class="property-value" aria-labelledby="supplier-label"><g:link controller="supplier" action="show" id="${purchaseOrderInstance?.supplier?.id}">${purchaseOrderInstance?.supplier?.encodeAsHTML()}</g:link></span>
-					
-				</li>
-				</g:if>
-			
-			</ol>
-			<g:form>
-				<fieldset class="buttons">
-					<g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-					<g:link class="edit" action="edit" id="${purchaseOrderInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
-		</div>
-	</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; char	set=UTF-8" />
+        <meta name="layout" content="main" />
+        <g:set var="entityName" value="${message(code: 'purchaseOrder.label')}" />
+        <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <style>
+			.prop .name {
+			    width: auto;
+			}
+			.prop .value {
+			    width: auto;
+			}
+        </style>
+    </head>
+    <body>
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+        </div>
+        <div class="body">
+            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+            </g:if>
+            <g:hasErrors bean="${purchaseOrderInstance}">
+            <div class="errors">
+                <g:renderErrors bean="${purchaseOrderInstance}" as="list" />
+            </div>
+            </g:hasErrors>
+            <div class="dialog">
+                <table>
+                    <tbody>
+                        <tr class="prop">
+                            <td valign="top" class="name" style="width:150px;"><g:message code="purchaseOrder.purchaseOrderNumber.label" /></td>
+                            <td valign="top" class="value" style="width:450px;">${fieldValue(bean: purchaseOrderInstance, field: "purchaseOrderNumber")}</td>
+                            <%--
+                            <td valign="top" class="name" style="width:100px;"><g:message code="purchaseOrder.createdBy.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "createdBy")}</td>
+                            --%>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="purchaseOrder.supplier.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "supplier.name")}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="buttons">
+                <g:form>
+                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                </g:form>
+            </div>
+            <div class="buttons">
+                <g:form>
+                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="edit" action="postPurchaseOrder" value="Post" onclick="return confirm('Are you sure you want to post this Purchase Order?');" /></span>
+                </g:form>
+            </div>
+	            
+			<br/><br/>
+            
+            <h3>Items</h3>
+            <div class="list" style="padding-top:5px">
+                <table>
+                    <thead>
+                        <tr>
+                        	<th width="100">Product Code</th>
+                        	<th>Product Description</th>
+                        	<th width="30">Unit</th>
+                        	<th width="50">Quantity</th>
+                        	<th width="80">Cost</th>
+                        	<th width="100">Amount</th>
+                        	<th width="100"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <g:if test="${!purchaseOrderInstance.items.empty}">
+                    <g:each in="${purchaseOrderInstance.items}" status="i" var="item">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                        	<td>${item.product.code}</td>
+                        	<td>${fieldValue(bean: item, field: "product.description")}</td>
+                        	<td>${item.unit}</td>
+                        	<td class="right">${item.quantity}</td>
+                        	<td width="80" class="right"><g:formatNumber number="${item.cost}" format="#,##0.00" /></td>
+                        	<td width="80" class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td style="text-align:center">
+                       			<input type="button" value="Edit" onclick="editPurchaseOrderItem(${item.id})" />
+                       			<input type="button" value="Delete" onclick="deletePurchaseOrderItem(${item.id})" />
+                        	</td>
+                        </tr>
+                    </g:each>
+                    </g:if>
+                    <g:else>
+                    	<tr>
+                    		<td colspan="7">No items</td>
+                    	</tr>
+                    </g:else>
+                    </tbody>
+                </table>
+                
+                <g:if test="${!purchaseOrderInstance.items.empty}">
+	                <table style="margin-top:2px;">
+	                	<tr class="odd">
+	                		<td class="right bold">Total Amount</td>
+	                		<td width="100" class="right bold"><g:formatNumber number="${purchaseOrderInstance.totalAmount}" format="#,##0.00" /></td>
+	                		<td width="100"></td>
+	                	</tr>
+	                </table>
+	            </g:if>
+	            
+            </div>
+            
+            <div class="buttons">
+                <g:form controller="purchaseOrderItem">
+                    <g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
+                </g:form>
+            </div>
+            
+        </div>
+        
+       	<g:form name="editPurchaseOrderItemForm" controller="purchaseOrderItem" action="edit">
+       		<g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+       	<g:form name="deletePurchaseOrderItemForm" controller="purchaseOrderItem" action="delete">
+       		<g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance.id}" />
+       		<g:hiddenField name="id" />
+       	</g:form>
+        
+        <g:javascript>
+        	function editPurchaseOrderItem(id) {
+        		var form = document.editPurchaseOrderItemForm;
+        		form.id.value = id
+        		form.submit()
+        	}
+        	function deletePurchaseOrderItem(id) {
+        		if (confirm("Are you sure you want to remove this item?")) {
+	        		var form = document.deletePurchaseOrderItemForm;
+	        		form.id.value = id
+	        		form.submit()
+        		}
+        	}
+        </g:javascript>
+    </body>
 </html>

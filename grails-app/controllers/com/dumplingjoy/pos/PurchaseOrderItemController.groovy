@@ -10,57 +10,76 @@ class PurchaseOrderItemController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index() {
-        redirect(action: "list", params: params)
-    }
-
-    def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [purchaseOrderItemInstanceList: PurchaseOrderItem.list(params), purchaseOrderItemInstanceTotal: PurchaseOrderItem.count()]
-    }
-
     def create() {
-        [purchaseOrderItemInstance: new PurchaseOrderItem(params)]
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params["purchaseOrder.id"])
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label'), params.id])
+			redirect(controller: "purchaseOrder", action: "list")
+			return
+		}
+
+        [purchaseOrderItemInstance: new PurchaseOrderItem(params), purchaseOrderInstance: purchaseOrderInstance]
     }
 
     def save() {
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params["purchaseOrder.id"])
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label')])
+			redirect(controller: "purchaseOrder", action: "list")
+			return
+		}
+
         def purchaseOrderItemInstance = new PurchaseOrderItem(params)
+		purchaseOrderItemInstance.product = Product.get(params["product.id"])
+		
+		if (purchaseOrderInstance.containsItem(purchaseOrderItemInstance)) {
+			purchaseOrderItemInstance.errors.reject("default.containsItem.message",
+				[message(code: 'purchaseOrder.label')] as Object[], "default.containsItem.message")
+			render(view: "create", model: [purchaseOrderItemInstance: purchaseOrderItemInstance, purchaseOrderInstance: purchaseOrderInstance])
+			return
+		}
+
+		purchaseOrderInstance.addToItems(purchaseOrderItemInstance)
+
         if (!purchaseOrderItemInstance.save(flush: true)) {
-            render(view: "create", model: [purchaseOrderItemInstance: purchaseOrderItemInstance])
+            render(view: "create", model: [purchaseOrderItemInstance: purchaseOrderItemInstance, purchaseOrderInstance: purchaseOrderInstance])
             return
         }
 
-		flash.message = message(code: 'default.created.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), purchaseOrderItemInstance.id])
-        redirect(action: "show", id: purchaseOrderItemInstance.id)
-    }
-
-    def show() {
-        def purchaseOrderItemInstance = PurchaseOrderItem.get(params.id)
-        if (!purchaseOrderItemInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), params.id])
-            redirect(action: "list")
-            return
-        }
-
-        [purchaseOrderItemInstance: purchaseOrderItemInstance]
+		flash.message = message(code: 'default.added.message', args: [message(code: 'purchaseOrderItem.label')])
+        redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
     }
 
     def edit() {
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params["purchaseOrder.id"])
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label')])
+			redirect(controller: "purchaseOrder", action: "list")
+			return
+		}
+
         def purchaseOrderItemInstance = PurchaseOrderItem.get(params.id)
         if (!purchaseOrderItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
             return
         }
 
-        [purchaseOrderItemInstance: purchaseOrderItemInstance]
+        [purchaseOrderItemInstance: purchaseOrderItemInstance, purchaseOrderInstance: purchaseOrderInstance]
     }
 
     def update() {
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params["purchaseOrder.id"])
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label')])
+			redirect(controller: "purchaseOrder", action: "list")
+			return
+		}
+
         def purchaseOrderItemInstance = PurchaseOrderItem.get(params.id)
         if (!purchaseOrderItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
             return
         }
 
@@ -75,33 +94,67 @@ class PurchaseOrderItemController {
             }
         }
 
-        purchaseOrderItemInstance.properties = params
+		purchaseOrderItemInstance.discard()
+		purchaseOrderItemInstance.properties = params
+		purchaseOrderItemInstance.product = Product.get(params["product.id"])
+		if (!purchaseOrderItemInstance.product) {
+			purchaseOrderItemInstance.unit = null
+		}
+
+		if (purchaseOrderInstance.containsItem(purchaseOrderItemInstance)) {
+			purchaseOrderItemInstance.errors.reject("default.containsItem.message",
+					[message(code: 'purchaseOrder.label')] as Object[], "default.containsItem.message")
+			render(view: "edit", model: [purchaseOrderItemInstance: purchaseOrderItemInstance, purchaseOrderInstance: purchaseOrderInstance])
+			return
+		}
+
+		// re-attach purchaseOrderItemInstance to session
+		
+		purchaseOrderInstance.discard()
+		purchaseOrderInstance = PurchaseOrder.get(params["purchaseOrder.id"])
+		
+		purchaseOrderItemInstance = PurchaseOrderItem.get(params.id)
+		purchaseOrderItemInstance.properties = params
+		purchaseOrderItemInstance.product = Product.get(params["product.id"])
+		if (!purchaseOrderItemInstance.product) {
+			purchaseOrderItemInstance.unit = null
+		}
 
         if (!purchaseOrderItemInstance.save(flush: true)) {
-            render(view: "edit", model: [purchaseOrderItemInstance: purchaseOrderItemInstance])
+            render(view: "edit", model: [purchaseOrderItemInstance: purchaseOrderItemInstance, purchaseOrderInstance: purchaseOrderInstance])
             return
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), purchaseOrderItemInstance.id])
-        redirect(action: "show", id: purchaseOrderItemInstance.id)
+        redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
     }
 
     def delete() {
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params["purchaseOrder.id"])
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label')])
+			redirect(controller: "purchaseOrder", action: "list")
+			return
+		}
+
         def purchaseOrderItemInstance = PurchaseOrderItem.get(params.id)
         if (!purchaseOrderItemInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
             return
         }
 
         try {
+			purchaseOrderInstance.removeFromItems(purchaseOrderItemInstance)
+			purchaseOrderInstance.save(failOnError: true)
             purchaseOrderItemInstance.delete(flush: true)
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), params.id])
-            redirect(action: "list")
+			redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
         }
         catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'purchaseOrderItem.label', default: 'PurchaseOrderItem'), params.id])
-            redirect(action: "show", id: params.id)
+        redirect(controller: "purchaseOrder", action: "show", id: purchaseOrderInstance.id)
         }
     }
+	
 }
