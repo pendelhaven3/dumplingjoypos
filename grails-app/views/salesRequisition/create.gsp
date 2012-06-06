@@ -30,7 +30,7 @@
                 <g:renderErrors bean="${salesRequisitionInstance}" field="mode" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form action="save" autocomplete="off">
             	<g:hiddenField name="salesRequisition.id" value="${salesRequisitionInstance.id}" />
                 <div class="dialog">
                     <table>

@@ -24,7 +24,7 @@
                 <g:renderErrors bean="${adjustmentInInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" autocomplete="off">
                 <g:hiddenField name="id" value="${adjustmentInInstance?.id}" />
                 <g:hiddenField name="version" value="${adjustmentInInstance?.version}" />
                 <div class="dialog">

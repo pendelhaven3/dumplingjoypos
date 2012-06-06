@@ -28,7 +28,7 @@
 	                <g:renderErrors bean="${stockQuantityConversionItemInstance}" field="quantity" />
 	            </div>
             </g:hasErrors>
-            <g:form action="save">
+            <g:form action="save" autocomplete="off">
                 <g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance?.id}" />
                 <g:hiddenField name="product.id" value="${stockQuantityConversionItemInstance?.product?.id}" />
                 <div class="dialog">

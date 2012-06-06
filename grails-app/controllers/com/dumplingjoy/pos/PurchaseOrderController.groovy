@@ -18,7 +18,11 @@ class PurchaseOrderController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		params.sort = params.sort ?: "purchaseOrderNumber"
 		params.order = params.order ?: "desc"
-        [purchaseOrderInstanceList: PurchaseOrder.list(params), purchaseOrderInstanceTotal: PurchaseOrder.count()]
+		
+		def purchaseOrderInstanceList = PurchaseOrder.findAllByPosted(false, params)
+		def purchaseOrderInstanceTotal = PurchaseOrder.countByPosted(false)
+		
+        [purchaseOrderInstanceList: purchaseOrderInstanceList, purchaseOrderInstanceTotal: purchaseOrderInstanceTotal]
     }
 
     def create() {
@@ -130,25 +134,21 @@ class PurchaseOrderController {
 		redirect(action: "show", id: params.id)
 	}
 
-//	def postSalesRequisition() {
-//		SalesRequisition salesRequisitionInstance = SalesRequisition.get(params.id)
-//		if (!salesRequisitionInstance) {
-//			flash.message = message(code: 'default.not.found.message', args: [message(code: 'salesRequisition.label'), params.id])
-//			redirect(action: "list")
-//			return
-//		}
-//		
-//		// force hibernate to load these properties
-//		salesRequisitionInstance.customer.name
-//		salesRequisitionInstance.pricingScheme.description
-//		
-//		if (!salesRequisitionInstance.post()) {
-//			render(view: "show", model: [salesRequisitionInstance: salesRequisitionInstance])
-//			return
-//		}
-//		
-//		flash.message = message(code: 'default.posted.message', args: [message(code: 'salesRequisition.label')])
-//		redirect(controller: "salesInvoice", action: "show", id: salesRequisitionInstance.salesInvoiceId)
-//	}
+	def postPurchaseOrder() {
+		PurchaseOrder purchaseOrderInstance = PurchaseOrder.get(params.id)
+		if (!purchaseOrderInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'purchaseOrder.label'), params.id])
+			redirect(action: "list")
+			return
+		}
+		
+		if (!purchaseOrderInstance.post()) {
+			render(view: "show", model: [purchaseOrder: purchaseOrderInstance])
+			return
+		}
+		
+		flash.message = message(code: 'default.posted.message', args: [message(code: 'purchaseOrder.label')])
+		redirect(controller: "receivingReceipt", action: "show", id: purchaseOrderInstance.receivingReceiptId)
+	}
 
 }

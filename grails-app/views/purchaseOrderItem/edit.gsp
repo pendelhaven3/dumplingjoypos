@@ -29,7 +29,7 @@
                 <g:renderErrors bean="${purchaseOrderItemInstance}" field="cost" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" autocomplete="off">
                 <g:hiddenField name="id" value="${purchaseOrderItemInstance?.id}" />
                 <g:hiddenField name="version" value="${purchaseOrderItemInstance?.version}" />
                 <g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance?.id}" />
@@ -92,11 +92,11 @@
                                 <td valign="top" class="value ${hasErrors(bean: purchaseOrderItemInstance, field: 'unit', 'errors')}">
                                 	<g:if test="${!purchaseOrderInstance.ordered}">
 	                                	<g:if test="${purchaseOrderItemInstance?.product == null}">
-	                                		<select name="unit" id="unit" onblur="updateCost(); updateAmount();"></select>
+	                                		<select name="unit" id="unit" onblur="updateGrossCost(); updateAmount();"></select>
 	                                	</g:if>
 	                                	<g:else>
 	                                		<g:select name="unit" from="${purchaseOrderItemInstance.product.units}" value="${purchaseOrderItemInstance.unit}" 
-	                                			noSelection="['':'']" onblur="updateCost(); updateAmount();" />
+	                                			noSelection="['':'']" onblur="updateGrossCost(); updateAmount();" />
 	                                	</g:else>
 	                                </g:if>
 	                                <g:else>${fieldValue(bean: purchaseOrderItemInstance, field: "unit")}</g:else>
@@ -105,12 +105,12 @@
                         	
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="currentCost">Current Cost</label>
+                                    <label for="grossCost">Gross Cost</label>
                                 </td>
                                 <td valign="top" class="value">
-                                	<span id="span_currentCost">
+                                	<span id="span_grossCost">
                                 		<g:if test="${purchaseOrderItemInstance.product != null && purchaseOrderItemInstance.unit != null}">
-                                			<g:formatNumber number="${purchaseOrderItemInstance.currentCost}" format="#,##0.00" />
+                                			<g:formatNumber number="${purchaseOrderItemInstance.grossCost}" format="#,##0.00" />
                                 		</g:if>
                                 		<g:else>-</g:else>
                                 	</span>
@@ -239,12 +239,12 @@
         		}
         	}
         	
-        	function updateCost() {
+        	function updateGrossCost() {
         		var code = $("#product\\.code").val()
         		var unit = $("#unit").val()
         		
         		if (code == "" || unit == "") {
-       				$("#span_currentCost").html("-")
+       				$("#span_grossCost").html("-")
         		} else {
 	        		$.get("${createLink(controller: 'product', action: 'getProductByCode')}", 
 	        			{code: code},
@@ -253,9 +253,9 @@
 				        		for (var i=0; i < product.unitCosts.length; i++) {
 				        			var unitCost = product.unitCosts[i]
 				        			if (unit == unitCost.unit) {
-				        				$("#span_currentCost").html(unitCost.formattedCost)
+				        				$("#span_grossCost").html(unitCost.formattedGrossCost)
 				        				if ($("#cost").val() == "") {
-				        					$("#cost").val(unitCost.cost)
+				        					$("#cost").val(unitCost.grossCost)
 				        				}
 				        			}
 				        		}

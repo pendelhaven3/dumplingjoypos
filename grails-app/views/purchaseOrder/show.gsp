@@ -103,7 +103,7 @@
                     </thead>
                     <tbody>
                     <g:if test="${!purchaseOrderInstance.items.empty}">
-                    <g:each in="${purchaseOrderInstance.items}" status="i" var="item">
+                    <g:each in="${purchaseOrderInstance.items.sort {it.product.code}}" status="i" var="item">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
@@ -138,13 +138,6 @@
 	                		<td width="95" class="right bold"><g:formatNumber number="${purchaseOrderInstance.totalAmount}" format="#,##0.00" /></td>
 	                		<td width="100"></td>
 	                	</tr>
-                        <g:if test="${purchaseOrderInstance.ordered}">
-		                	<tr class="odd">
-		                		<td class="right bold">Original Total Amount</td>
-		                		<td width="95" class="right bold"><g:formatNumber number="${purchaseOrderInstance.originalTotalAmount}" format="#,##0.00" /></td>
-		                		<td width="100"></td>
-		                	</tr>
-		                </g:if>
 	                </table>
 	            </g:if>
 	            

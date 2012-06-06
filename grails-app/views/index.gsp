@@ -55,7 +55,7 @@
                     <td>Sales Invoice</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="purchaseOrder" />'">
-                    <td>Purchase Order (under construction)</td>
+                    <td>Purchase Order</td>
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
                     <td>Receiving Receipt (under construction)</td>

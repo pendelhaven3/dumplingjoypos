@@ -22,7 +22,7 @@
                 <g:renderErrors bean="${productUnitPriceInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" autocomplete="off">
                 <g:hiddenField name="id" value="${productUnitPriceInstance?.id}" />
                 <g:hiddenField name="version" value="${productUnitPriceInstance?.version}" />
                 <div class="dialog">
@@ -145,7 +145,7 @@
         	function updateSellingPriceAndProfitAmount() {
         		var profitPercentage = $("#profitPercentage").val()
 
-        		if (isPositiveDecimal(profitAmount)) {
+        		if (isPositiveDecimal(profitPercentage)) {
         			var cost = parseFloat($("#cost").val())
 	        		$("#price").val((cost * (profitPercentage/100) + cost).toFixed(2))
 	        		$("#profitAmount").val(($("#price").val() - cost).toFixed(2))

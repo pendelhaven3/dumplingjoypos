@@ -95,7 +95,7 @@
                     </thead>
                     <tbody>
                     <g:if test="${!stockQuantityConversionInstance.items.empty}">
-                    <g:each in="${stockQuantityConversionInstance.items}" status="i" var="item">
+                    <g:each in="${stockQuantityConversionInstance.items.sort {it.product.code}}" status="i" var="item">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} <g:if test="${item.hasPostError}">postError</g:if>" >
                         	<td>${fieldValue(bean: item, field: "product.code")}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>

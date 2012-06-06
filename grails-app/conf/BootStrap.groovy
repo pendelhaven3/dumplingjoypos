@@ -8,12 +8,12 @@ import com.dumplingjoy.pos.Product;
 import com.dumplingjoy.pos.ProductUnitCost
 import com.dumplingjoy.pos.ProductUnitPrice
 import com.dumplingjoy.pos.PurchaseOrderSequenceNumber
+import com.dumplingjoy.pos.ReceivingReceiptSequenceNumber
 import com.dumplingjoy.pos.SalesInvoiceSequenceNumber
 import com.dumplingjoy.pos.SalesRequisition
 import com.dumplingjoy.pos.SalesRequisitionItem
 import com.dumplingjoy.pos.SalesRequisitionSequenceNumber
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
-import com.dumplingjoy.pos.Supplier
 import com.dumplingjoy.pos.Unit;
 import com.dumplingjoy.pos.User;
 
@@ -59,6 +59,9 @@ class BootStrap {
 		}
 		if (PurchaseOrderSequenceNumber.count() == 0) {
 			new PurchaseOrderSequenceNumber().save(failOnError: true)	
+		}
+		if (ReceivingReceiptSequenceNumber.count() == 0) {
+			new ReceivingReceiptSequenceNumber().save(failOnError: true)	
 		}
 	}
 	

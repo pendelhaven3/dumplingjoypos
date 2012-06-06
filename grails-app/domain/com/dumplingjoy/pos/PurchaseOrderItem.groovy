@@ -18,10 +18,10 @@ class PurchaseOrderItem {
 
 	static belongsTo = [purchaseOrder: PurchaseOrder]
 
-	static transients = ["currentCost", "amount", "originalAmount"]
+	static transients = ["grossCost", "amount", "originalAmount"]
 
-	public BigDecimal getCurrentCost() {
-		ProductUnitCost.findByProductAndUnit(product, unit).cost
+	public BigDecimal getGrossCost() {
+		ProductUnitCost.findByProductAndUnit(product, unit).grossCost
 	}
 	
 	public BigDecimal getAmount() {

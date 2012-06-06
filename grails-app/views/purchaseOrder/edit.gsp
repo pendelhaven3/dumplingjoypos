@@ -29,7 +29,7 @@
                 <g:renderErrors bean="${purchaseOrderInstance}" field="supplier" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" autocomplete="off">
                 <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
                 <g:hiddenField name="version" value="${purchaseOrderInstance?.version}" />
                 <div class="dialog">

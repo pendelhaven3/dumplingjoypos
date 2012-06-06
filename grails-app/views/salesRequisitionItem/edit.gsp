@@ -28,7 +28,7 @@
                 <g:renderErrors bean="${salesRequisitionItemInstance}" field="quantity" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" autocomplete="off">
                 <g:hiddenField name="id" value="${salesRequisitionItemInstance?.id}" />
                 <g:hiddenField name="version" value="${salesRequisitionItemInstance?.version}" />
                 <g:hiddenField name="salesRequisition.id" value="${salesRequisitionInstance?.id}" />

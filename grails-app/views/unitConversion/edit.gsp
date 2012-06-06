@@ -24,7 +24,7 @@
                 <g:renderErrors bean="${unitConversionInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" autocomplete="off">
                 <g:hiddenField name="id" value="${unitConversionInstance?.id}" />
                 <g:hiddenField name="version" value="${unitConversionInstance?.version}" />
                 <g:hiddenField name="productId" value="${productInstance?.id}" />

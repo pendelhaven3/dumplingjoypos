@@ -84,7 +84,7 @@
                     </thead>
                     <tbody>
                     <g:if test="${!adjustmentOutInstance.items.empty}">
-                    <g:each in="${adjustmentOutInstance.items}" status="i" var="item">
+                    <g:each in="${adjustmentOutInstance.items.sort {it.product.code}}" status="i" var="item">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} <g:if test="${item.hasPostError}">postError</g:if>">
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>

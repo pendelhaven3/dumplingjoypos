@@ -23,7 +23,7 @@
                 <g:renderErrors bean="${supplierInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form action="save" autocomplete="off">
             	<g:hiddenField name="supplier.id" value="${supplierInstance.id}" />
                 <div class="dialog">
                     <table>
