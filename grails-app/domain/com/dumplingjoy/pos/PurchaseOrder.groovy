@@ -10,18 +10,24 @@ class PurchaseOrder {
 	boolean posted
 	Long receivingReceiptId
 	String createdBy
+	Date orderDate
+	Date postDate
+	String postedBy
 	
 	List<PurchaseOrderItem> items
 	
     static constraints = {
 		purchaseOrderNumber unique: true, min: 0
 		receivingReceiptId nullable: true
+		orderDate nullable: true
+		postDate nullable: true
+		postedBy nullable: true
 		createdBy nullable: true
     }
 	
 	static hasMany = [items: PurchaseOrderItem]
 
-	static transients = ["totalAmount", "totalQuantity"]
+	static transients = ["totalAmount", "totalQuantity", "status"]
 	
 	public boolean containsItem(PurchaseOrderItem item) {
 		return items.find {it.id != item.id && it.product.id == item.product?.id && it.unit == item.unit} != null
@@ -42,12 +48,15 @@ class PurchaseOrder {
 			ReceivingReceiptSequenceNumber.increment()
 			receivingReceipt.supplier = supplier
 			receivingReceipt.receivedDate = new Date()
-			receivingReceipt.receivedBy = ((User)springSecurityService.currentUser).username
+			receivingReceipt.receivedBy = getCurrentUsername()
+			receivingReceipt.orderDate = orderDate
+			receivingReceipt.save(failOnError: true)
 			
 			posted = true
-			save(failOnError: true)
-			receivingReceipt.save(failOnError: true)
+			postedBy = getCurrentUsername()
+			postDate = new Date()
 			receivingReceiptId = receivingReceipt.id
+			save(failOnError: true)
 			
 			items.each { PurchaseOrderItem item ->
 				if (item.actualQuantity && item.actualQuantity > 0) {
@@ -66,9 +75,7 @@ class PurchaseOrder {
 	}
 
 	def beforeInsert() {
-		if (springSecurityService.currentUser) {
-			createdBy = ((User)springSecurityService.currentUser).username
-		}
+		createdBy = getCurrentUsername()
 	}
 
 	public int getTotalQuantity() {
@@ -77,6 +84,34 @@ class PurchaseOrder {
 			totalQuantity += it.quantity
 		}
 		totalQuantity
+	}
+	
+	public boolean markAsOrdered() {
+		PurchaseOrder.withTransaction { status ->
+			ordered = true
+			orderDate = new Date()
+			save(failOnError: true)
+			return true
+		}
+	}
+	
+	private String getCurrentUsername() {
+		if (springSecurityService.currentUser) {
+			((User)springSecurityService.currentUser).username
+		} else {
+			"SYSTEM"
+		}
+			
+	}
+	
+	public String getStatus() {
+		if (posted) {
+			"Posted"
+		} else if (ordered) {
+			"Ordered"
+		} else {
+			"New"
+		}
 	}
 
 }

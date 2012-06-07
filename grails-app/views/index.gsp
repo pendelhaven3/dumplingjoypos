@@ -58,7 +58,7 @@
                     <td>Purchase Order</td>
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
-                    <td>Receiving Receipt (under construction)</td>
+                    <td>Receiving Receipt</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
                     <td>Reports (under construction)</td>
@@ -77,6 +77,9 @@
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="reinventory" />'">
                     <td>Re-Inventory (under construction)</td>
+                </tr>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="discountTerms" />'">
+                    <td>Discount Terms (under construction)</td>
                 </tr>
         	</table>
         </div>

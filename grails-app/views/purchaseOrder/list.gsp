@@ -22,6 +22,7 @@
                     <tr>
                         <th width="150"><g:message code="purchaseOrder.purchaseOrderNumber.label" /></th>
                         <th><g:message code="purchaseOrder.supplier.label" /></th>
+                        <th>Status</th>
                     </tr>
                     <g:if test="${!purchaseOrderInstanceList.empty}">
 	                    <g:each in="${purchaseOrderInstanceList}" status="i" var="purchaseOrderInstance">
@@ -29,12 +30,13 @@
 	                        
 	                            <td>${fieldValue(bean: purchaseOrderInstance, field: "purchaseOrderNumber")}</td>
 	                            <td>${fieldValue(bean: purchaseOrderInstance, field: "supplier.name")}</td>
+	                            <td>${fieldValue(bean: purchaseOrderInstance, field: "status")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="2">No records found</td>
+                    		<td colspan="3">No records found</td>
                     	</tr>
                     </g:else>
                 </table>

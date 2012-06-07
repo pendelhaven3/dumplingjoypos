@@ -19,10 +19,7 @@ class PurchaseOrderController {
 		params.sort = params.sort ?: "purchaseOrderNumber"
 		params.order = params.order ?: "desc"
 		
-		def purchaseOrderInstanceList = PurchaseOrder.findAllByPosted(false, params)
-		def purchaseOrderInstanceTotal = PurchaseOrder.countByPosted(false)
-		
-        [purchaseOrderInstanceList: purchaseOrderInstanceList, purchaseOrderInstanceTotal: purchaseOrderInstanceTotal]
+        [purchaseOrderInstanceList: PurchaseOrder.list(params), purchaseOrderInstanceTotal: PurchaseOrder.count()]
     }
 
     def create() {
@@ -123,9 +120,7 @@ class PurchaseOrderController {
 			return
 		}
 		
-		purchaseOrderInstance.ordered = true
-		
-		if (!purchaseOrderInstance.save(failOnError: true, flush: true)) {
+		if (!purchaseOrderInstance.markAsOrdered()) {
 			render(view: "show", model: [purchaseOrderInstance: purchaseOrderInstance])
 			return
 		}
@@ -143,7 +138,7 @@ class PurchaseOrderController {
 		}
 		
 		if (!purchaseOrderInstance.post()) {
-			render(view: "show", model: [purchaseOrder: purchaseOrderInstance])
+			render(view: "show", model: [purchaseOrderInstance: purchaseOrderInstance])
 			return
 		}
 		

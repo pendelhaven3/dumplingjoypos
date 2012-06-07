@@ -13,12 +13,15 @@ class ReceivingReceipt {
 	String receivedBy
 	boolean posted
 	String postedBy
+	Date postDate
+	Date orderDate
 	
 	List<ReceivingReceiptItem> items
 	
     static constraints = {
 		receivingReceiptNumber unique: true, min: 0
 		postedBy nullable: true
+		postDate nullable: true
     }
 	
 	static hasMany = [items: ReceivingReceiptItem]

@@ -1,5 +1,6 @@
 
 <%@ page import="com.dumplingjoy.pos.PurchaseOrder" %>
+<%@ page import="com.dumplingjoy.pos.ReceivingReceipt" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -44,45 +45,61 @@
                             <td valign="top" class="name"><g:message code="purchaseOrder.supplier.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "supplier.name")}</td>
                         </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="purchaseOrder.ordered.label" /></td>
-                            <td valign="top" class="value">${purchaseOrderInstance.ordered ? "Yes" : "No"}</td>
-                        </tr>
+                        <g:if test="${purchaseOrderInstance.ordered}">
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="purchaseOrder.orderDate.label" /></td>
+	                            <td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance.orderDate}" format="MM/dd/yyyy" /></td>
+	                        </tr>
+	                    </g:if>
+                        <g:if test="${purchaseOrderInstance.posted}">
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="purchaseOrder.postDate.label" /></td>
+	                            <td valign="top" class="value"><g:formatDate date="${purchaseOrderInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                            <td valign="top" class="name"><g:message code="purchaseOrder.postedBy.label" /></td>
+                            	<td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "postedBy")}</td>
+	                        </tr>
+	                        <tr class="prop">
+	                            <td valign="top" class="name">Related Receiving Receipt No.</td>
+	                            <td valign="top" class="value">${ReceivingReceipt.get(purchaseOrderInstance.receivingReceiptId).receivingReceiptNumber}</td>
+	                        </tr>
+	                    </g:if>
                     </tbody>
                 </table>
             </div>
             
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-           			<g:if test="${!purchaseOrderInstance.ordered}">
-                    	<span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    </g:if>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
-            </div>
-            <g:if test="${!purchaseOrderInstance.ordered}">
+            <g:if test="${!purchaseOrderInstance.posted}">
 	            <div class="buttons">
 	                <g:form>
 	                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="markAsOrdered" value="Mark As Ordered" onclick="return confirm('Are you sure you want to mark this Purchase Order as ordered?');" /></span>
+	           			<g:if test="${!purchaseOrderInstance.ordered}">
+	                    	<span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+	                    </g:if>
+	                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
 	                </g:form>
 	            </div>
-	        </g:if>
-            <g:if test="${purchaseOrderInstance.ordered}">
+	            <g:if test="${!purchaseOrderInstance.ordered}">
+		            <div class="buttons">
+		                <g:form>
+		                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+		                    <span class="button"><g:actionSubmit class="edit" action="markAsOrdered" value="Mark As Ordered" onclick="return confirm('Are you sure you want to mark this Purchase Order as ordered?');" /></span>
+		                </g:form>
+		            </div>
+		        </g:if>
+	            <g:if test="${purchaseOrderInstance.ordered}">
+		            <div class="buttons">
+		                <g:form>
+		                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+		                    <span class="button"><g:actionSubmit class="edit" action="postPurchaseOrder" value="Post" onclick="return confirm('Are you sure you want to post this Purchase Order?');" /></span>
+		                </g:form>
+		            </div>
+		        </g:if>
 	            <div class="buttons">
-	                <g:form>
+	                <g:form controller="report" target="_new">
 	                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="postPurchaseOrder" value="Post" onclick="return confirm('Are you sure you want to post this Purchase Order?');" /></span>
+	                    <span class="button"><g:actionSubmit class="print" action="generatePurchaseOrder" value="Print" /></span>
 	                </g:form>
 	            </div>
-	        </g:if>
-            <div class="buttons">
-                <g:form controller="report" target="_new">
-                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="print" action="generatePurchaseOrder" value="Print" /></span>
-                </g:form>
-            </div>
+		    </g:if>
 	            
 			<br/><br/>
             
@@ -100,7 +117,9 @@
                         	</g:if>
                         	<th width="80">Cost</th>
                         	<th width="95">Amount</th>
-                        	<th width="100"></th>
+                        	<g:if test="${!purchaseOrderInstance.posted}">
+                        		<th width="100"></th>
+                        	</g:if>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,12 +135,14 @@
                         	</g:if>
                         	<td width="80" class="right"><g:formatNumber number="${item.cost}" format="#,##0.00" /></td>
                         	<td width="80" class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
-                        	<td style="text-align:center">
-                       			<input type="button" value="Edit" onclick="editPurchaseOrderItem(${item.id})" />
-           						<g:if test="${!(purchaseOrderInstance.ordered && item.quantity > 0)}">
-                       				<input type="button" value="Delete" onclick="deletePurchaseOrderItem(${item.id})" />
-                       			</g:if>
-                        	</td>
+                        	<g:if test="${!purchaseOrderInstance.posted}">
+	                        	<td style="text-align:center">
+	                       			<input type="button" value="Edit" onclick="editPurchaseOrderItem(${item.id})" />
+	           						<g:if test="${!(purchaseOrderInstance.ordered && item.quantity > 0)}">
+	                       				<input type="button" value="Delete" onclick="deletePurchaseOrderItem(${item.id})" />
+	                       			</g:if>
+	                        	</td>
+                        	</g:if>
                         </tr>
                     </g:each>
                     </g:if>
@@ -138,19 +159,23 @@
 	                	<tr class="odd">
 	                		<td class="right bold">Total Amount</td>
 	                		<td width="95" class="right bold"><g:formatNumber number="${purchaseOrderInstance.totalAmount}" format="#,##0.00" /></td>
-	                		<td width="100"></td>
+                        	<g:if test="${!purchaseOrderInstance.posted}">
+	                			<td width="100"></td>
+	                		</g:if>
 	                	</tr>
 	                </table>
 	            </g:if>
 	            
             </div>
             
-            <div class="buttons">
-                <g:form controller="purchaseOrderItem">
-                    <g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
-                </g:form>
-            </div>
+            <g:if test="${!purchaseOrderInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="purchaseOrderItem">
+	                    <g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
             
         </div>
         
