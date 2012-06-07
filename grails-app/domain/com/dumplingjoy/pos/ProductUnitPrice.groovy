@@ -22,7 +22,11 @@ class ProductUnitPrice {
 	}
 		
 	public BigDecimal getProfitPercentage() {
-		price.subtract(cost).divide(cost, 4, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2)
+		if (price.doubleValue() == 0) {
+			BigDecimal.ZERO
+		} else {
+			BigDecimal.ONE.subtract(cost.divide(price, 4, RoundingMode.HALF_UP)).multiply(new BigDecimal("100")).setScale(2)
+		}
 	}
 	
 	public void retrieveUnitCost() {

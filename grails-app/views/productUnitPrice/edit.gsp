@@ -122,7 +122,11 @@
         		if (isPositiveDecimal(price)) {
         			var cost = $("#cost").val()
 	        		$("#profitAmount").val((price - cost).toFixed(2))
-	        		$("#profitPercentage").val(((price - cost)/cost * 100).toFixed(2))
+	        		if (price > 0) {
+	        			$("#profitPercentage").val(((1-cost/price) * 100).toFixed(2))
+	        		} else {
+	        			$("#profitPercentage").val("")
+	        		}
         		} else {
 	        		$("#profitAmount").val("")
 	        		$("#profitPercentage").val("")
@@ -136,7 +140,7 @@
         			var cost = parseFloat($("#cost").val())
         			profitAmount = parseFloat(profitAmount)
 	        		$("#price").val((cost + profitAmount).toFixed(2))
-	        		$("#profitPercentage").val((profitAmount/cost * 100).toFixed(2))
+	        		$("#profitPercentage").val(((1-cost/$("#price").val()) * 100).toFixed(2))
         		} else {
 	        		$("#profitPercentage").val("")
         		}
@@ -147,7 +151,7 @@
 
         		if (isPositiveDecimal(profitPercentage)) {
         			var cost = parseFloat($("#cost").val())
-	        		$("#price").val((cost * (profitPercentage/100) + cost).toFixed(2))
+	        		$("#price").val((cost / (1 - profitPercentage/100)).toFixed(2))
 	        		$("#profitAmount").val(($("#price").val() - cost).toFixed(2))
         		} else {
 	        		$("#profitAmount").val("")
