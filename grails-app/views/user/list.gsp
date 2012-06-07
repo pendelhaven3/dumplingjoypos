@@ -1,66 +1,53 @@
 
-<%@ page import="com.dumplingjoy.pos.User" %>
-<!doctype html>
+<%@ page import="com.dumplingjoy.pos.AdjustmentIn" %>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#list-user" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-user" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-				<thead>
-					<tr>
-					
-						<g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'Username')}" />
-					
-						<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
-					
-						<g:sortableColumn property="accountExpired" title="${message(code: 'user.accountExpired.label', default: 'Account Expired')}" />
-					
-						<g:sortableColumn property="accountLocked" title="${message(code: 'user.accountLocked.label', default: 'Account Locked')}" />
-					
-						<g:sortableColumn property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />
-					
-						<g:sortableColumn property="passwordExpired" title="${message(code: 'user.passwordExpired.label', default: 'Password Expired')}" />
-					
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${userInstanceList}" status="i" var="userInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "username")}</g:link></td>
-					
-						<td>${fieldValue(bean: userInstance, field: "password")}</td>
-					
-						<td><g:formatBoolean boolean="${userInstance.accountExpired}" /></td>
-					
-						<td><g:formatBoolean boolean="${userInstance.accountLocked}" /></td>
-					
-						<td><g:formatBoolean boolean="${userInstance.enabled}" /></td>
-					
-						<td><g:formatBoolean boolean="${userInstance.passwordExpired}" /></td>
-					
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${userInstanceTotal}" />
-			</div>
-		</div>
-	</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="layout" content="main" />
+        <g:set var="entityName" value="${message(code: 'adjustmentIn.label', default: 'AdjustmentIn')}" />
+        <title><g:message code="default.list.label" args="[entityName]" /></title>
+    </head>
+    <body>
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+        </div>
+        <div class="body">
+            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <g:if test="${flash.message}">
+            <div class="message">${flash.message}</div>
+            </g:if>
+            <div class="list">
+                <table>
+                    <tr>
+                        <th width="150"><g:message code="adjustmentIn.adjustmentInNumber.label" /></th>
+                        <th><g:message code="adjustmentIn.remarks.label" /></th>
+                        <th width="120"><g:message code="adjustmentIn.posted.label" /></th>
+                        <th width="120"><g:message code="adjustmentIn.postDate.label" /></th>
+                        <th width="150"><g:message code="adjustmentIn.postedBy.label" /></th>
+                    </tr>
+                    <g:if test="${!adjustmentInInstanceList.empty}">
+	                    <g:each in="${adjustmentInInstanceList}" status="i" var="adjustmentInInstance">
+	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${adjustmentInInstance.id}' />'">
+	                        
+	                            <td>${fieldValue(bean: adjustmentInInstance, field: "adjustmentInNumber")}</td>
+	                            <td>${fieldValue(bean: adjustmentInInstance, field: "remarks")}</td>
+	                            <td>${adjustmentInInstance.posted ? "Yes" : "No"}</td>
+	                            <td><g:formatDate date="${adjustmentInInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                            <td>${fieldValue(bean: adjustmentInInstance, field: "postedBy")}</td>
+	                        </tr>
+	                    </g:each>
+                    </g:if>
+                    <g:else>
+                    	<tr>
+                    		<td colspan="5">No records found</td>
+                    	</tr>
+                    </g:else>
+                </table>
+            </div>
+            <div class="paginateButtons">
+                <g:paginate total="${adjustmentInInstanceTotal}" />
+            </div>
+        </div>
+    </body>
 </html>

@@ -7,6 +7,8 @@ class ReceivingReceipt {
 	Integer receivingReceiptNumber
 	Supplier supplier
 	Date receivedDate
+	String receivedBy
+	boolean posted
 	
 	List<ReceivingReceiptItem> items
 	

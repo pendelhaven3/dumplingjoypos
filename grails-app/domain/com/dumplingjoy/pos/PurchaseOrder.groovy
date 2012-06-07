@@ -2,6 +2,8 @@ package com.dumplingjoy.pos
 
 class PurchaseOrder {
 
+	transient springSecurityService
+	
 	Integer purchaseOrderNumber
 	Supplier supplier
 	boolean ordered
@@ -38,6 +40,12 @@ class PurchaseOrder {
 			ReceivingReceiptSequenceNumber.increment()
 			receivingReceipt.supplier = supplier
 			receivingReceipt.receivedDate = new Date()
+			receivingReceipt.receivedBy = ((User)springSecurityService.currentUser).username
+			
+			posted = true
+			save(failOnError: true)
+			receivingReceipt.save(failOnError: true)
+			receivingReceiptId = receivingReceipt.id
 			
 			items.each { PurchaseOrderItem item ->
 				if (item.actualQuantity && item.actualQuantity > 0) {
@@ -47,12 +55,10 @@ class PurchaseOrder {
 					receivingReceiptItem.quantity = item.actualQuantity
 					receivingReceiptItem.cost = item.cost
 					receivingReceipt.addToItems(receivingReceiptItem)
-				} 
+					receivingReceiptItem.save(failOnError: true)
+				}
 			}
-			posted = true
-			save(failOnError: true)
-			receivingReceipt.save(failOnError: true)
-			receivingReceiptId = receivingReceipt.id
+
 			return true
 		}
 	}

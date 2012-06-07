@@ -9,7 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException
 @Secured("isFullyAuthenticated()")
 class SalesRequisitionItemController {
 
-	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST", updateDiscounts: "POST"]
 
 	def create() {
 		SalesRequisition salesRequisitionInstance = SalesRequisition.get(params["salesRequisition.id"])

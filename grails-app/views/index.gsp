@@ -75,6 +75,9 @@
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="productCategory" />'">
                     <td>Product Categories (under construction)</td>
                 </tr>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="reinventory" />'">
+                    <td>Re-Inventory (under construction)</td>
+                </tr>
         	</table>
         </div>
     </body>
