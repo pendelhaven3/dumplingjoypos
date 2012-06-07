@@ -50,5 +50,9 @@ class ReceivingReceiptItem {
 		}
 		netAmount
 	}
+	
+	public BigDecimal getFinalCost() {
+		getNetAmount().divide(quantity, 2, RoundingMode.HALF_UP)
+	}
 
 }

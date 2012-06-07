@@ -26,4 +26,21 @@ class ReceivingReceiptController {
         [receivingReceiptInstance: receivingReceiptInstance]
     }
 
+	def postReceivingReceipt() {
+		ReceivingReceipt receivingReceiptInstance = ReceivingReceipt.get(params.id)
+		if (!receivingReceiptInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'receivingReceipt.label')])
+			redirect(action: "list")
+			return
+		}
+		
+		if (!receivingReceiptInstance.post()) {
+			render(view: "show", model: [receivingReceiptInstance: receivingReceiptInstance])
+			return
+		}
+		
+		flash.message = message(code: 'default.posted.message', args: [message(code: 'receivingReceipt.label')])
+		redirect(controller: "receivingReceipt", action: "show", id: receivingReceiptInstance.id)
+	}
+
 }

@@ -47,6 +47,7 @@
                             <td valign="top" class="name"><g:message code="receivingReceipt.supplier.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "supplier.name")}</td>
                         </tr>
+                        <%--
                         <g:if test="${receivingReceiptInstance.posted}">
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="receivingReceipt.postDate.label" /></td>
@@ -57,6 +58,7 @@
 	                            <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "postedBy")}</td>
 	                        </tr>
                         </g:if>
+                        --%>
                     </tbody>
                 </table>
             </div>
