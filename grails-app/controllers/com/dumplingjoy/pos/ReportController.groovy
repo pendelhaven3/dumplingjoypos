@@ -1,5 +1,8 @@
 package com.dumplingjoy.pos
 
+import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
+import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
+
 import grails.plugins.springsecurity.Secured
 
 @Secured("isFullyAuthenticated()")
@@ -17,11 +20,11 @@ class ReportController {
 			it.product.refresh()
 		}
 		
-		params._format = "PDF"
-		params._file = "salesInvoice"
-		params._name = "salesInvoice"
-		params.SUBREPORT_DIR = "jasperreports/"
-		chain(controller: 'jasper', action: 'index', model: [data: [salesInvoiceInstance]], params: params)
+		def reportDef = createReportDef("salesInvoice", salesInvoiceInstance)
+		
+		response.contentType = "application/pdf"
+		response.setHeader("contentDisposition", "inline") 
+		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
 	}
 	
 	def generateStockQuantityConversion() {
@@ -34,11 +37,20 @@ class ReportController {
 			}
 		}
 		
-		params._format = "PDF"
-		params._file = "stockConversion"
-		params._name = "stockConversion"
-		params.SUBREPORT_DIR = "jasperreports/"
-		chain(controller: 'jasper', action: 'index', model: [data: [stockQuantityConversionInstance]], params: params)
+		def reportDef = createReportDef("stockConversion", stockQuantityConversionInstance)
+		
+		response.contentType = "application/pdf"
+		response.setHeader("contentDisposition", "inline") 
+		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+	}
+	
+	private JasperReportDef createReportDef(String reportName, Object data) {
+		new JasperReportDef(
+			name: reportName + ".jasper",
+			fileFormat: JasperExportFormat.PDF_FORMAT,
+			reportData: [data],
+			parameters: [SUBREPORT_DIR: "jasperreports/"]
+		)
 	}
 	
 }
