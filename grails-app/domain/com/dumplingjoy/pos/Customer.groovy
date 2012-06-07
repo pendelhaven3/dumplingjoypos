@@ -4,7 +4,7 @@ class Customer {
 
 	String name
 	String address
-	PricingScheme defaultPricingScheme
+//	PricingScheme defaultPricingScheme // To implement later
 	
     static constraints = {
 		name blank: false, unique: true

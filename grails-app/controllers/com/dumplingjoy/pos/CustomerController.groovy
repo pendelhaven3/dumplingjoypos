@@ -23,9 +23,6 @@ class CustomerController {
 
     def create() {
 		Customer customerInstance = new Customer(params)
-		if (!customerInstance.defaultPricingScheme) {
-			customerInstance.defaultPricingScheme = PricingScheme.getCanvasserPricingScheme()
-		}
         [customerInstance: customerInstance]
     }
 

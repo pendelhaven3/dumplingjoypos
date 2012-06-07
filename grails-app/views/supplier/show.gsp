@@ -25,6 +25,14 @@
                             <td valign="top" class="name"><g:message code="supplier.name.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "name")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.address.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "address")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.contactNumber.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "contactNumber")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

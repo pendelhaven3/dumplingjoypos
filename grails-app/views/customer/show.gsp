@@ -29,10 +29,6 @@
                             <td valign="top" class="name"><g:message code="customer.address.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "address")}</td>
                         </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="customer.defaultPricingScheme.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "defaultPricingScheme.description")}</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

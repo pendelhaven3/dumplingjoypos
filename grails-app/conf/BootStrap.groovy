@@ -80,7 +80,7 @@ class BootStrap {
 			Customer customer = new Customer()
 			customer.name = "Customer " + i
 			customer.address = "Address " + i
-			customer.defaultPricingScheme = PricingScheme.getCanvasserPricingScheme()
+//			customer.defaultPricingScheme = PricingScheme.getCanvasserPricingScheme()
 			customer.save(failOnError: true)
 		}
 	}

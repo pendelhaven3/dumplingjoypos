@@ -48,16 +48,6 @@
                                 </td>
                             </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="defaultPricingScheme"><g:message code="customer.defaultPricingScheme.label" /></label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean: customerInstance, field: 'defaultPricingScheme', 'errors')}">
-                                	<g:select name="defaultPricingScheme.id" from="${PricingScheme.list([sort: "description", order: "asc"])}" value="${customerInstance.defaultPricingScheme?.id}" 
-                                		optionKey="id" optionValue="description" />
-                                </td>
-                            </tr>
-                        
                         </tbody>
                     </table>
                 </div>

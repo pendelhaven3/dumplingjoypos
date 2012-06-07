@@ -46,7 +46,7 @@
                     <td>Pricing Schemes</td>
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="customer" />'">
-                    <td>Customer Maintenance</td>
+                    <td>Customers</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="salesRequisition" />'">
                     <td>Sales Requisition</td>

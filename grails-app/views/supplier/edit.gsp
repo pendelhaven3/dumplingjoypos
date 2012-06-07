@@ -39,6 +39,24 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="address"><g:message code="supplier.address.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'address', 'errors')}">
+                                    <g:textArea name="address" value="${fieldValue(bean: supplierInstance, field: 'address')}" rows="3" cols="40" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="contactNumber"><g:message code="supplier.contactNumber.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'contactNumber', 'errors')}">
+                                    <g:textField name="contactNumber" value="${fieldValue(bean: supplierInstance, field: 'contactNumber')}" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

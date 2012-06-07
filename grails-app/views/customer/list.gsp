@@ -21,19 +21,17 @@
                 <table>
                     <tr>
                         <th><g:message code="customer.name.label" /></th>
-                        <th><g:message code="customer.defaultPricingScheme.label" /></th>
                     </tr>
                     <g:if test="${!customerInstanceList.empty}">
 	                    <g:each in="${customerInstanceList}" status="i" var="customerInstance">
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${customerInstance.id}' />'">
 	                            <td>${fieldValue(bean: customerInstance, field: "name")}</td>
-	                            <td>${fieldValue(bean: customerInstance, field: "defaultPricingScheme.description")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="2">No records found</td>
+                    		<td>No records found</td>
                     	</tr>
                     </g:else>
                 </table>
