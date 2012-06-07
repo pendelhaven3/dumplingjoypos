@@ -79,7 +79,7 @@
                     <td>Re-Inventory (under construction)</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="discountTerms" />'">
-                    <td>Discount Terms (under construction)</td>
+                    <td>Discount Terms</td>
                 </tr>
         	</table>
         </div>

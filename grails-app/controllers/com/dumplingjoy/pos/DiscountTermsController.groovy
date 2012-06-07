@@ -12,6 +12,8 @@ class DiscountTermsController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "name"
+		params.order = params.order ?: "asc"
         [discountTermsInstanceList: DiscountTerms.list(params), discountTermsInstanceTotal: DiscountTerms.count()]
     }
 
