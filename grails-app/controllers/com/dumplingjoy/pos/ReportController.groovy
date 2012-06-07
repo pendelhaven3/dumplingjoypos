@@ -53,4 +53,20 @@ class ReportController {
 		)
 	}
 	
+	def generatePurchaseOrder() {
+		def purchaseOrderInstance = PurchaseOrder.get(params.id)
+		
+		purchaseOrderInstance.supplier.refresh()
+		purchaseOrderInstance.items.each {
+			it.refresh()
+			it.product.refresh()
+		}
+		
+		def reportDef = createReportDef("purchaseOrder", purchaseOrderInstance)
+		
+		response.contentType = "application/pdf"
+		response.setHeader("contentDisposition", "inline")
+		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+	}
+	
 }

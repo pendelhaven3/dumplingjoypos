@@ -6,7 +6,6 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'purchaseOrder.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
-        <%--
         <style>
 			.prop .name {
 			    width: auto;
@@ -15,7 +14,6 @@
 			    width: auto;
 			}
         </style>
-        --%>
     </head>
     <body>
         <div class="nav">
@@ -39,10 +37,8 @@
                         <tr class="prop">
                             <td valign="top" class="name" style="width:150px;"><g:message code="purchaseOrder.purchaseOrderNumber.label" /></td>
                             <td valign="top" class="value" style="width:450px;">${fieldValue(bean: purchaseOrderInstance, field: "purchaseOrderNumber")}</td>
-                            <%--
                             <td valign="top" class="name" style="width:100px;"><g:message code="purchaseOrder.createdBy.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "createdBy")}</td>
-                            --%>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="purchaseOrder.supplier.label" /></td>
@@ -81,6 +77,12 @@
 	                </g:form>
 	            </div>
 	        </g:if>
+            <div class="buttons">
+                <g:form controller="report" target="_new">
+                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="print" action="generatePurchaseOrder" value="Print" /></span>
+                </g:form>
+            </div>
 	            
 			<br/><br/>
             

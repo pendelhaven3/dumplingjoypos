@@ -4,18 +4,13 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
-	<field name="customer.name" class="java.lang.String"/>
-	<field name="customer.address" class="java.lang.String"/>
-	<field name="postDate" class="java.util.Date"/>
-	<field name="salesInvoiceNo" class="java.lang.Integer"/>
-	<field name="mode" class="java.lang.String"/>
+	<field name="supplier.name" class="java.lang.String"/>
+	<field name="supplier.address" class="java.lang.String"/>
+	<field name="supplier.contactNumber" class="java.lang.String"/>
+	<field name="purchaseOrderNumber" class="java.lang.Integer"/>
 	<field name="items" class="java.util.Collection"/>
-	<field name="totalAmount" class="java.math.BigDecimal"/>
+	<field name="createdBy" class="java.lang.String"/>
 	<field name="totalQuantity" class="java.lang.Integer"/>
-	<field name="encodedBy" class="java.lang.String"/>
-	<field name="totalDiscountedAmount" class="java.math.BigDecimal"/>
-	<field name="totalNetAmount" class="java.math.BigDecimal"/>
-	<field name="pricingScheme.id" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -28,16 +23,16 @@
 251 GEN. P. ALVAREZ ST. CALOOCAN CITY
 TEL.NO. 362-1785 323-5946
 
-DELIVERY RECEIPT]]></text>
+PURCHASE ORDER]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="62" splitType="Stretch">
+		<band height="49" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="60" height="13"/>
 				<textElement/>
-				<text><![CDATA[Customer:]]></text>
+				<text><![CDATA[Supplier:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="13" width="60" height="13"/>
@@ -47,12 +42,12 @@ DELIVERY RECEIPT]]></text>
 			<textField>
 				<reportElement x="60" y="0" width="315" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{customer.name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplier.name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="60" y="13" width="315" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{customer.address}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplier.address}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="425" y="13" width="50" height="13"/>
@@ -62,43 +57,28 @@ DELIVERY RECEIPT]]></text>
 			<textField>
 				<reportElement x="475" y="13" width="80" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{postDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format(new Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="425" y="0" width="50" height="13"/>
 				<textElement/>
-				<text><![CDATA[D.R. No.:]]></text>
+				<text><![CDATA[P.O. #:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="475" y="0" width="80" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{salesInvoiceNo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{purchaseOrderNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="26" width="60" height="13"/>
 				<textElement/>
-				<text><![CDATA[Mode:]]></text>
+				<text><![CDATA[Contact No.:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="60" y="26" width="100" height="13"/>
+				<reportElement x="60" y="26" width="315" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{mode}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplier.contactNumber}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="425" y="26" width="50" height="13"/>
-				<textElement/>
-				<text><![CDATA[PS:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="475" y="26" width="80" height="13"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{pricingScheme.id}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="39" width="60" height="13"/>
-				<textElement/>
-				<text><![CDATA[Remarks:]]></text>
-			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
@@ -106,112 +86,52 @@ DELIVERY RECEIPT]]></text>
 			<subreport>
 				<reportElement x="0" y="0" width="555" height="20"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{items})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "salesInvoiceItems.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "purchaseOrderItems.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="45">
+		<band height="31">
 			<staticText>
-				<reportElement x="415" y="15" width="70" height="15"/>
+				<reportElement x="0" y="0" width="80" height="13"/>
 				<textElement/>
-				<text><![CDATA[Discount:]]></text>
+				<text><![CDATA[Total Items:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="485" y="0" width="70" height="15"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{totalAmount})]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="0" width="80" height="20"/>
-				<textElement/>
-				<text><![CDATA[Total Items =>]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="80" y="0" width="30" height="20"/>
+				<reportElement x="80" y="0" width="30" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{items}.size()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="110" y="0" width="80" height="20"/>
+				<reportElement x="0" y="13" width="80" height="13"/>
 				<textElement/>
-				<text><![CDATA[Total Qty =>]]></text>
+				<text><![CDATA[Total Qty Order:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="190" y="0" width="30" height="20"/>
+				<reportElement x="80" y="13" width="30" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{totalQuantity}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="415" y="0" width="70" height="15"/>
+				<reportElement x="415" y="13" width="60" height="13"/>
 				<textElement/>
-				<text><![CDATA[Sub Total:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="415" y="30" width="70" height="15"/>
-				<textElement/>
-				<text><![CDATA[Net Amount:]]></text>
+				<text><![CDATA[Created by:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="485" y="15" width="70" height="15"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["(" + new DecimalFormat("#,##0.00").format($F{totalDiscountedAmount}) + ")"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="485" y="30" width="70" height="15"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{totalNetAmount})]]></textFieldExpression>
+				<reportElement x="475" y="13" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{createdBy}]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="80">
+		<band height="40">
 			<staticText>
 				<reportElement x="0" y="20" width="80" height="20"/>
 				<textElement/>
-				<text><![CDATA[Prepared by:]]></text>
+				<text><![CDATA[Remarks:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="40" width="80" height="20"/>
+				<reportElement x="80" y="20" width="240" height="20"/>
 				<textElement/>
-				<text><![CDATA[Checked by:]]></text>
+				<text><![CDATA[________________________________________]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="60" width="80" height="20"/>
-				<textElement/>
-				<text><![CDATA[Received by:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="80" y="20" width="120" height="20"/>
-				<textElement/>
-				<text><![CDATA[____________________]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="80" y="40" width="120" height="20"/>
-				<textElement/>
-				<text><![CDATA[____________________]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="80" y="60" width="120" height="20"/>
-				<textElement/>
-				<text><![CDATA[____________________]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="435" y="60" width="120" height="20"/>
-				<textElement/>
-				<text><![CDATA[____________________]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="355" y="60" width="80" height="20"/>
-				<textElement/>
-				<text><![CDATA[Approved by:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="80" height="20"/>
-				<textElement/>
-				<text><![CDATA[Encoded by:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="80" y="0" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{encodedBy}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>

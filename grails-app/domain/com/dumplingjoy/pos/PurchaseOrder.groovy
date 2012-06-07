@@ -9,17 +9,19 @@ class PurchaseOrder {
 	boolean ordered
 	boolean posted
 	Long receivingReceiptId
+	String createdBy
 	
 	List<PurchaseOrderItem> items
 	
     static constraints = {
 		purchaseOrderNumber unique: true, min: 0
 		receivingReceiptId nullable: true
+		createdBy nullable: true
     }
 	
 	static hasMany = [items: PurchaseOrderItem]
 
-	static transients = ["totalAmount"]
+	static transients = ["totalAmount", "totalQuantity"]
 	
 	public boolean containsItem(PurchaseOrderItem item) {
 		return items.find {it.id != item.id && it.product.id == item.product?.id && it.unit == item.unit} != null
@@ -61,6 +63,20 @@ class PurchaseOrder {
 
 			return true
 		}
+	}
+
+	def beforeInsert() {
+		if (springSecurityService.currentUser) {
+			createdBy = ((User)springSecurityService.currentUser).username
+		}
+	}
+
+	public int getTotalQuantity() {
+		int totalQuantity = 0
+		items.each {
+			totalQuantity += it.quantity
+		}
+		totalQuantity
 	}
 
 }
