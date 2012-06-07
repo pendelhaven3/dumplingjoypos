@@ -22,13 +22,14 @@
                     <tr>
                         <th width="150"><g:message code="salesRequisition.salesRequisitionNumber.label" /></th>
                         <th><g:message code="salesRequisition.customer.label" /></th>
+                        <th><g:message code="salesRequisition.posted.label" /></th>
                     </tr>
                     <g:if test="${!salesRequisitionInstanceList.empty}">
 	                    <g:each in="${salesRequisitionInstanceList}" status="i" var="salesRequisitionInstance">
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${salesRequisitionInstance.id}' />'">
-	                        
 	                            <td>${fieldValue(bean: salesRequisitionInstance, field: "salesRequisitionNumber")}</td>
 	                            <td>${fieldValue(bean: salesRequisitionInstance, field: "customer.name")}</td>
+	                            <td>${salesRequisitionInstance.posted ? "Yes" : "No"}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>

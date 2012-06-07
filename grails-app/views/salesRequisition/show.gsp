@@ -1,5 +1,6 @@
 
 <%@ page import="com.dumplingjoy.pos.SalesRequisition" %>
+<%@ page import="com.dumplingjoy.pos.SalesInvoice" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -56,10 +57,12 @@
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="salesRequisition.postDate.label" /></td>
 	                            <td valign="top" class="value"><g:formatDate date="${salesRequisitionInstance.postDate}" format="MM/dd/yyyy" /></td>
-	                        </tr>
-	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="salesRequisition.postedBy.label" /></td>
 	                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "postedBy")}</td>
+	                        </tr>
+	                        <tr class="prop">
+	                            <td valign="top" class="name">Related Sales Invoice No.</td>
+	                            <td valign="top" class="value">${SalesInvoice.get(salesRequisitionInstance.salesInvoiceId).salesInvoiceNumber}</td>
 	                        </tr>
                         </g:if>
                     </tbody>
@@ -95,7 +98,9 @@
                         	<th width="50">Quantity</th>
                         	<th width="80">Unit Price</th>
                         	<th width="100">Amount</th>
-                        	<th width="170"></th>
+                        	<g:if test="${!salesRequisitionInstance.posted}">
+                        		<th width="170"></th>
+                        	</g:if>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,13 +113,15 @@
                         	<td class="right">${item.quantity}</td>
                         	<td width="80" class="right"><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
                         	<td width="80" class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
-                        	<td style="text-align:center">
-	                        	<g:if test="${!salesRequisitionInstance.posted}">
-	                       			<input type="button" value="Edit" onclick="editSalesRequisitionItem(${item.id})" />
-	                       			<input type="button" value="Discounts" onclick="editSalesRequisitionItemDiscounts(${item.id})" />
-	                       			<input type="button" value="Delete" onclick="deleteSalesRequisitionItem(${item.id})" />
-	                        	</g:if>
-                        	</td>
+                        	<g:if test="${!salesRequisitionInstance.posted}">
+	                        	<td style="text-align:center">
+		                        	<g:if test="${!salesRequisitionInstance.posted}">
+		                       			<input type="button" value="Edit" onclick="editSalesRequisitionItem(${item.id})" />
+		                       			<input type="button" value="Discounts" onclick="editSalesRequisitionItemDiscounts(${item.id})" />
+		                       			<input type="button" value="Delete" onclick="deleteSalesRequisitionItem(${item.id})" />
+		                        	</g:if>
+	                        	</td>
+	                        </g:if>
                         </tr>
                     </g:each>
                     </g:if>
@@ -131,17 +138,23 @@
 	                	<tr class="odd">
 	                		<td class="right bold">Sub Total</td>
 	                		<td width="100" class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalAmount}" format="#,##0.00" /></td>
-	                		<td width="170"></td>
+                        	<g:if test="${!salesRequisitionInstance.posted}">
+	                			<td width="170"></td>
+	                		</g:if>
 	                	</tr>
 	                	<tr class="odd" style="color:red">
 	                		<td class="right bold">Discount</td>
 	                		<td class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalDiscountedAmount}" format="#,##0.00" /></td>
-	                		<td></td>
+                        	<g:if test="${!salesRequisitionInstance.posted}">
+		                		<td></td>
+		                	</g:if>
 	                	</tr>
 	                	<tr class="odd">
 	                		<td class="right bold">Net Amount</td>
 	                		<td class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalNetAmount}" format="#,##0.00" /></td>
-	                		<td></td>
+                        	<g:if test="${!salesRequisitionInstance.posted}">
+	                			<td></td>
+	                		</g:if>
 	                	</tr>
 	                </table>
 	            </g:if>

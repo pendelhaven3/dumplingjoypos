@@ -17,9 +17,7 @@ class SalesRequisitionController {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
 		params.sort = params.sort ?: "salesRequisitionNumber"
 		params.order = params.order ?: "desc"
-		
-		def salesRequisitionInstanceList = SalesRequisition.findAllByPosted(false, params)
-        [salesRequisitionInstanceList: salesRequisitionInstanceList, salesRequisitionInstanceTotal: SalesRequisition.count()]
+        [salesRequisitionInstanceList: SalesRequisition.list(params), salesRequisitionInstanceTotal: SalesRequisition.count()]
     }
 
     def create() {
