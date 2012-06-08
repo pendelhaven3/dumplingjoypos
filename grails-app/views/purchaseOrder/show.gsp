@@ -45,6 +45,10 @@
                             <td valign="top" class="name"><g:message code="purchaseOrder.supplier.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "supplier.name")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="purchaseOrder.terms.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: purchaseOrderInstance, field: "terms.name")}</td>
+                        </tr>
                         <g:if test="${purchaseOrderInstance.ordered}">
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="purchaseOrder.orderDate.label" /></td>

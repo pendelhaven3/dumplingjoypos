@@ -2,6 +2,7 @@
 
 <%@ page import="com.dumplingjoy.pos.PurchaseOrder" %>
 <%@ page import="com.dumplingjoy.pos.Supplier" %>
+<%@ page import="com.dumplingjoy.pos.DiscountTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -27,6 +28,7 @@
             	</g:each>
                 <g:renderErrors bean="${purchaseOrderInstance}" field="version" />
                 <g:renderErrors bean="${purchaseOrderInstance}" field="supplier" />
+                <g:renderErrors bean="${purchaseOrderInstance}" field="terms" />
             </div>
             </g:hasErrors>
             <g:form method="post" autocomplete="off">
@@ -47,6 +49,16 @@
                                 <td valign="top" class="value">
                                 	<g:select name="supplier.id" from="${Supplier.list([sort: "name", order: "asc"])}" value="${purchaseOrderInstance.supplier?.id}"
                                 		noSelection="['':'']" optionKey="id" optionValue="name" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="terms"><g:message code="purchaseOrder.terms.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: purchaseOrderInstance, field: 'terms', 'errors')}">
+                                	<g:select name="terms.id" from="${DiscountTerms.list([sort: "name", order: "asc"])}" value="${purchaseOrderInstance.terms?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
                                 </td>
                             </tr>
                         

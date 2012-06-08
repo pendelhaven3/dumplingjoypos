@@ -14,6 +14,7 @@ import com.dumplingjoy.pos.SalesRequisition
 import com.dumplingjoy.pos.SalesRequisitionItem
 import com.dumplingjoy.pos.SalesRequisitionSequenceNumber
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
+import com.dumplingjoy.pos.Supplier
 import com.dumplingjoy.pos.Unit;
 import com.dumplingjoy.pos.User;
 
@@ -28,6 +29,7 @@ class BootStrap {
 //		setupDummyProducts()
 		setupInitialPricingScheme() // must be placed after initial products have been created
 		setupDummyCustomers()
+		setupDummySuppliers()
 //		setupDummySalesInvoice()
 		setupDummyCosts()
     }
@@ -154,4 +156,14 @@ class BootStrap {
 		}
 	}
 	
+	private void setupDummySuppliers() {
+		for (int i=1; i<=20; i++) {
+			Supplier supplier = new Supplier()
+			supplier.name = "Supplier " + i
+			supplier.address = "Address " + i
+			supplier.contactNumber = "Contact No. " + i
+			supplier.save(failOnError: true)
+		}
+	}
+
 }

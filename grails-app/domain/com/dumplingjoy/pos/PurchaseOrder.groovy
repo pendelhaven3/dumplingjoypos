@@ -13,6 +13,7 @@ class PurchaseOrder {
 	Date orderDate
 	Date postDate
 	String postedBy
+	DiscountTerms terms
 	
 	List<PurchaseOrderItem> items
 	
@@ -50,6 +51,7 @@ class PurchaseOrder {
 			receivingReceipt.receivedDate = new Date()
 			receivingReceipt.receivedBy = getCurrentUsername()
 			receivingReceipt.orderDate = orderDate
+			receivingReceipt.terms = terms
 			receivingReceipt.save(failOnError: true)
 			
 			posted = true
@@ -101,7 +103,6 @@ class PurchaseOrder {
 		} else {
 			"SYSTEM"
 		}
-			
 	}
 	
 	public String getStatus() {

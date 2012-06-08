@@ -83,6 +83,8 @@ class PurchaseOrderController {
         purchaseOrderInstance.properties = params
 		purchaseOrderInstance.supplier.discard() // I have no idea why I have to do this to make it work T__T
 		purchaseOrderInstance.supplier = Supplier.get(params["supplier.id"])
+		purchaseOrderInstance.terms.discard() // I have no idea why I have to do this to make it work T__T
+		purchaseOrderInstance.terms = DiscountTerms.get(params["terms.id"])
 
         if (!purchaseOrderInstance.save(flush: true)) {
             render(view: "edit", model: [purchaseOrderInstance: purchaseOrderInstance])
