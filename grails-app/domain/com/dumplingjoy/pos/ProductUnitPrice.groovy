@@ -32,5 +32,12 @@ class ProductUnitPrice {
 	public void retrieveUnitCost() {
 		cost = ProductUnitCost.findByProductAndUnit(product, unit).finalCost
 	}
+	
+	public boolean isLessThanCost() {
+		if (!cost) {
+			retrieveUnitCost()
+		}
+		return price.compareTo(cost) == -1
+	}
 		
 }

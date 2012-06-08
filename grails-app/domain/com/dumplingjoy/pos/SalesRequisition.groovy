@@ -56,6 +56,14 @@ class SalesRequisition {
 				} else {
 					unitQuantity.save(failOnError: true)
 				}
+				
+				ProductUnitPrice unitPrice = ProductUnitPrice.find("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ? and up.unit = ?",
+					[pricingScheme, item.product, item.unit])
+				if (unitPrice.isLessThanCost()) {
+					errors.reject("postItem.priceLessThanCost.message", [item.product.code, item.unit] as Object[],
+						"postItem.priceLessThanCost.message")
+					item.hasPostError = true
+				}
 			}
 			if (hasErrors()) {
 				status.setRollbackOnly()

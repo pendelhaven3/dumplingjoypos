@@ -30,7 +30,7 @@ class SalesRequisitionItemController {
 			return
 		}
 
-		def salesRequisitionItemInstance = new SalesRequisitionItem(params)
+		SalesRequisitionItem salesRequisitionItemInstance = new SalesRequisitionItem(params)
 		salesRequisitionItemInstance.product = Product.get(params["product.id"])
 
 		if (salesRequisitionInstance.containsItem(salesRequisitionItemInstance)) {
@@ -38,6 +38,15 @@ class SalesRequisitionItemController {
 					[message(code: 'salesRequisition.label')] as Object[], "default.containsItem.message")
 			render(view: "create", model: [salesRequisitionItemInstance: salesRequisitionItemInstance, salesRequisitionInstance: salesRequisitionInstance])
 			return
+		}
+
+		if (salesRequisitionItemInstance.product && salesRequisitionItemInstance.unit) {
+			if (salesRequisitionItemInstance.hasPriceLessThanCost()) {
+				salesRequisitionItemInstance.errors.reject("priceLessThanCost.message",
+						[] as Object[], "priceLessThanCost.message")
+				render(view: "create", model: [salesRequisitionItemInstance: salesRequisitionItemInstance, salesRequisitionInstance: salesRequisitionInstance])
+				return
+			}
 		}
 
 		salesRequisitionInstance.addToItems(salesRequisitionItemInstance)
@@ -107,6 +116,15 @@ class SalesRequisitionItemController {
 					[message(code: 'salesRequisition.label')] as Object[], "default.containsItem.message")
 			render(view: "edit", model: [salesRequisitionItemInstance: salesRequisitionItemInstance, salesRequisitionInstance: salesRequisitionInstance])
 			return
+		}
+
+		if (salesRequisitionItemInstance.product && salesRequisitionItemInstance.unit) {
+			if (salesRequisitionItemInstance.hasPriceLessThanCost()) {
+				salesRequisitionItemInstance.errors.reject("priceLessThanCost.message",
+						[] as Object[], "priceLessThanCost.message")
+				render(view: "edit", model: [salesRequisitionItemInstance: salesRequisitionItemInstance, salesRequisitionInstance: salesRequisitionInstance])
+				return
+			}
 		}
 
 		// re-attach salesRequisitionItemInstance to session
