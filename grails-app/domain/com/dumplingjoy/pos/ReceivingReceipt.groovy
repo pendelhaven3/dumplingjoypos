@@ -16,6 +16,7 @@ class ReceivingReceipt {
 	Date postDate
 	Date orderDate
 	DiscountTerms terms
+	PurchaseOrder relatedPurchaseOrder
 	
 	List<ReceivingReceiptItem> items
 	
@@ -23,6 +24,7 @@ class ReceivingReceipt {
 		receivingReceiptNumber unique: true, min: 0
 		postedBy nullable: true
 		postDate nullable: true
+		relatedPurchaseOrder nullable: true
     }
 	
 	static hasMany = [items: ReceivingReceiptItem]
@@ -83,6 +85,7 @@ class ReceivingReceipt {
 
 			postedBy = ((User)springSecurityService.currentUser).username
 			posted = true
+			postDate = new Date()
 			save(failOnError: true)
 			return true
 		}

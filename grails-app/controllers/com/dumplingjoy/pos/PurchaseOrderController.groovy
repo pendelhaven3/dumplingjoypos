@@ -145,7 +145,7 @@ class PurchaseOrderController {
 		}
 		
 		flash.message = message(code: 'default.posted.message', args: [message(code: 'purchaseOrder.label')])
-		redirect(controller: "receivingReceipt", action: "show", id: purchaseOrderInstance.receivingReceiptId)
+		redirect(controller: "receivingReceipt", action: "show", id: purchaseOrderInstance.relatedReceivingReceipt.id)
 	}
 
 }

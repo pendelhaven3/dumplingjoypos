@@ -33,7 +33,7 @@
 	                            <td>${fieldValue(bean: receivingReceiptInstance, field: "supplier.name")}</td>
 	                            <td><g:formatDate date="${receivingReceiptInstance.receivedDate}" format="MM/dd/yyyy" /></td>
 	                            <td>${fieldValue(bean: receivingReceiptInstance, field: "receivedBy")}</td>
-	                            <td><%--${receivingReceiptInstance.posted ? "Yes" : "No"}--%></td>
+	                            <td>${receivingReceiptInstance.posted ? "Yes" : "No"}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>

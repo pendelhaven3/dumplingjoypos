@@ -69,4 +69,23 @@ class ReportController {
 		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
 	}
 	
+	def generateReceivingReceipt() {
+		def receivingReceiptInstance = ReceivingReceipt.get(params.id)
+		
+		receivingReceiptInstance.supplier.refresh()
+		receivingReceiptInstance.terms.refresh()
+		receivingReceiptInstance.relatedPurchaseOrder.refresh()
+		receivingReceiptInstance.items.each {
+			it.refresh()
+			it.product.refresh()
+		}
+		
+		def reportDef = createReportDef("receivingReceipt", receivingReceiptInstance)
+		
+		response.contentType = "application/pdf"
+		response.setHeader("contentDisposition", "inline")
+		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+	}
+	
+
 }

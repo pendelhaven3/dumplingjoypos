@@ -8,22 +8,22 @@ class PurchaseOrder {
 	Supplier supplier
 	boolean ordered
 	boolean posted
-	Long receivingReceiptId
 	String createdBy
 	Date orderDate
 	Date postDate
 	String postedBy
 	DiscountTerms terms
+	ReceivingReceipt relatedReceivingReceipt
 	
 	List<PurchaseOrderItem> items
 	
     static constraints = {
 		purchaseOrderNumber unique: true, min: 0
-		receivingReceiptId nullable: true
 		orderDate nullable: true
 		postDate nullable: true
 		postedBy nullable: true
 		createdBy nullable: true
+		relatedReceivingReceipt nullable: true
     }
 	
 	static hasMany = [items: PurchaseOrderItem]
@@ -52,12 +52,13 @@ class PurchaseOrder {
 			receivingReceipt.receivedBy = getCurrentUsername()
 			receivingReceipt.orderDate = orderDate
 			receivingReceipt.terms = terms
+			receivingReceipt.relatedPurchaseOrder = this
 			receivingReceipt.save(failOnError: true)
 			
 			posted = true
 			postedBy = getCurrentUsername()
 			postDate = new Date()
-			receivingReceiptId = receivingReceipt.id
+			relatedReceivingReceipt = receivingReceipt
 			save(failOnError: true)
 			
 			items.each { PurchaseOrderItem item ->

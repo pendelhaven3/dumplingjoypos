@@ -1,6 +1,5 @@
 
 <%@ page import="com.dumplingjoy.pos.PurchaseOrder" %>
-<%@ page import="com.dumplingjoy.pos.ReceivingReceipt" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -64,7 +63,7 @@
 	                        </tr>
 	                        <tr class="prop">
 	                            <td valign="top" class="name">Related Receiving Receipt No.</td>
-	                            <td valign="top" class="value">${ReceivingReceipt.get(purchaseOrderInstance.receivingReceiptId).receivingReceiptNumber}</td>
+	                            <td valign="top" class="value">${purchaseOrderInstance.relatedReceivingReceipt.receivingReceiptNumber}</td>
 	                        </tr>
 	                    </g:if>
                     </tbody>

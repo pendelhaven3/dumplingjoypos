@@ -6,7 +6,6 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'receivingReceipt.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
-        <%--
         <style>
 			.prop .name {
 			    width: auto;
@@ -15,7 +14,6 @@
 			    width: auto;
 			}
         </style>
-        --%>
     </head>
     <body>
         <div class="nav">
@@ -37,32 +35,30 @@
                     <tbody>
                         <tr class="prop">
                             <td valign="top" class="name" style="width:150px;"><g:message code="receivingReceipt.receivingReceiptNumber.label" /></td>
-                            <td valign="top" class="value" style="width:450px;">${fieldValue(bean: receivingReceiptInstance, field: "receivingReceiptNumber")}</td>
-                            <%--
-                            <td valign="top" class="name" style="width:100px;"><g:message code="receivingReceipt.createdBy.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "createdBy")}</td>
-                            --%>
+                            <td valign="top" class="value" style="width:350px;">${fieldValue(bean: receivingReceiptInstance, field: "receivingReceiptNumber")}</td>
+                            <td valign="top" class="name" style="width:200px;">Related Purchase Order No.</td>
+                            <td valign="top" class="value">${receivingReceiptInstance.relatedPurchaseOrder.purchaseOrderNumber}</td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="receivingReceipt.supplier.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "supplier.name")}</td>
+                            <td valign="top" class="name"><g:message code="receivingReceipt.orderDate.label" /></td>
+                            <td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.orderDate}" format="MM/dd/yyyy" /></td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="receivingReceipt.terms.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "terms.name")}</td>
+                            <td valign="top" class="name"><g:message code="receivingReceipt.receivedDate.label" /></td>
+                            <td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.receivedDate}" format="MM/dd/yyyy" /></td>
                         </tr>
-                        <%--
-                        <g:if test="${receivingReceiptInstance.posted}">
+	                    <g:if test="${receivingReceiptInstance.posted}">
 	                        <tr class="prop">
+	                            <td></td>
+	                            <td></td>
 	                            <td valign="top" class="name"><g:message code="receivingReceipt.postDate.label" /></td>
 	                            <td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.postDate}" format="MM/dd/yyyy" /></td>
 	                        </tr>
-	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="receivingReceipt.postedBy.label" /></td>
-	                            <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "postedBy")}</td>
-	                        </tr>
-                        </g:if>
-                        --%>
+	                    </g:if>
                     </tbody>
                 </table>
             </div>
@@ -75,6 +71,15 @@
 	                </g:form>
 	            </div>
             </g:if>
+            
+            <g:if test="${receivingReceiptInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="report" target="_new">
+	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="print" action="generateReceivingReceipt" value="Print" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
 	            
 			<br/><br/>
             
@@ -88,7 +93,9 @@
                         	<th width="50">Quantity</th>
                         	<th width="80">Cost</th>
                         	<th width="100">Amount</th>
-                        	<th width="80"></th>
+                            <g:if test="${!receivingReceiptInstance.posted}">
+                        		<th width="80"></th>
+                        	</g:if>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,11 +107,13 @@
                         	<td class="right">${item.quantity}</td>
                         	<td class="right"><g:formatNumber number="${item.cost}" format="#,##0.00" /></td>
                         	<td class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
-                        	<td style="text-align:center">
-	                        	<g:if test="${!receivingReceiptInstance.posted}">
-	                       			<input type="button" value="Discounts" onclick="editReceivingReceiptItemDiscounts(${item.id})" />
-	                        	</g:if>
-                        	</td>
+                            <g:if test="${!receivingReceiptInstance.posted}">
+	                        	<td style="text-align:center">
+		                        	<g:if test="${!receivingReceiptInstance.posted}">
+		                       			<input type="button" value="Discounts" onclick="editReceivingReceiptItemDiscounts(${item.id})" />
+		                        	</g:if>
+	                        	</td>
+	                        </g:if>
                         </tr>
                     </g:each>
                     </g:if>
@@ -121,17 +130,23 @@
 	                	<tr class="odd">
 	                		<td class="right bold">Sub Total</td>
 	                		<td width="100" class="right bold"><g:formatNumber number="${receivingReceiptInstance.totalAmount}" format="#,##0.00" /></td>
-	                		<td width="80"></td>
+                            <g:if test="${!receivingReceiptInstance.posted}">
+		                		<td width="80"></td>
+		                	</g:if>
 	                	</tr>
 	                	<tr class="odd" style="color:red">
 	                		<td class="right bold">Discount</td>
 	                		<td class="right bold"><g:formatNumber number="${receivingReceiptInstance.totalDiscountedAmount}" format="#,##0.00" /></td>
-	                		<td></td>
+                            <g:if test="${!receivingReceiptInstance.posted}">
+                            	<td></td>
+                            </g:if>
 	                	</tr>
 	                	<tr class="odd">
 	                		<td class="right bold">Net Amount</td>
 	                		<td class="right bold"><g:formatNumber number="${receivingReceiptInstance.totalNetAmount}" format="#,##0.00" /></td>
-	                		<td></td>
+                            <g:if test="${!receivingReceiptInstance.posted}">
+                            	<td></td>
+                            </g:if>
 	                	</tr>
 	                </table>
 	            </g:if>
