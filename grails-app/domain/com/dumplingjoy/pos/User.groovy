@@ -10,10 +10,12 @@ class User {
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
-
+	String name
+	
 	static constraints = {
 		username blank: false, unique: true
 		password blank: false
+		name blank: false, unique: true
 	}
 
 	static mapping = {
@@ -36,5 +38,9 @@ class User {
 
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
+	}
+	
+	public boolean isManager() {
+		getAuthorities().contains(Role.findByAuthority("ROLE_MANAGER"))
 	}
 }

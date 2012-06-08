@@ -5,7 +5,7 @@ import grails.plugins.springsecurity.Secured
 import org.springframework.dao.DataIntegrityViolationException
 
 
-@Secured("isFullyAuthenticated()")
+@Secured("ROLE_MANAGER")
 class ProductUnitPriceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

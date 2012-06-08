@@ -1,7 +1,11 @@
 package com.dumplingjoy.pos
 
+import grails.plugins.springsecurity.Secured
+
 import org.springframework.dao.DataIntegrityViolationException
 
+
+@Secured("ROLE_MANAGER")
 class ProductUnitCostController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]

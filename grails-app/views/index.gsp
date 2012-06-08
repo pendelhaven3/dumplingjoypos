@@ -42,9 +42,11 @@
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="stockQuantityConversion" />'">
                     <td>Stock Quantity Conversion</td>
                 </tr>
-                <tr class="odd clickable" onclick="window.location='<g:createLink controller="pricingScheme" />'">
-                    <td>Pricing Schemes</td>
-                </tr>
+                <sec:ifAllGranted roles="ROLE_MANAGER">
+	                <tr class="odd clickable" onclick="window.location='<g:createLink controller="pricingScheme" />'">
+	                    <td>Pricing Schemes</td>
+	                </tr>
+                </sec:ifAllGranted>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="customer" />'">
                     <td>Customers</td>
                 </tr>
@@ -63,8 +65,13 @@
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="receivingReceipt" />'">
                     <td>Reports (under construction)</td>
                 </tr>
-                <tr class="even clickable" onclick="window.location='<g:createLink controller="user" />'">
-                    <td>User Maintenance (under construction)</td>
+                <sec:ifAllGranted roles="ROLE_MANAGER">
+	                <tr class="even clickable" onclick="window.location='<g:createLink controller="user" />'">
+	                    <td>User Maintenance</td>
+	                </tr>
+                </sec:ifAllGranted>
+                <tr class="even clickable" onclick="window.location='<g:createLink controller="user" action="editPassword" />'">
+                    <td>Change Password</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="supplier" />'">
                     <td>Suppliers</td>
@@ -81,6 +88,11 @@
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="discountTerms" />'">
                     <td>Discount Terms</td>
                 </tr>
+                <sec:ifAllGranted roles="ROLE_MANAGER">
+	                <tr class="even clickable" onclick="window.location='<g:createLink controller="productUnitCost" />'">
+	                    <td>Product Costs (under construction)</td>
+	                </tr>
+                </sec:ifAllGranted>
         	</table>
         </div>
     </body>

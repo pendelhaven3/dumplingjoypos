@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils
 import org.springframework.dao.DataIntegrityViolationException
 
 
-@Secured("isFullyAuthenticated()")
+@Secured("ROLE_MANAGER")
 class PricingSchemeController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
