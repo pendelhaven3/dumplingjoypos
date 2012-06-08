@@ -23,15 +23,17 @@ class BootStrap {
 	def bootStrapService
 	
     def init = { servletContext ->
-		setupInitialUser()
-		setupSequences()
-		bootStrapService.importProductsFromExcel()
-//		setupDummyProducts()
-		setupInitialPricingScheme() // must be placed after initial products have been created
-		setupDummyCustomers()
-		setupDummySuppliers()
-//		setupDummySalesInvoice()
-		setupDummyCosts()
+		if (!isDataInitialized()) {
+			setupInitialUser()
+			setupSequences()
+			bootStrapService.importProductsFromExcel()
+	//		setupDummyProducts()
+			setupInitialPricingScheme() // must be placed after initial products have been created
+//			setupDummyCustomers()
+//			setupDummySuppliers()
+	//		setupDummySalesInvoice()
+//			setupDummyCosts()
+		}
     }
 	
     def destroy = {
@@ -166,4 +168,8 @@ class BootStrap {
 		}
 	}
 
+	private boolean isDataInitialized() {
+		return AdjustmentInSequenceNumber.get(1) != null
+	}
+	
 }

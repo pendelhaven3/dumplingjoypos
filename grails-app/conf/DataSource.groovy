@@ -13,14 +13,14 @@ hibernate {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-            url = "jdbc:h2:mem:devDB"
-//			pooled = true
-//			dbCreate = "create-drop" // one of 'create', 'create-drop','update'
-//			url = "jdbc:mysql://localhost/jcharmonypos"
-//			driverClassName = "com.mysql.jdbc.Driver"
-//			username = "root"
-//			password = "root"
+//            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+//            url = "jdbc:h2:mem:devDB"
+			pooled = true
+			dbCreate = "update" // one of 'create', 'create-drop','update'
+			url = "jdbc:mysql://localhost/jcharmonypos"
+			driverClassName = "com.mysql.jdbc.Driver"
+			username = "root"
+			password = "root"
         }
     }
     test {

@@ -42,7 +42,7 @@
                                     <label for="description"><g:message code="product.description.label" default="Description" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${productInstance?.description}" />
+                                    <g:textField name="description" value="${productInstance?.description}" style="width:500px" />
                                 </td>
                             </tr>
                             
