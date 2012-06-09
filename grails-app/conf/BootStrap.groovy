@@ -36,8 +36,11 @@ class BootStrap {
 	
 	private void setupInitialUser() {
 		User user = new User(username: "joy", name: "Joy Apolonio", password: "joy", enabled: true).save(failOnError:true)
-		Role role = Role.findByAuthority("ROLE_MANAGER")
-		new UserRole(user: user, role: role).save(failOnError: true)
+		Role managerRole = Role.findByAuthority("ROLE_MANAGER")
+		new UserRole(user: user, role: managerRole).save(failOnError: true)
+		
+		user = new User(username: "pj", name: "PJ Miranda", password: "password", enabled: true).save(failOnError:true)
+		new UserRole(user: user, role: managerRole).save(failOnError: true)
 	}
 	
 	private void setupSequences() {

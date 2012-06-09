@@ -15,7 +15,7 @@ class ReceivingReceipt {
 	String postedBy
 	Date postDate
 	Date orderDate
-	DiscountTerms terms
+	PaymentTerms terms
 	PurchaseOrder relatedPurchaseOrder
 	
 	List<ReceivingReceiptItem> items

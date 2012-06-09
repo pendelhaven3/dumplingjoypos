@@ -1,10 +1,10 @@
 
-<%@ page import="com.dumplingjoy.pos.DiscountTerms" %>
+<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'discountTerms.label')}" />
+        <g:set var="entityName" value="${message(code: 'paymentTerms.label')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,8 +22,8 @@
                 <table>
                     <tbody>
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="discountTerms.name.label" /></td>
-                            <td valign="top" class="value">${fieldValue(bean: discountTermsInstance, field: "name")}</td>
+                            <td valign="top" class="name"><g:message code="paymentTerms.name.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: paymentTermsInstance, field: "name")}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -31,7 +31,7 @@
             
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${discountTermsInstance?.id}" />
+                    <g:hiddenField name="id" value="${paymentTermsInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>

@@ -85,8 +85,8 @@
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="reinventory" />'">
                     <td>Re-Inventory (under construction)</td>
                 </tr>
-                <tr class="odd clickable" onclick="window.location='<g:createLink controller="discountTerms" />'">
-                    <td>Discount Terms</td>
+                <tr class="odd clickable" onclick="window.location='<g:createLink controller="paymentTerms" />'">
+                    <td>Payment Terms</td>
                 </tr>
                 <sec:ifAllGranted roles="ROLE_MANAGER">
 	                <tr class="even clickable" onclick="window.location='<g:createLink controller="productUnitCost" />'">

@@ -2,7 +2,7 @@
 
 <%@ page import="com.dumplingjoy.pos.PurchaseOrder" %>
 <%@ page import="com.dumplingjoy.pos.Supplier" %>
-<%@ page import="com.dumplingjoy.pos.DiscountTerms" %>
+<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -57,7 +57,7 @@
                                     <label for="terms"><g:message code="purchaseOrder.terms.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: purchaseOrderInstance, field: 'terms', 'errors')}">
-                                	<g:select name="terms.id" from="${DiscountTerms.list([sort: "name", order: "asc"])}" value="${purchaseOrderInstance.terms?.id}" 
+                                	<g:select name="terms.id" from="${PaymentTerms.list([sort: "name", order: "asc"])}" value="${purchaseOrderInstance.terms?.id}" 
                                 		optionKey="id" optionValue="name" noSelection="['':'']" />
                                 </td>
                             </tr>

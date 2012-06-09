@@ -18,6 +18,8 @@ class SalesRequisition {
 	String postedBy
 	String createdBy
 	Long salesInvoiceId
+	Date dateCreated
+	String remarks
 
     static constraints = {
 		salesRequisitionNumber unique: true
@@ -26,11 +28,13 @@ class SalesRequisition {
 		postedBy nullable: true
 		createdBy nullable: true
 		salesInvoiceId nullable: true
+		dateCreated nullable: true
+		remarks nullable: true, blank: true
     }
 	
 	static hasMany = [items: SalesRequisitionItem]
 
-	static transients = ["totalAmount", "totalDiscountedAmount", "totalNetAmount"]
+	static transients = ["totalAmount", "totalDiscountedAmount", "totalNetAmount", "totalQuantity"]
 	
 	public BigDecimal getTotalAmount() {
 		BigDecimal total = BigDecimal.ZERO
@@ -85,6 +89,7 @@ class SalesRequisition {
 			salesInvoice.postDate = postDate
 			salesInvoice.postedBy = postedBy
 			salesInvoice.encodedBy = createdBy
+			salesInvoice.remarks = remarks
 			
 			items.each { SalesRequisitionItem item ->
 				SalesInvoiceItem salesInvoiceItem = new SalesInvoiceItem()
@@ -125,6 +130,14 @@ class SalesRequisition {
 			total = total.add(it.netAmount)
 		}
 		total.setScale(0, RoundingMode.CEILING)
+	}
+
+	public int getTotalQuantity() {
+		int totalQuantity = 0
+		items.each {
+			totalQuantity += it.quantity
+		}
+		totalQuantity
 	}
 
 }

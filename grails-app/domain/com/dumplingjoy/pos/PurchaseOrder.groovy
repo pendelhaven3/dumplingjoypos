@@ -12,7 +12,7 @@ class PurchaseOrder {
 	Date orderDate
 	Date postDate
 	String postedBy
-	DiscountTerms terms
+	PaymentTerms terms
 	ReceivingReceipt relatedReceivingReceipt
 	
 	List<PurchaseOrderItem> items

@@ -1,11 +1,11 @@
 
 
-<%@ page import="com.dumplingjoy.pos.DiscountTerms" %>
+<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'discountTerms.label', default: 'DiscountTerms')}" />
+        <g:set var="entityName" value="${message(code: 'paymentTerms.label', default: 'PaymentTerms')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -18,23 +18,23 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${discountTermsInstance}">
+            <g:hasErrors bean="${paymentTermsInstance}">
             <div class="errors">
-                <g:renderErrors bean="${discountTermsInstance}" as="list" />
+                <g:renderErrors bean="${paymentTermsInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" autocomplete="off">
-            	<g:hiddenField name="discountTerms.id" value="${discountTermsInstance.id}" />
+            	<g:hiddenField name="paymentTerms.id" value="${paymentTermsInstance.id}" />
                 <div class="dialog">
                     <table>
                         <tbody>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="name"><g:message code="discountTerms.name.label" /></label>
+                                    <label for="name"><g:message code="paymentTerms.name.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: discountTermsInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${fieldValue(bean: discountTermsInstance, field: 'name')}" />
+                                <td valign="top" class="value ${hasErrors(bean: paymentTermsInstance, field: 'name', 'errors')}">
+                                    <g:textField name="name" value="${fieldValue(bean: paymentTermsInstance, field: 'name')}" />
                                 </td>
                             </tr>
                         

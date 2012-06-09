@@ -1,11 +1,11 @@
 
 
-<%@ page import="com.dumplingjoy.pos.DiscountTerms" %>
+<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'discountTerms.label', default: 'DiscountTerms')}" />
+        <g:set var="entityName" value="${message(code: 'paymentTerms.label', default: 'PaymentTerms')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -19,23 +19,23 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${discountTermsInstance}">
+            <g:hasErrors bean="${paymentTermsInstance}">
             <div class="errors">
-                <g:renderErrors bean="${discountTermsInstance}" as="list" />
+                <g:renderErrors bean="${paymentTermsInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form method="post" autocomplete="off">
-                <g:hiddenField name="id" value="${discountTermsInstance?.id}" />
-                <g:hiddenField name="version" value="${discountTermsInstance?.version}" />
+                <g:hiddenField name="id" value="${paymentTermsInstance?.id}" />
+                <g:hiddenField name="version" value="${paymentTermsInstance?.version}" />
                 <div class="dialog">
                     <table>
                         <tbody>
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="name"><g:message code="discountTerms.name.label" /></label>
+                                    <label for="name"><g:message code="paymentTerms.name.label" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: discountTermsInstance, field: 'name', 'errors')}">
-                                    <g:textField name="name" value="${fieldValue(bean: discountTermsInstance, field: 'name')}" />
+                                <td valign="top" class="value ${hasErrors(bean: paymentTermsInstance, field: 'name', 'errors')}">
+                                    <g:textField name="name" value="${fieldValue(bean: paymentTermsInstance, field: 'name')}" />
                                 </td>
                             </tr>
                         
@@ -47,7 +47,7 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
 		        	<span class="button">
 		        		<input type="button" value="Cancel" class="cancel" 
-		        			onclick="window.location='<g:createLink controller='discountTerms' action='show' id='${discountTermsInstance?.id}' />'" />
+		        			onclick="window.location='<g:createLink controller='paymentTerms' action='show' id='${paymentTermsInstance?.id}' />'" />
 		        	</span>
                 </div>
             </g:form>

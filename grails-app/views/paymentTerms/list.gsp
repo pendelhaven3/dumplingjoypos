@@ -1,10 +1,10 @@
 
-<%@ page import="com.dumplingjoy.pos.DiscountTerms" %>
+<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'discountTerms.label', default: 'DiscountTerms')}" />
+        <g:set var="entityName" value="${message(code: 'paymentTerms.label', default: 'PaymentTerms')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -20,12 +20,12 @@
             <div class="list">
                 <table>
                     <tr>
-                        <th><g:message code="discountTerms.name.label" /></th>
+                        <th><g:message code="paymentTerms.name.label" /></th>
                     </tr>
-                    <g:if test="${!discountTermsInstanceList.empty}">
-	                    <g:each in="${discountTermsInstanceList}" status="i" var="discountTermsInstance">
-	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${discountTermsInstance.id}' />'">
-	                            <td>${fieldValue(bean: discountTermsInstance, field: "name")}</td>
+                    <g:if test="${!paymentTermsInstanceList.empty}">
+	                    <g:each in="${paymentTermsInstanceList}" status="i" var="paymentTermsInstance">
+	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${paymentTermsInstance.id}' />'">
+	                            <td>${fieldValue(bean: paymentTermsInstance, field: "name")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>
@@ -37,7 +37,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${discountTermsInstanceTotal}" />
+                <g:paginate total="${paymentTermsInstanceTotal}" />
             </div>
         </div>
     </body>

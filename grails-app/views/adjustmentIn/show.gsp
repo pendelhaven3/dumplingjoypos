@@ -62,6 +62,15 @@
 	                </g:form>
 	            </div>
             </g:if>
+            <g:if test="${adjustmentInInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="report">
+	                    <g:hiddenField name="id" value="${adjustmentInInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="print" action="generateAdjustmentIn" value="Print" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
+            
 
 			<br/><br/>
             
@@ -74,7 +83,9 @@
                         	<th>Product Description</th>
                         	<th>Unit</th>
                         	<th>Quantity</th>
-                       		<th width="90"></th>
+                        	<g:if test="${!adjustmentInInstance.posted}">
+	                       		<th width="90"></th>
+	                       	</g:if>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,12 +96,12 @@
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
                         	<td>${item.quantity}</td>
-                        	<td style="text-align:center">
-	                        	<g:if test="${!adjustmentInInstance.posted}">
+                        	<g:if test="${!adjustmentInInstance.posted}">
+	                        	<td style="text-align:center">
 	                       			<input type="button" value="Edit" onclick="editAdjustmentInItem(${item.id})" />
 	                       			<input type="button" value="Delete" onclick="deleteAdjustmentInItem(${item.id})" />
-	                        	</g:if>
-                        	</td>
+	                        	</td>
+                        	</g:if>
                         </tr>
                     </g:each>
                     </g:if>

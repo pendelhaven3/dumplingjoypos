@@ -14,12 +14,14 @@ class SalesInvoice {
 	Date postDate
 	String postedBy
 	String encodedBy
+	String remarks
 
     static constraints = {
 		salesInvoiceNumber unique: true
 		mode blank: false, inList: ["Delivery", "Walk-in"]
 		postedBy blank: false
 		encodedBy blank: false
+		remarks nullable: true, blank: true
     }
 	
 	static hasMany = [items: SalesInvoiceItem]

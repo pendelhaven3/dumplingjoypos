@@ -1,6 +1,6 @@
 package com.dumplingjoy.pos
 
-class DiscountTerms {
+class PaymentTerms {
 
 	String name
 	
