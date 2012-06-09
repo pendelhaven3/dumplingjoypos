@@ -20,11 +20,7 @@ class ReportController {
 			it.product.refresh()
 		}
 		
-		def reportDef = createReportDef("salesInvoice", salesInvoiceInstance)
-		
-		response.contentType = "application/pdf"
-		response.setHeader("contentDisposition", "inline") 
-		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+		downloadReport(response, "salesInvoice", salesInvoiceInstance)
 	}
 	
 	def generateStockQuantityConversion() {
@@ -37,11 +33,7 @@ class ReportController {
 			}
 		}
 		
-		def reportDef = createReportDef("stockConversion", stockQuantityConversionInstance)
-		
-		response.contentType = "application/pdf"
-		response.setHeader("contentDisposition", "inline") 
-		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+		downloadReport(response, "stockConversion", stockQuantityConversionInstance)
 	}
 	
 	private JasperReportDef createReportDef(String reportName, Object data) {
@@ -62,11 +54,7 @@ class ReportController {
 			it.product.refresh()
 		}
 		
-		def reportDef = createReportDef("purchaseOrder", purchaseOrderInstance)
-		
-		response.contentType = "application/pdf"
-		response.setHeader("contentDisposition", "inline")
-		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+		downloadReport(response, "purchaseOrder", purchaseOrderInstance)
 	}
 	
 	def generateReceivingReceipt() {
@@ -80,12 +68,24 @@ class ReportController {
 			it.product.refresh()
 		}
 		
-		def reportDef = createReportDef("receivingReceipt", receivingReceiptInstance)
-		
-		response.contentType = "application/pdf"
-		response.setHeader("contentDisposition", "inline")
-		response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+		downloadReport(response, "receivingReceipt", receivingReceiptInstance)
+	}
+
+	private def downloadReport(response, reportName, data) {
+		boolean inline = false
+		if (inline) {
+			def reportDef = createReportDef(reportName, data)
+	
+			response.contentType = "application/pdf"
+			response.setHeader("contentDisposition", "attachment; filename=" + reportName + ".pdf")
+			response.outputStream << jasperService.generateReport(reportDef).toByteArray()
+		} else {
+			params._format = "PDF"
+			params._file = reportName
+			params._name = reportName
+			params.SUBREPORT_DIR = "jasperreports/"
+			chain(controller: 'jasper', action: 'index', model: [data: [data]], params: params)
+		}
 	}
 	
-
 }

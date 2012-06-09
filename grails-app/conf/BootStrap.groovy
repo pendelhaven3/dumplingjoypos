@@ -2,21 +2,14 @@
 
 import com.dumplingjoy.pos.AdjustmentInSequenceNumber
 import com.dumplingjoy.pos.AdjustmentOutSequenceNumber
-import com.dumplingjoy.pos.Customer
 import com.dumplingjoy.pos.PricingScheme
-import com.dumplingjoy.pos.Product;
-import com.dumplingjoy.pos.ProductUnitCost
-import com.dumplingjoy.pos.ProductUnitPrice
 import com.dumplingjoy.pos.PurchaseOrderSequenceNumber
 import com.dumplingjoy.pos.ReceivingReceiptSequenceNumber
 import com.dumplingjoy.pos.Role
 import com.dumplingjoy.pos.SalesInvoiceSequenceNumber
-import com.dumplingjoy.pos.SalesRequisition
-import com.dumplingjoy.pos.SalesRequisitionItem
 import com.dumplingjoy.pos.SalesRequisitionSequenceNumber
 import com.dumplingjoy.pos.StockQuantityConversionSequenceNumber
-import com.dumplingjoy.pos.Supplier
-import com.dumplingjoy.pos.Unit;
+import com.dumplingjoy.pos.UnitQuantity
 import com.dumplingjoy.pos.User;
 import com.dumplingjoy.pos.UserRole
 
@@ -42,7 +35,7 @@ class BootStrap {
 	}
 	
 	private void setupInitialUser() {
-		User user = new User(username: "joy", password: "joy", enabled: true).save(failOnError:true)
+		User user = new User(username: "joy", name: "Joy Apolonio", password: "joy", enabled: true).save(failOnError:true)
 		Role role = Role.findByAuthority("ROLE_MANAGER")
 		new UserRole(user: user, role: role).save(failOnError: true)
 	}

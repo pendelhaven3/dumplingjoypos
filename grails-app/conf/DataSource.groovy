@@ -31,8 +31,13 @@ environments {
     }
     production {
         dataSource {
-            dbCreate = "update"
-            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+//            dbCreate = "update"
+//            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+			dbCreate = "update" // one of 'create', 'create-drop','update'
+			url = "jdbc:mysql://localhost/jcharmonypos"
+			driverClassName = "com.mysql.jdbc.Driver"
+			username = "root"
+			password = "root"
         }
     }
 }

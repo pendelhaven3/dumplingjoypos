@@ -74,7 +74,7 @@
             
             <g:if test="${receivingReceiptInstance.posted}">
 	            <div class="buttons">
-	                <g:form controller="report" target="_new">
+	                <g:form controller="report">
 	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="print" action="generateReceivingReceipt" value="Print" /></span>
 	                </g:form>

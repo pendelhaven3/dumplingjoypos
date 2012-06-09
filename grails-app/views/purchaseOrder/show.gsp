@@ -97,7 +97,7 @@
 		            </div>
 		        </g:if>
 	            <div class="buttons">
-	                <g:form controller="report" target="_new">
+	                <g:form controller="report">
 	                    <g:hiddenField name="id" value="${purchaseOrderInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="print" action="generatePurchaseOrder" value="Print" /></span>
 	                </g:form>

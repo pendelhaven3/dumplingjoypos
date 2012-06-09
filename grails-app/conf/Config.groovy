@@ -55,6 +55,7 @@ grails.exceptionresolver.params.exclude = ['password']
 environments {
     production {
         grails.serverURL = "http://jcharmonypos.cloudfoundry.com"
+//        grails.serverURL = "http://localhost:8080/${appName}"
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"

@@ -35,7 +35,7 @@
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="2">No records found</td>
+                    		<td colspan="3">No records found</td>
                     	</tr>
                     </g:else>
                 </table>
