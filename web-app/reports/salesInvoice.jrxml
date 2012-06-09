@@ -19,8 +19,73 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="70" splitType="Stretch">
+	<pageHeader>
+		<band height="132" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="70" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Customer:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="83" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Address:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="70" width="315" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer.name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="60" y="83" width="315" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer.address}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="96" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="96" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{postDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="83" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[D.R. No.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="70" width="15" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="96" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Mode:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="96" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{mode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="425" y="109" width="50" height="13"/>
+				<textElement/>
+				<text><![CDATA[PS:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="109" width="80" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{pricingScheme.id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="109" width="60" height="13"/>
+				<textElement/>
+				<text><![CDATA[Remarks:]]></text>
+			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="70"/>
 				<textElement textAlignment="Center"/>
@@ -30,75 +95,26 @@ TEL.NO. 362-1785 323-5946
 
 DELIVERY RECEIPT]]></text>
 			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="62" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="60" height="13"/>
+				<reportElement x="425" y="70" width="50" height="13"/>
 				<textElement/>
-				<text><![CDATA[Customer:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="13" width="60" height="13"/>
-				<textElement/>
-				<text><![CDATA[Address:]]></text>
+				<text><![CDATA[Page:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="60" y="0" width="315" height="13"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{customer.name}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="60" y="13" width="315" height="13"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{customer.address}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="425" y="13" width="50" height="13"/>
-				<textElement/>
-				<text><![CDATA[Date:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="475" y="13" width="80" height="13"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("MM/dd/yyyy").format($F{postDate})]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="425" y="0" width="50" height="13"/>
-				<textElement/>
-				<text><![CDATA[D.R. No.:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="475" y="0" width="80" height="13"/>
+				<reportElement x="475" y="83" width="80" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{salesInvoiceNo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="26" width="60" height="13"/>
+				<reportElement x="490" y="70" width="15" height="13"/>
 				<textElement/>
-				<text><![CDATA[Mode:]]></text>
+				<text><![CDATA[of]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="60" y="26" width="100" height="13"/>
+			<textField evaluationTime="Report">
+				<reportElement x="505" y="70" width="50" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{mode}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="425" y="26" width="50" height="13"/>
-				<textElement/>
-				<text><![CDATA[PS:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="475" y="26" width="80" height="13"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{pricingScheme.id}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="39" width="60" height="13"/>
-				<textElement/>
-				<text><![CDATA[Remarks:]]></text>
-			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
