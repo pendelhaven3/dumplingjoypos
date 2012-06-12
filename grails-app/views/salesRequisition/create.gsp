@@ -28,6 +28,7 @@
                 <g:renderErrors bean="${salesRequisitionInstance}" field="customer" />
                 <g:renderErrors bean="${salesRequisitionInstance}" field="pricingScheme" />
                 <g:renderErrors bean="${salesRequisitionInstance}" field="mode" />
+                <g:renderErrors bean="${salesRequisitionInstance}" field="paymentTerms" />
             </div>
             </g:hasErrors>
             <g:form action="save" autocomplete="off">
@@ -75,6 +76,16 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="paymentTerms"><g:message code="salesRequisition.paymentTerms.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'paymentTerms', 'errors')}">
+                                	<g:select name="paymentTerms.id" from="${com.dumplingjoy.pos.PaymentTerms.list([sort: "name", order: "asc"])}" value="${salesRequisitionInstance.paymentTerms?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>
@@ -89,13 +100,6 @@
         </div>
         <g:javascript>
         	focusOnLoad("customer\\.id")
-        	
-        	function updatePricingScheme() {
-        		var customerId = $("#customer\\.id").val()
-        		var pricingSchemeId = $("#pricingScheme.id").val()
-        		
-        		
-        	}
         </g:javascript>
     </body>
 </html>

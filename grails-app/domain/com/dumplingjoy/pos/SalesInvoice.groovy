@@ -15,6 +15,7 @@ class SalesInvoice {
 	String postedBy
 	String encodedBy
 	String remarks
+	PaymentTerms paymentTerms
 
     static constraints = {
 		salesInvoiceNumber unique: true
@@ -22,6 +23,7 @@ class SalesInvoice {
 		postedBy blank: false
 		encodedBy blank: false
 		remarks nullable: true, blank: true
+		paymentTerms nullable: true
     }
 	
 	static hasMany = [items: SalesInvoiceItem]

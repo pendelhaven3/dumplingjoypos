@@ -22,7 +22,7 @@ class BootStrap {
 			setupUserRoles()
 			setupInitialUser()
 			setupSequences()
-			bootStrapService.importProductsFromExcel()
+//			bootStrapService.importProductsFromExcel()
 			setupInitialPricingScheme() // must be placed after initial products have been created
 		}
     }

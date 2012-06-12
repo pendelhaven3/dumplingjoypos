@@ -20,6 +20,7 @@ class SalesRequisition {
 	Long salesInvoiceId
 	Date dateCreated
 	String remarks
+	PaymentTerms paymentTerms
 
     static constraints = {
 		salesRequisitionNumber unique: true
@@ -30,6 +31,7 @@ class SalesRequisition {
 		salesInvoiceId nullable: true
 		dateCreated nullable: true
 		remarks nullable: true, blank: true
+		paymentTerms nullable: true
     }
 	
 	static hasMany = [items: SalesRequisitionItem]

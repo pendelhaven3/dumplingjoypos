@@ -77,11 +77,10 @@ class SalesRequisitionController {
             }
         }
 
+		salesRequisitionInstance.customer = null // I have no idea why I have to do this to make update work T__T
+		salesRequisitionInstance.pricingScheme = null // I have no idea why I have to do this to make it work T__T
+		salesRequisitionInstance.paymentTerms = null // I have no idea why I have to do this to make it work T__T
         salesRequisitionInstance.properties = params
-		salesRequisitionInstance.customer.discard() // I have no idea why I have to do this to make it work T__T
-		salesRequisitionInstance.customer = Customer.get(params["customer.id"])
-		salesRequisitionInstance.pricingScheme.discard() // I have no idea why I have to do this to make it work T__T
-		salesRequisitionInstance.pricingScheme = PricingScheme.get(params["pricingScheme.id"])
 		
         if (!salesRequisitionInstance.save(flush: true)) {
             render(view: "edit", model: [salesRequisitionInstance: salesRequisitionInstance])

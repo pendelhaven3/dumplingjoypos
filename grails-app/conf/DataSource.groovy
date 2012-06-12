@@ -17,7 +17,8 @@ environments {
 //            url = "jdbc:h2:mem:devDB"
 			pooled = true
 			dbCreate = "update" // one of 'create', 'create-drop','update'
-			url = "jdbc:mysql://localhost/jcharmonypos"
+//			url = "jdbc:mysql://localhost/jcharmonypos"
+			url = "jdbc:mysql://127.0.0.1/jcharmonypos"
 			driverClassName = "com.mysql.jdbc.Driver"
 			username = "root"
 			password = "root"
@@ -34,7 +35,8 @@ environments {
 //            dbCreate = "update"
 //            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
 			dbCreate = "update" // one of 'create', 'create-drop','update'
-			url = "jdbc:mysql://localhost/jcharmonypos"
+//			url = "jdbc:mysql://localhost/jcharmonypos"
+			url = "jdbc:mysql://127.0.0.1/jcharmonypos"
 			driverClassName = "com.mysql.jdbc.Driver"
 			username = "root"
 			password = "root"

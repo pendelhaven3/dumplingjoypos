@@ -30,6 +30,7 @@
                 <g:renderErrors bean="${salesRequisitionInstance}" field="customer" />
                 <g:renderErrors bean="${salesRequisitionInstance}" field="pricingScheme" />
                 <g:renderErrors bean="${salesRequisitionInstance}" field="mode" />
+                <g:renderErrors bean="${salesRequisitionInstance}" field="paymentTerms" />
             </div>
             </g:hasErrors>
             <g:form method="post" autocomplete="off">
@@ -70,6 +71,16 @@
                                 <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'mode', 'errors')}">
                                 	<g:select name="mode" from="${SalesRequisition.constraints.mode.inList}" value="${salesRequisitionInstance.mode}" 
                                 		noSelection="['':'']" />
+                                </td>
+                            </tr>
+                            
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="paymentTerms"><g:message code="salesRequisition.paymentTerms.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'paymentTerms', 'errors')}">
+                                	<g:select name="paymentTerms.id" from="${com.dumplingjoy.pos.PaymentTerms.list([sort: "name", order: "asc"])}" value="${salesRequisitionInstance.paymentTerms?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
                                 </td>
                             </tr>
                         
