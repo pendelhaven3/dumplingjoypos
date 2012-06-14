@@ -2,13 +2,17 @@ package com.dumplingjoy.pos
 
 import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
 import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 
 import grails.plugins.springsecurity.Secured
+import groovy.text.Template
 
 @Secured("isFullyAuthenticated()")
 class ReportController {
 
 	def jasperService
+	def velocityEngine
+	GroovyPagesTemplateEngine groovyPagesTemplateEngine
 	
 	def generateSalesInvoice() {
 		def salesInvoiceInstance = SalesInvoice.get(params.id)
@@ -47,14 +51,21 @@ class ReportController {
 	
 	def generatePurchaseOrder() {
 		def purchaseOrderInstance = PurchaseOrder.get(params.id)
+//		
+//		purchaseOrderInstance.supplier.refresh()
+//		purchaseOrderInstance.items.each {
+//			it.refresh()
+//			it.product.refresh()
+//		}
+//		
+//		downloadReport(response, "purchaseOrder", purchaseOrderInstance)
 		
-		purchaseOrderInstance.supplier.refresh()
-		purchaseOrderInstance.items.each {
-			it.refresh()
-			it.product.refresh()
-		}
+		Template t = groovyPagesTemplateEngine.createTemplate("/report/_purchaseOrder.gsp")
 		
-		downloadReport(response, "purchaseOrder", purchaseOrderInstance)
+		Writable w = t.make([purchaseOrder: purchaseOrderInstance])
+		StringWriter sw = new StringWriter()
+		w.writeTo(sw)
+		println sw.toString()
 	}
 	
 	def generateReceivingReceipt() {
