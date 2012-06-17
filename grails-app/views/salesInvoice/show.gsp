@@ -55,6 +55,14 @@
                             <td valign="top" class="name"><g:message code="salesInvoice.mode.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "mode")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.paymentTerms.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "paymentTerms.name")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesInvoice.remarks.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "remarks")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

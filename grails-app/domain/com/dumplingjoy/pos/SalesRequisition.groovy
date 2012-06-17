@@ -91,6 +91,7 @@ class SalesRequisition {
 			salesInvoice.postDate = postDate
 			salesInvoice.postedBy = postedBy
 			salesInvoice.encodedBy = createdBy
+			salesInvoice.paymentTerms = paymentTerms
 			salesInvoice.remarks = remarks
 			
 			items.each { SalesRequisitionItem item ->

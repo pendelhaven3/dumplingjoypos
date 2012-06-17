@@ -84,6 +84,15 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="remarks"><g:message code="salesRequisition.remarks.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'remarks', 'errors')}">
+                                    <g:textField name="remarks" value="${fieldValue(bean: salesRequisitionInstance, field: 'remarks')}" style="width:300px" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

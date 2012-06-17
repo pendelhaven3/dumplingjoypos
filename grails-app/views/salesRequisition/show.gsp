@@ -57,6 +57,10 @@
                             <td valign="top" class="name"><g:message code="salesRequisition.paymentTerms.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "paymentTerms.name")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="salesRequisition.remarks.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: salesRequisitionInstance, field: "remarks")}</td>
+                        </tr>
                         <g:if test="${salesRequisitionInstance.posted}">
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="salesRequisition.postDate.label" /></td>
