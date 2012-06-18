@@ -38,6 +38,15 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="name"><g:message code="paymentTerms.numberOfDays.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: paymentTermsInstance, field: 'numberOfDays', 'errors')}">
+                                    <g:textField name="numberOfDays" value="${fieldValue(bean: paymentTermsInstance, field: 'numberOfDays')}" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

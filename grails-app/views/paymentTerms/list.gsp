@@ -21,17 +21,19 @@
                 <table>
                     <tr>
                         <th><g:message code="paymentTerms.name.label" /></th>
+                        <th><g:message code="paymentTerms.numberOfDays.label" /></th>
                     </tr>
                     <g:if test="${!paymentTermsInstanceList.empty}">
 	                    <g:each in="${paymentTermsInstanceList}" status="i" var="paymentTermsInstance">
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${paymentTermsInstance.id}' />'">
 	                            <td>${fieldValue(bean: paymentTermsInstance, field: "name")}</td>
+	                            <td>${fieldValue(bean: paymentTermsInstance, field: "numberOfDays")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td>No records found</td>
+                    		<td colspan="2">No records found</td>
                     	</tr>
                     </g:else>
                 </table>

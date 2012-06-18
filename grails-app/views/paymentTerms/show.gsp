@@ -25,6 +25,10 @@
                             <td valign="top" class="name"><g:message code="paymentTerms.name.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: paymentTermsInstance, field: "name")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="paymentTerms.numberOfDays.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: paymentTermsInstance, field: "numberOfDays")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

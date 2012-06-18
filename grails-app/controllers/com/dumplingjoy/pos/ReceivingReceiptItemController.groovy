@@ -1,7 +1,10 @@
 package com.dumplingjoy.pos
 
 import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 
+
+@Secured("isFullyAuthenticated()")
 class ReceivingReceiptItemController {
 
     static allowedMethods = [updateDiscounts: "POST"]

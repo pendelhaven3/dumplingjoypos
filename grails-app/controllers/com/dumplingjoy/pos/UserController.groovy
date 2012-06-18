@@ -5,7 +5,6 @@ import grails.validation.Validateable
 
 
 
-@Secured("isFullyAuthenticated()")
 class UserController {
 
 	def springSecurityService
@@ -105,10 +104,12 @@ class UserController {
         redirect(action: "show", id: userInstance.id)
     }
 	
+	@Secured("isFullyAuthenticated()")
 	def editPassword() {
 		[changePasswordInstance: new ChangePassword()]
 	}
 	
+	@Secured("isFullyAuthenticated()")
 	def updatePassword () {
 		User userInstance = springSecurityService.currentUser
 		
