@@ -33,7 +33,6 @@ class Product {
 	def beforeUpdate() {
 		createUnitQuantitiesForNewUnits()
 		updateUnitConversions()
-//		updateProductUnitPrice()
 	}
 	
 	private void createUnitQuantitiesForNewUnits() {
@@ -136,19 +135,31 @@ class Product {
 	}
 
 	def afterInsert() {
-		updateExistingPricingSchemes()
-		insertProductUnitCost()
+		updatePricingSchemes()
+		updateProductUnitCosts()
 	}
 	
-	private void updateExistingPricingSchemes() {
+	private void updatePricingSchemes() {
+		ProductUnitPrice.withNewSession { session ->
+			Unit.values().each { Unit unit ->
+				if (!units.find {it == unit}) {
+					ProductUnitPrice.executeUpdate("delete from ProductUnitPrice up where up.product = ? and up.unit = ?", [this, unit])
+				}
+			}
+		}
+		
 		PricingScheme.list().each { PricingScheme pricingScheme ->
 			units.each { Unit unit ->
-				pricingScheme.addToUnitPrices(new ProductUnitPrice(product: this, unit: unit))
+				if (!ProductUnitPrice.find("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ? and up.unit = ?", 
+						[pricingScheme, this, unit])) {
+					pricingScheme.addToUnitPrices(new ProductUnitPrice(product: this, unit: unit))
+				}
 			}
 			pricingScheme.save(failOnError: true)
 		}
 	}
 	
+	// TODO: Review On delete Product
 	def beforeDelete() {
 		ProductUnitPrice.withNewSession { session ->
 			ProductUnitPrice.findAllByProduct(this).each {
@@ -157,15 +168,23 @@ class Product {
 		}
 	}
 	
-	private void insertProductUnitCost() {
+	private void updateProductUnitCosts() {
 		ProductUnitCost.withNewSession { session -> 
-			units.each { Unit unit ->
-				ProductUnitCost unitCost = new ProductUnitCost()
-				unitCost.product = this
-				unitCost.unit = unit
-				unitCost.save(failOnError: true)
+			Unit.values().each { Unit unit ->
+				if (!units.find {it == unit}) {
+					ProductUnitCost.executeUpdate("delete from ProductUnitCost uc where uc.product = ? and uc.unit = ?", [this, unit])
+				} else {
+					if (!ProductUnitCost.find("from ProductUnitCost uc where uc.product = ? and uc.unit = ?", [this, unit])) {
+						new ProductUnitCost(product: this, unit: unit).save(failOnError: true)
+					}
+				}
 			}
 		}
 	}
 	
+	def afterUpdate() {
+		updatePricingSchemes()
+		updateProductUnitCosts()
+	}
+
 }
