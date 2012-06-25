@@ -33,6 +33,26 @@
                             <td valign="top" class="name"><g:message code="supplier.contactNumber.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "contactNumber")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.contactPerson.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "contactPerson")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.faxNumber.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "faxNumber")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.emailAddress.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "emailAddress")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.tin.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "tin")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="supplier.terms.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: supplierInstance, field: "terms.name")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

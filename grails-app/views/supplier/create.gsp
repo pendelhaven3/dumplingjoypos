@@ -1,6 +1,7 @@
 
 
 <%@ page import="com.dumplingjoy.pos.Supplier" %>
+<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -53,6 +54,52 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'contactNumber', 'errors')}">
                                     <g:textField name="contactNumber" value="${fieldValue(bean: supplierInstance, field: 'contactNumber')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="contactPerson"><g:message code="supplier.contactPerson.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'contactPerson', 'errors')}">
+                                    <g:textField name="contactPerson" value="${fieldValue(bean: supplierInstance, field: 'contactPerson')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="faxNumber"><g:message code="supplier.faxNumber.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'faxNumber', 'errors')}">
+                                    <g:textField name="faxNumber" value="${fieldValue(bean: supplierInstance, field: 'faxNumber')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="emailAddress"><g:message code="supplier.emailAddress.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'emailAddress', 'errors')}">
+                                    <g:textField name="emailAddress" value="${fieldValue(bean: supplierInstance, field: 'emailAddress')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="tin"><g:message code="supplier.tin.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'tin', 'errors')}">
+                                    <g:textField name="tin" value="${fieldValue(bean: supplierInstance, field: 'tin')}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="terms"><g:message code="supplier.terms.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: supplierInstance, field: 'terms', 'errors')}">
+                                	<g:select name="terms.id" from="${PaymentTerms.list([sort: "name", order: "asc"])}" value="${supplierInstance.terms?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
                                 </td>
                             </tr>
                         

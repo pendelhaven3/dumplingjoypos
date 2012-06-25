@@ -76,6 +76,7 @@ class SupplierController {
             }
         }
 
+		supplierInstance.terms = null
         supplierInstance.properties = params
 
         if (!supplierInstance.save(flush: true)) {
