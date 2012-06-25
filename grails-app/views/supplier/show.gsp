@@ -79,7 +79,7 @@
             <div class="buttons">
                 <g:form controller="supplier">
                     <g:hiddenField name="id" value="${supplierInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="selectProductToAdd" value="Add Product" /></span>
+                    <span class="button"><g:actionSubmit class="create" action="selectProductToAdd" value="Add Product" /></span>
                 </g:form>
             </div>
 	        

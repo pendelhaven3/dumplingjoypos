@@ -60,23 +60,8 @@
 	                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
 	                </g:form>
 	            </div>
-	            <div class="buttons">
-	                <g:form>
-	                    <g:hiddenField name="id" value="${stockQuantityConversionInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="postStockQuantityConversion" value="Post" onclick="return confirm('Are you sure you want to post this Stock Quantity Conversion');" /></span>
-	                </g:form>
-	            </div>
             </g:if>
  
-            <g:if test="${stockQuantityConversionInstance.posted}">
-	            <div class="buttons">
-	                <g:form controller="report">
-	                    <g:hiddenField name="id" value="${stockQuantityConversionInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="print" action="generateStockQuantityConversion" value="Print" /></span>
-	                </g:form>
-	            </div>
-            </g:if>
-
 			<br/><br/>
             
             <h3>Items</h3>
@@ -125,11 +110,31 @@
 	            <div class="buttons">
 	                <g:form controller="stockQuantityConversionItem">
 	                    <g:hiddenField name="stockQuantityConversion.id" value="${stockQuantityConversionInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
+	                    <span class="button"><g:actionSubmit class="create" action="create" value="Add Item" /></span>
 	                </g:form>
 	            </div>
 	        </g:if>
             
+            <br/> <br/>
+            
+            <g:if test="${!stockQuantityConversionInstance.posted}">
+	            <div class="buttons">
+	                <g:form>
+	                    <g:hiddenField name="id" value="${stockQuantityConversionInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit" action="postStockQuantityConversion" value="Post" onclick="return confirm('Are you sure you want to post this Stock Quantity Conversion');" /></span>
+	                </g:form>
+	            </div>
+            </g:if>
+ 
+            <g:if test="${stockQuantityConversionInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="report">
+	                    <g:hiddenField name="id" value="${stockQuantityConversionInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="print" action="generateStockQuantityConversion" value="Print" /></span>
+	                </g:form>
+	            </div>
+            </g:if>
+
         </div>
         
        	<g:form name="editStockQuantityConversionItemForm" controller="stockQuantityConversionItem" action="edit">

@@ -60,12 +60,6 @@
 	                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
 	                </g:form>
 	            </div>
-	            <div class="buttons">
-	                <g:form>
-	                    <g:hiddenField name="id" value="${adjustmentOutInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="postAdjustmentOut" value="Post" onclick="return confirm('Are you sure you want to post this Adjustment Out?');" /></span>
-	                </g:form>
-	            </div>
             </g:if>
 
 			<br/><br/>
@@ -112,10 +106,21 @@
 	            <div class="buttons">
 	                <g:form controller="adjustmentOutItem">
 	                    <g:hiddenField name="adjustmentOut.id" value="${adjustmentOutInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
+	                    <span class="button"><g:actionSubmit class="create" action="create" value="Add Item" /></span>
 	                </g:form>
 	            </div>
 	        </g:if>
+            
+            <br/> <br/>
+            
+            <g:if test="${!adjustmentOutInstance.posted}">
+	            <div class="buttons">
+	                <g:form>
+	                    <g:hiddenField name="id" value="${adjustmentOutInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit" action="postAdjustmentOut" value="Post" onclick="return confirm('Are you sure you want to post this Adjustment Out?');" /></span>
+	                </g:form>
+	            </div>
+            </g:if>
             
         </div>
         

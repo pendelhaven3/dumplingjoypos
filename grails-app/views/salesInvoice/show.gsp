@@ -66,12 +66,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="buttons">
-                <g:form controller="report">
-                    <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="print" action="generateSalesInvoice" value="Print" /></span>
-                </g:form>
-            </div>
             
 			<br/><br/>
             
@@ -135,6 +129,16 @@
 	                </table>
 	            </g:if>
             </div>
+            
+            <br/><br/>
+            
+            <div class="buttons">
+                <g:form controller="report">
+                    <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="print" action="generateSalesInvoice" value="Print" /></span>
+                </g:form>
+            </div>
+            
         </div>  
         
         <g:form name="showItemDiscountsForm" controller="salesInvoiceItem" action="showDiscounts">

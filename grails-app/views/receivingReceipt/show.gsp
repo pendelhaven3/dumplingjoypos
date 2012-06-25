@@ -63,24 +63,6 @@
                 </table>
             </div>
             
-            <g:if test="${!receivingReceiptInstance.posted}">
-	            <div class="buttons">
-	                <g:form>
-	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="edit" action="postReceivingReceipt" value="Post" onclick="return confirm('Are you sure you want to post this Receiving Receipt?');" /></span>
-	                </g:form>
-	            </div>
-            </g:if>
-            
-            <g:if test="${receivingReceiptInstance.posted}">
-	            <div class="buttons">
-	                <g:form controller="report">
-	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
-	                    <span class="button"><g:actionSubmit class="print" action="generateReceivingReceipt" value="Print" /></span>
-	                </g:form>
-	            </div>
-	        </g:if>
-	            
 			<br/><br/>
             
             <h3>Items</h3>
@@ -151,6 +133,26 @@
 	                </table>
 	            </g:if>
             </div>
+
+			<br/><br/>
+            
+            <g:if test="${!receivingReceiptInstance.posted}">
+	            <div class="buttons">
+	                <g:form>
+	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit" action="postReceivingReceipt" value="Post" onclick="return confirm('Are you sure you want to post this Receiving Receipt?');" /></span>
+	                </g:form>
+	            </div>
+            </g:if>
+            
+            <g:if test="${receivingReceiptInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="report">
+	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="print" action="generateReceivingReceipt" value="Print" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
             
         </div>
         
