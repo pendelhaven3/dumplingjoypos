@@ -78,6 +78,7 @@ class CustomerController {
             }
         }
 
+		customerInstance.terms = null
         customerInstance.properties = params
 
         if (!customerInstance.save(flush: true)) {

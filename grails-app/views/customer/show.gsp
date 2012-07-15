@@ -22,12 +22,52 @@
                 <table>
                     <tbody>
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.code.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "code")}</td>
+                        </tr>
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="customer.name.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "name")}</td>
                         </tr>
                         <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.contactPerson.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "contactPerson")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.contactNumbers.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "contactNumbers")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.faxNumber.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "faxNumber")}</td>
+                        </tr>
+                        <tr class="prop">
                             <td valign="top" class="name"><g:message code="customer.address.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "address")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.paymentMode.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "paymentMode")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.terms.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "terms.name")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.bank.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "bank")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.branch.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "branch")}</td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.creditLine.label" /></td>
+                            <td valign="top" class="value"><g:formatNumber number="${customerInstance.creditLine}" format="#,##0" /></td>
+                        </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="customer.remarks.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: customerInstance, field: "remarks").replace("\n","<br/>")}</td>
                         </tr>
                     </tbody>
                 </table>
