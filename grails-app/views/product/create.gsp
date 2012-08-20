@@ -20,7 +20,13 @@
             </g:if>
             <g:hasErrors bean="${productInstance}">
             <div class="errors">
-                <g:renderErrors bean="${productInstance}" as="list" />
+            	<g:each var="error" in="${productInstance.errors.globalErrors}">
+            		<ul><li><g:message error="${error}" /></li></ul>
+            	</g:each>
+                <g:renderErrors bean="${productInstance}" field="code" />
+                <g:renderErrors bean="${productInstance}" field="description" />
+                <g:renderErrors bean="${productInstance}" field="minimumLevel" />
+                <g:renderErrors bean="${productInstance}" field="maximumLevel" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -54,6 +60,24 @@
                                 	<g:each in="${com.dumplingjoy.pos.Unit.values()}" var="unit">
                                 		<g:checkBox name="productUnits" value="${unit}" checked="${false}" />&nbsp;${unit}
                                 	</g:each>
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="minimumLevel"><g:message code="product.minimumLevel.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'minimumLevel', 'errors')}">
+                                    <g:textField name="minimumLevel" value="${productInstance.minimumLevel}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="maximumLevel"><g:message code="product.maximumLevel.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'maximumLevel', 'errors')}">
+                                    <g:textField name="maximumLevel" value="${productInstance.maximumLevel}" />
                                 </td>
                             </tr>
                         

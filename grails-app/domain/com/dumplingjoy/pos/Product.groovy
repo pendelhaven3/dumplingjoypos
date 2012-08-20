@@ -7,10 +7,14 @@ class Product {
 	List<Unit> units
 	List<UnitQuantity> unitQuantities
 	List<UnitConversion> unitConversions
+	Integer minimumLevel
+	Integer maximumLevel
 	
     static constraints = {
 		code nullable:false, blank:false, unique:true
 		description nullable:false, blank:false, unique:true
+		minimumLevel nullable: true, min: 0, validator: validateMinimumMaximumLevels
+		maximumLevel nullable: true, min: 0
     }
 	
 	static hasMany = [
@@ -19,6 +23,15 @@ class Product {
 		unitConversions: UnitConversion
 	]
 	
+	private static def validateMinimumMaximumLevels = { Integer minimumLevel, Product product ->
+		if (product.minimumLevel && product.maximumLevel) {
+			if (product.minimumLevel > product.maximumLevel) {
+				return ["default.invalid.min.message", "Minimum Level", "Maximum Level"]
+			}
+		}
+		return true
+	}
+
 	def beforeInsert() {
 		createUnitQuantities()
 		createUnitConversions()
