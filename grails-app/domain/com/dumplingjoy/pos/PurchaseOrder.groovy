@@ -14,6 +14,7 @@ class PurchaseOrder {
 	String postedBy
 	PaymentTerms terms
 	ReceivingReceipt relatedReceivingReceipt
+	String remarks
 	
 	List<PurchaseOrderItem> items
 	
@@ -24,6 +25,7 @@ class PurchaseOrder {
 		postedBy nullable: true
 		createdBy nullable: true
 		relatedReceivingReceipt nullable: true
+		remarks nullable: true, blank: true, maxSize: 500
     }
 	
 	static hasMany = [items: PurchaseOrderItem]

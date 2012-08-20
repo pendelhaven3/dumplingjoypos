@@ -27,6 +27,7 @@
             	</g:each>
                 <g:renderErrors bean="${purchaseOrderInstance}" field="supplier" />
                 <g:renderErrors bean="${purchaseOrderInstance}" field="terms" />
+                <g:renderErrors bean="${purchaseOrderInstance}" field="remarks" />
            </div>
             </g:hasErrors>
             <g:form action="save" autocomplete="off">
@@ -61,6 +62,15 @@
                                 <td valign="top" class="value ${hasErrors(bean: purchaseOrderInstance, field: 'terms', 'errors')}">
                                 	<g:select name="terms.id" from="${PaymentTerms.list([sort: "name", order: "asc"])}" value="${purchaseOrderInstance.terms?.id}" 
                                 		optionKey="id" optionValue="name" noSelection="['':'']" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="remarks"><g:message code="purchaseOrder.remarks.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: purchaseOrderInstance, field: 'remarks', 'errors')}">
+                                    <g:textField name="remarks" value="${fieldValue(bean: purchaseOrderInstance, field: 'remarks')}" style="width:300px" />
                                 </td>
                             </tr>
                         

@@ -24,6 +24,7 @@
             	<g:each var="error" in="${productInstance.errors.globalErrors}">
             		<ul><li><g:message error="${error}" /></li></ul>
             	</g:each>
+                <g:renderErrors bean="${productInstance}" field="version" />
                 <g:renderErrors bean="${productInstance}" field="code" />
                 <g:renderErrors bean="${productInstance}" field="description" />
                 <g:renderErrors bean="${productInstance}" field="minimumLevel" />
