@@ -81,7 +81,7 @@
             
             <br/>
             
-            <div class="list" style="padding-top:5px">
+            <div class="list" style="padding-top:5px; width:350px;">
 	            <h3>Unit Conversions</h3>
                 <table>
                 <tr>
