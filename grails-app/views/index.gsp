@@ -77,7 +77,7 @@
                     <td>Suppliers</td>
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="manufacturer" />'">
-                    <td>Manufacturers (under construction)</td>
+                    <td>Manufacturers</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="productCategory" />'">
                     <td>Product Categories (under construction)</td>
