@@ -36,6 +36,39 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+            
+			<br/><br/>
+            
+            <h3>Products</h3>
+            <div class="list" style="padding-top:5px">
+                <table>
+                    <thead>
+                        <tr>
+                        	<th width="120">Product Code</th>
+                        	<th>Product Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <g:if test="${!manufacturerInstance.products.empty}">
+                    <g:each in="${manufacturerInstance.products}" status="i" var="product">
+                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink controller='product' action='show' id='${product.id}' />'"> 
+                        	<td>${fieldValue(bean: product, field: "code")}</td>
+                        	<td>${fieldValue(bean: product, field: "description")}</td>
+                        	<%--
+                        	<td class="center"><input type="button" value="Remove" onclick="removeProduct(${product.id})" /></td>
+                        	--%>
+                        </tr>
+                    </g:each>
+                    </g:if>
+                    <g:else>
+                    	<tr>
+                    		<td colspan="2">No products</td>
+                    	</tr>
+                    </g:else>
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
     </body>
 </html>

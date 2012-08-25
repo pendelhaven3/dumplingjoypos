@@ -21,27 +21,26 @@
             <div class="dialog">
                 <table>
                     <tbody>
-                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.code.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "code")}</td>
                         </tr>
-                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.description.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "description")}</td>
                         </tr>
-                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.minimumLevel.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "minimumLevel")}</td>
                         </tr>
-                    
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="product.maximumLevel.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "maximumLevel")}</td>
                         </tr>
-                    
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="product.manufacturer.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "manufacturer.name")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

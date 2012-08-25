@@ -107,6 +107,8 @@ class ProductController {
                     return
                 }
             }
+			
+			productInstance.manufacturer = null
             productInstance.properties = params
 			productInstance.updateUnits(params.list("productUnits"))
 			

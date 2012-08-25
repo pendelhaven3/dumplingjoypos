@@ -29,6 +29,7 @@
                 <g:renderErrors bean="${productInstance}" field="description" />
                 <g:renderErrors bean="${productInstance}" field="minimumLevel" />
                 <g:renderErrors bean="${productInstance}" field="maximumLevel" />
+                <g:renderErrors bean="${productInstance}" field="manufacturer" />
             </div>
             </g:hasErrors>
             <g:form method="post" >
@@ -82,6 +83,16 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'maximumLevel', 'errors')}">
                                     <g:textField name="maximumLevel" value="${productInstance.maximumLevel}" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="manufacturer"><g:message code="product.manufacturer.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'manufacturer', 'errors')}">
+                                	<g:select name="manufacturer.id" from="${com.dumplingjoy.pos.Manufacturer.list([sort: "name", order: "asc"])}" value="${productInstance.manufacturer?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
                                 </td>
                             </tr>
                         

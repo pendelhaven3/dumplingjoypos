@@ -9,12 +9,14 @@ class Product {
 	List<UnitConversion> unitConversions
 	Integer minimumLevel
 	Integer maximumLevel
+	Manufacturer manufacturer
 	
     static constraints = {
 		code nullable:false, blank:false, unique:true
 		description nullable:false, blank:false, unique:true
 		minimumLevel nullable: true, min: 0, validator: validateMinimumMaximumLevels
 		maximumLevel nullable: true, min: 0
+		manufacturer nullable: true
     }
 	
 	static hasMany = [
