@@ -10,6 +10,7 @@ class Product {
 	Integer minimumLevel
 	Integer maximumLevel
 	Manufacturer manufacturer
+	ProductCategory category
 	
     static constraints = {
 		code nullable:false, blank:false, unique:true
@@ -17,6 +18,7 @@ class Product {
 		minimumLevel nullable: true, min: 0, validator: validateMinimumMaximumLevels
 		maximumLevel nullable: true, min: 0
 		manufacturer nullable: true
+		category nullable: true
     }
 	
 	static hasMany = [

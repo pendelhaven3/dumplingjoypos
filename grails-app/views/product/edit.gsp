@@ -96,6 +96,16 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="category"><g:message code="product.category.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'category', 'errors')}">
+                                	<g:select name="category.id" from="${com.dumplingjoy.pos.ProductCategory.list([sort: "name", order: "asc"])}" value="${productInstance.category?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

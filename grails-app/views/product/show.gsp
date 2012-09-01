@@ -41,6 +41,10 @@
                             <td valign="top" class="name"><g:message code="product.manufacturer.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: productInstance, field: "manufacturer.name")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="product.category.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: productInstance, field: "category.name")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

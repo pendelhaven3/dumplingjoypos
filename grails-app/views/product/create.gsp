@@ -1,7 +1,7 @@
 
 
 <%@ page import="com.dumplingjoy.pos.Product" %>
-<%@ page import="com.dumplingjoy.pos.PaymentTerms" %>
+<%@ page import="com.dumplingjoy.pos.ProductCategory" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -29,6 +29,7 @@
                 <g:renderErrors bean="${productInstance}" field="minimumLevel" />
                 <g:renderErrors bean="${productInstance}" field="maximumLevel" />
                 <g:renderErrors bean="${productInstance}" field="manufacturer" />
+                <g:renderErrors bean="${productInstance}" field="category" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
@@ -89,6 +90,16 @@
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'manufacturer', 'errors')}">
                                 	<g:select name="manufacturer.id" from="${com.dumplingjoy.pos.Manufacturer.list([sort: "name", order: "asc"])}" value="${productInstance.manufacturer?.id}" 
+                                		optionKey="id" optionValue="name" noSelection="['':'']" />
+                                </td>
+                            </tr>
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="category"><g:message code="product.category.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: productInstance, field: 'category', 'errors')}">
+                                	<g:select name="category.id" from="${com.dumplingjoy.pos.ProductCategory.list([sort: "name", order: "asc"])}" value="${productInstance.category?.id}" 
                                 		optionKey="id" optionValue="name" noSelection="['':'']" />
                                 </td>
                             </tr>

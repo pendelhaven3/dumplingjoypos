@@ -109,6 +109,7 @@ class ProductController {
             }
 			
 			productInstance.manufacturer = null
+			productInstance.category = null
             productInstance.properties = params
 			productInstance.updateUnits(params.list("productUnits"))
 			
