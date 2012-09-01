@@ -80,7 +80,7 @@
                     <td>Manufacturers</td>
                 </tr>
                 <tr class="odd clickable" onclick="window.location='<g:createLink controller="productCategory" />'">
-                    <td>Product Categories (under construction)</td>
+                    <td>Product Categories</td>
                 </tr>
                 <tr class="even clickable" onclick="window.location='<g:createLink controller="reinventory" />'">
                     <td>Re-Inventory (under construction)</td>
