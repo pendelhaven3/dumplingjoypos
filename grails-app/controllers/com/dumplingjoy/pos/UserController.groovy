@@ -18,6 +18,8 @@ class UserController {
 	@Secured("ROLE_MANAGER")
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+		params.sort = params.sort ?: "username"
+		params.order = params.order ?: "asc"
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
     }
 

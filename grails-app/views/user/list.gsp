@@ -21,11 +21,13 @@
                 <table>
                     <tr>
                         <th width="150"><g:message code="user.username.label" /></th>
+                        <th><g:message code="user.name.label" /></th>
                     </tr>
                     <g:if test="${!userInstanceList.empty}">
 	                    <g:each in="${userInstanceList}" status="i" var="userInstance">
 	                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="window.location='<g:createLink action='show' id='${userInstance.id}' />'">
 	                            <td>${fieldValue(bean: userInstance, field: "username")}</td>
+	                            <td>${fieldValue(bean: userInstance, field: "name")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>

@@ -16,7 +16,9 @@ class SupplierController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [supplierInstanceList: Supplier.list(params), supplierInstanceTotal: Supplier.count()]
+ 		params.sort = params.sort ?: "name"
+		params.order = params.order ?: "asc"
+       [supplierInstanceList: Supplier.list(params), supplierInstanceTotal: Supplier.count()]
     }
 
     def create() {
