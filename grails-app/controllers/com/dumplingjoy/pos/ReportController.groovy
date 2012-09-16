@@ -1,5 +1,6 @@
 package com.dumplingjoy.pos
 
+import org.apache.commons.lang.StringUtils
 import org.codehaus.groovy.grails.plugins.jasper.JasperExportFormat
 import org.codehaus.groovy.grails.plugins.jasper.JasperReportDef
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
@@ -11,8 +12,13 @@ import groovy.text.Template
 class ReportController {
 
 	def jasperService
-	def velocityEngine
 	GroovyPagesTemplateEngine groovyPagesTemplateEngine
+	def printService
+	
+	def generateSalesRequisition() {
+		def salesRequisitionInstance = SalesRequisition.get(params.id)
+		printService.printSalesRequisition(salesRequisitionInstance)
+	}
 	
 	def generateSalesInvoice() {
 		def salesInvoiceInstance = SalesInvoice.get(params.id)
