@@ -10,6 +10,8 @@ class ProductUnitPriceController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
+	def productUnitPriceService
+	
     def edit() {
         def productUnitPriceInstance = ProductUnitPrice.get(params.id)
         if (!productUnitPriceInstance) {
@@ -43,7 +45,7 @@ class ProductUnitPriceController {
 
         productUnitPriceInstance.properties = params
 
-        if (!productUnitPriceInstance.save(flush: true)) {
+		if (!productUnitPriceService.update(productUnitPriceInstance)) {
 			productUnitPriceInstance.retrieveUnitCost()
             render(view: "edit", model: [productUnitPriceInstance: productUnitPriceInstance])
             return

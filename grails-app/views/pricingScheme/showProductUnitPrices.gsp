@@ -70,7 +70,7 @@
                     </thead>
                     <tbody>
                     <g:if test="${!unitPrices.empty}">
-                    <g:each in="${unitPrices}" status="i" var="unitPrice">
+                    <g:each in="${unitPrices.sort{ it.unit }}" status="i" var="unitPrice">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} clickable" onclick="editProductUnitPrice(${unitPrice.id})" >
                         	<td>${fieldValue(bean: unitPrice, field: "unit")}</td>
                         	<td><g:formatNumber number="${unitPrice.price}" format="#,##0.00" /></td>
