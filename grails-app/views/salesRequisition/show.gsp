@@ -100,6 +100,7 @@
                         	<th width="50">Quantity</th>
                         	<th width="80">Unit Price</th>
                         	<th width="100">Amount</th>
+                        	<th width="70">Discount</th>
                         	<g:if test="${!salesRequisitionInstance.posted}">
                         		<th width="170"></th>
                         	</g:if>
@@ -113,8 +114,9 @@
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
                         	<td>${item.unit}</td>
                         	<td class="right">${item.quantity}</td>
-                        	<td width="80" class="right"><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
-                        	<td width="80" class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.unitPrice}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.discountedAmount}" format="#,##0.00" /></td>
                         	<g:if test="${!salesRequisitionInstance.posted}">
 	                        	<td style="text-align:center">
 		                        	<g:if test="${!salesRequisitionInstance.posted}">
@@ -129,7 +131,7 @@
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="7">No items</td>
+                    		<td colspan="8">No items</td>
                     	</tr>
                     </g:else>
                     </tbody>
@@ -140,13 +142,15 @@
 	                	<tr class="odd">
 	                		<td class="right bold">Sub Total</td>
 	                		<td width="100" class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalAmount}" format="#,##0.00" /></td>
+	                		<td width="70"></td>
                         	<g:if test="${!salesRequisitionInstance.posted}">
 	                			<td width="170"></td>
 	                		</g:if>
 	                	</tr>
 	                	<tr class="odd" style="color:red">
-	                		<td class="right bold">Discount</td>
+	                		<td class="right bold">Total Discount</td>
 	                		<td class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalDiscountedAmount}" format="#,##0.00" /></td>
+	                		<td></td>
                         	<g:if test="${!salesRequisitionInstance.posted}">
 		                		<td></td>
 		                	</g:if>
@@ -154,6 +158,7 @@
 	                	<tr class="odd">
 	                		<td class="right bold">Net Amount</td>
 	                		<td class="right bold"><g:formatNumber number="${salesRequisitionInstance.totalNetAmount}" format="#,##0.00" /></td>
+	                		<td></td>
                         	<g:if test="${!salesRequisitionInstance.posted}">
 	                			<td></td>
 	                		</g:if>
