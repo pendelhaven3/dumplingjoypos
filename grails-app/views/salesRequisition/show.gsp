@@ -187,14 +187,12 @@
 	            </div>
             </g:if>
             
-            <%--
             <div class="buttons">
-	            <g:form controller="report">
-                    <g:hiddenField name="id" value="${salesRequisitionInstance?.id}" />
-	               	<span class="button"><g:actionSubmit class="print" action="generateSalesRequisition" value="Print" /></span>
-	            </g:form>
+	            <span class="button">
+	            	<input type="button" value="Print" class="print"
+	            		onclick="${remoteFunction(controller: 'report', action: 'generateSalesRequisition', id: salesRequisitionInstance.id)}" />
+	            </span>
 	        </div>
-	        --%>
         </div>
         
        	<g:form name="editSalesRequisitionItemForm" controller="salesRequisitionItem" action="edit">

@@ -133,12 +133,11 @@
             <br/><br/>
             
             <div class="buttons">
-                <g:form controller="report">
-                    <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="print" action="generateSalesInvoice" value="Print" /></span>
-                </g:form>
+	            <span class="button">
+	            	<input type="button" value="Print" class="print"
+	            		onclick="${remoteFunction(controller: 'report', action: 'generateSalesInvoice', id: salesInvoiceInstance.id)}" />
+	            </span>
             </div>
-            
         </div>  
         
         <g:form name="showItemDiscountsForm" controller="salesInvoiceItem" action="showDiscounts">
