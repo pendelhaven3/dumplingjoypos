@@ -21,6 +21,7 @@ class ReportController {
 	}
 	
 	def generateSalesInvoice() {
+		/*
 		def salesInvoiceInstance = SalesInvoice.get(params.id)
 		
 		salesInvoiceInstance.customer.refresh()
@@ -31,6 +32,10 @@ class ReportController {
 		}
 		
 		downloadReport(response, "salesInvoice", salesInvoiceInstance)
+		*/
+		
+		def salesInvoiceInstance = SalesInvoice.get(params.id)
+		printService.printSalesInvoice(salesInvoiceInstance)
 	}
 	
 	def generateStockQuantityConversion() {

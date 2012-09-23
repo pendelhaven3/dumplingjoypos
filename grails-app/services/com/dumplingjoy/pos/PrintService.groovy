@@ -22,4 +22,14 @@ class PrintService {
 		PrinterUtil.print(sw.toString())
 	}
 	
+	def printSalesInvoice(SalesInvoice salesInvoiceInstance) {
+		String currentDate = new Date().format("MM/dd/yy")
+		
+		Template t = groovyPagesTemplateEngine.createTemplate("/report/_salesInvoice.gsp")
+		Writable w = t.make([salesInvoice: salesInvoiceInstance, currentDate: currentDate])
+		StringWriter sw = new StringWriter()
+		w.writeTo(sw)
+		PrinterUtil.print(sw.toString())
+	}
+	
 }
