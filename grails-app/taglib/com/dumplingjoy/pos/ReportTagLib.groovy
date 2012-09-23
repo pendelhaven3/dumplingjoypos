@@ -21,7 +21,7 @@ class ReportTagLib {
 	 * @attr currency display value as currency amount
 	 */	
 	def field = { attrs, body ->
-		String value = attrs.value
+		String value = (attrs.value != null) ? attrs.value : ""
 		Integer length = attrs.length as Integer
 		String align = attrs.align ?: LEFT
 		Boolean currency = attrs.currency ? attrs.currency as Boolean : false
