@@ -58,6 +58,11 @@ class AdjustmentInController {
             redirect(action: "list")
             return
         }
+		
+		if (adjustmentInInstance.posted) {
+			redirect(action: "show", id: adjustmentInInstance.id)
+			return
+		}
 
         [adjustmentInInstance: adjustmentInInstance]
     }

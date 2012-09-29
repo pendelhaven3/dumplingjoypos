@@ -57,6 +57,11 @@ class StockQuantityConversionController {
             return
         }
 
+		if (stockQuantityConversionInstance.posted) {
+			redirect(action: "show", id: stockQuantityConversionInstance.id)
+			return
+		}
+
         [stockQuantityConversionInstance: stockQuantityConversionInstance]
     }
 

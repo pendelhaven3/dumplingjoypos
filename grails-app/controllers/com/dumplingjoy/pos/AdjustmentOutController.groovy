@@ -57,6 +57,11 @@ class AdjustmentOutController {
             redirect(action: "list")
             return
         }
+		
+		if (adjustmentOutInstance.posted) {
+			redirect(action: "show", id: adjustmentOutInstance.id)
+			return
+		}
 
         [adjustmentOutInstance: adjustmentOutInstance]
     }
