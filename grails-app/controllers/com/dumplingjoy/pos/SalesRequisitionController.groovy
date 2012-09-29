@@ -54,6 +54,11 @@ class SalesRequisitionController {
             redirect(action: "list")
             return
         }
+		
+		if (salesRequisitionInstance.posted) {
+            redirect(action: "show", id: salesRequisitionInstance.id)
+            return
+		}
 
         [salesRequisitionInstance: salesRequisitionInstance]
     }
