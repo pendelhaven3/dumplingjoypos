@@ -5,7 +5,7 @@
 				<tr>
 					<td width="50" style="vertical-align:middle;" >Code</td>
 					<td>
-						<input type="text" id="__selectProductCode" style="text-transform:uppercase;" onkeyup="allCaps(this); searchProducts(this.value);" 
+						<input type="text" id="__selectProductCode" style="text-transform:uppercase;" onkeyup="searchProducts(this.value.toUpperCase());" 
 							value="${code}" />
 					</td>
 				</tr>
