@@ -1,0 +1,5 @@
+.link_to_grails_plugins/
+.settings/
+target-eclipse/
+
+target/
