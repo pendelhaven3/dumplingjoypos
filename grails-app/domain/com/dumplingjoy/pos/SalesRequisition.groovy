@@ -24,7 +24,7 @@ class SalesRequisition {
 
     static constraints = {
 		salesRequisitionNumber unique: true
-		mode blank: false, inList: ["Delivery", "Walk-in"]
+		mode blank: false, inList: ["Delivery", "Pick-up"]
 		postDate nullable: true
 		postedBy nullable: true
 		createdBy nullable: true

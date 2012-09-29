@@ -19,7 +19,7 @@ class SalesInvoice {
 
     static constraints = {
 		salesInvoiceNumber unique: true
-		mode blank: false, inList: ["Delivery", "Walk-in"]
+		mode blank: false, inList: ["Delivery", "Pick-up"]
 		postedBy blank: false
 		encodedBy blank: false
 		remarks nullable: true, blank: true
