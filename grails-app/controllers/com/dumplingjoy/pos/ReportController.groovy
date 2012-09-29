@@ -39,6 +39,7 @@ class ReportController {
 	}
 	
 	def generateStockQuantityConversion() {
+		/*
 		def stockQuantityConversionInstance = StockQuantityConversion.get(params.id)
 		stockQuantityConversionInstance.items.each {
 			it.refresh()
@@ -49,6 +50,10 @@ class ReportController {
 		}
 		
 		downloadReport(response, "stockConversion", stockQuantityConversionInstance)
+		*/
+		
+		def stockQuantityConversionInstance = StockQuantityConversion.get(params.id)
+		printService.printStockQuantityConversion(stockQuantityConversionInstance)
 	}
 	
 	private JasperReportDef createReportDef(String reportName, Object data) {

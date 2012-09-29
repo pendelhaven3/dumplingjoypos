@@ -48,6 +48,28 @@ class PrintService {
 		}
 	}
 	
+	def printStockQuantityConversion(StockQuantityConversion stockQuantityConversionInstance) {
+		Collections.sort(stockQuantityConversionInstance.items, new Comparator<StockQuantityConversionItem>() {
+			public int compare(StockQuantityConversionItem o1, StockQuantityConversionItem o2) {
+				return o1.getProduct().getDescription().compareTo(o2.getProduct().getDescription())
+			}
+		})
+
+		String currentDate = new Date().format("MM/dd/yy")
+		def pageItems = stockQuantityConversionInstance.items.collate(SALES_INVOICE_ITEMS_PER_PAGE)
+		pageItems.eachWithIndex { it, index ->
+			Map<String, Object> reportData = [
+				stockQuantityConversion: stockQuantityConversionInstance, 
+				items: it, 
+				currentDate: currentDate,
+				currentPage: index + 1,
+				totalPages: pageItems.size(),
+				isLastPage: (index + 1) == pageItems.size()
+			]
+			printReport("/report/_stockQuantityConversion.gsp", reportData)
+		}
+	}
+	
 	private void printReport(String template, Map<String, Object> reportData) {
 		Template t = groovyPagesTemplateEngine.createTemplate(template)
 		Writable w = t.make(reportData)
