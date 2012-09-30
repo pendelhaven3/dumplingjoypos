@@ -15,7 +15,7 @@ class ProductUnitPriceService {
 				}.convertedQuantity
 				
 				ProductUnitPrice smallerUnitPrice = ProductUnitPrice.findByProductAndUnit(product, unit)
-				smallerUnitPrice.price = productUnitPrice.price.divide(new BigDecimal(convertedQuantity), RoundingMode.UP)
+				smallerUnitPrice.price = productUnitPrice.price.divide(new BigDecimal(convertedQuantity), 2, RoundingMode.UP)
 				smallerUnitPrice.save(fail: true)
 			}
 		}
