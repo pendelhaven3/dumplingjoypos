@@ -117,13 +117,7 @@ class ReportController {
 	
 	def generateAdjustmentIn() {
 		def adjustmentInInstance = AdjustmentIn.get(params.id)
-		
-		adjustmentInInstance.items.each {
-			it.refresh()
-			it.product.refresh()
-		}
-		
-		downloadReport(response, "adjustmentIn", adjustmentInInstance)
+		printService.printAdjustmentIn(adjustmentInInstance)
 	}
 
 }

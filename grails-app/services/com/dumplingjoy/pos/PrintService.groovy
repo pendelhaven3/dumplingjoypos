@@ -26,6 +26,15 @@ class PrintService {
 		PrinterUtil.print(sw.toString())
 	}
 	
+	private void printReport(String template, Map<String, Object> reportData) {
+		Template t = groovyPagesTemplateEngine.createTemplate(template)
+		Writable w = t.make(reportData)
+		StringWriter sw = new StringWriter()
+		w.writeTo(sw)
+		println sw.toString()
+		// PrinterUtil.print(sw.toString())
+	}
+
 	def printSalesInvoice(SalesInvoice salesInvoiceInstance) {
 		Collections.sort(salesInvoiceInstance.items, new Comparator<SalesInvoiceItem>() {
 			public int compare(SalesInvoiceItem o1, SalesInvoiceItem o2) {
@@ -70,13 +79,26 @@ class PrintService {
 		}
 	}
 	
-	private void printReport(String template, Map<String, Object> reportData) {
-		Template t = groovyPagesTemplateEngine.createTemplate(template)
-		Writable w = t.make(reportData)
-		StringWriter sw = new StringWriter()
-		w.writeTo(sw)
-		// println sw.toString()
-		PrinterUtil.print(sw.toString())
+	def printAdjustmentIn(AdjustmentIn adjustmentInInstance) {
+		Collections.sort(adjustmentInInstance.items, new Comparator<AdjustmentInItem>() {
+			public int compare(AdjustmentInItem o1, AdjustmentInItem o2) {
+				return o1.getProduct().getDescription().compareTo(o2.getProduct().getDescription())
+			}
+		})
+
+		String currentDate = new Date().format("MM/dd/yy")
+		def pageItems = adjustmentInInstance.items.collate(SALES_INVOICE_ITEMS_PER_PAGE)
+		pageItems.eachWithIndex { it, index ->
+			Map<String, Object> reportData = [
+				adjustmentIn: adjustmentInInstance,
+				items: it,
+				currentDate: currentDate,
+				currentPage: index + 1,
+				totalPages: pageItems.size(),
+				isLastPage: (index + 1) == pageItems.size()
+			]
+			printReport("/report/_adjustmentIn.gsp", reportData)
+		}
 	}
-	
+
 }
