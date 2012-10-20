@@ -11,6 +11,8 @@ import groovy.text.Template
 @Secured("isFullyAuthenticated()")
 class ReportController {
 
+	private static final int HTTP_STATUS_OK = 200
+	
 	def jasperService
 	GroovyPagesTemplateEngine groovyPagesTemplateEngine
 	def printService
@@ -18,42 +20,19 @@ class ReportController {
 	def generateSalesRequisition() {
 		def salesRequisitionInstance = SalesRequisition.get(params.id)
 		printService.printSalesRequisition(salesRequisitionInstance)
+		render status: HTTP_STATUS_OK
 	}
 	
 	def generateSalesInvoice() {
-		/*
-		def salesInvoiceInstance = SalesInvoice.get(params.id)
-		
-		salesInvoiceInstance.customer.refresh()
-		salesInvoiceInstance.pricingScheme.refresh()
-		salesInvoiceInstance.items.each {
-			it.refresh()
-			it.product.refresh()
-		}
-		
-		downloadReport(response, "salesInvoice", salesInvoiceInstance)
-		*/
-		
 		def salesInvoiceInstance = SalesInvoice.get(params.id)
 		printService.printSalesInvoice(salesInvoiceInstance)
+		render status: HTTP_STATUS_OK
 	}
 	
 	def generateStockQuantityConversion() {
-		/*
-		def stockQuantityConversionInstance = StockQuantityConversion.get(params.id)
-		stockQuantityConversionInstance.items.each {
-			it.refresh()
-			it.product.refresh()
-			it.product.unitConversions.each {
-				it.refresh()
-			}
-		}
-		
-		downloadReport(response, "stockConversion", stockQuantityConversionInstance)
-		*/
-		
 		def stockQuantityConversionInstance = StockQuantityConversion.get(params.id)
 		printService.printStockQuantityConversion(stockQuantityConversionInstance)
+		render status: HTTP_STATUS_OK
 	}
 	
 	private JasperReportDef createReportDef(String reportName, Object data) {
@@ -116,8 +95,11 @@ class ReportController {
 	}
 	
 	def generateAdjustmentIn() {
+		if (true) throw new RuntimeException("Hark")
+		
 		def adjustmentInInstance = AdjustmentIn.get(params.id)
 		printService.printAdjustmentIn(adjustmentInInstance)
+		render status: HTTP_STATUS_OK
 	}
 
 }

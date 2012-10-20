@@ -123,7 +123,7 @@
 	            <div class="buttons">
 		            <span class="button">
 		            	<input type="button" value="Print" class="print"
-		            		onclick="${remoteFunction(controller: 'report', action: 'generateAdjustmentIn', id: adjustmentInInstance.id)}" />
+		            		onclick="${remoteFunction(controller: 'report', action: 'generateAdjustmentIn', id: adjustmentInInstance.id, onFailure: 'alertPrintingFailure()')}" />
 		            </span>
 	            </div>
             </g:if>
