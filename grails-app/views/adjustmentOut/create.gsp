@@ -47,6 +47,16 @@
                                 </td>
                             </tr>
                         
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="pricingScheme"><g:message code="adjustmentOut.pricingScheme.label" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: adjustmentOutInstance, field: 'pricingScheme', 'errors')}">
+                                	<g:select name="pricingScheme.id" from="${com.dumplingjoy.pos.PricingScheme.list([sort: "description", order: "asc"])}" value="${adjustmentOutInstance.pricingScheme?.id}" 
+                                		optionKey="id" optionValue="description" noSelection="['':'']" />
+                                </td>
+                            </tr>
+                        
                         </tbody>
                     </table>
                 </div>

@@ -9,6 +9,7 @@ class AdjustmentOut {
 	
 	Integer adjustmentOutNumber
 	String remarks
+	PricingScheme pricingScheme
 	List<AdjustmentOutItem> items
 	boolean posted
 	Date postDate

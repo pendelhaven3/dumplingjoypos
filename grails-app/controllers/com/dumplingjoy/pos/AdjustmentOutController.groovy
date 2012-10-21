@@ -85,6 +85,7 @@ class AdjustmentOutController {
             }
         }
 
+		adjustmentOutInstance.pricingScheme = null // I have no idea why I have to do this to make it work T__T
         adjustmentOutInstance.properties = params
 
         if (!adjustmentOutInstance.save(flush: true)) {

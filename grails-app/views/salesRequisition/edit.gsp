@@ -56,7 +56,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description"><g:message code="salesRequisition.pricingScheme.label" /></label>
+                                    <label for="pricingScheme"><g:message code="salesRequisition.pricingScheme.label" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: salesRequisitionInstance, field: 'pricingScheme', 'errors')}">
                                 	<g:select name="pricingScheme.id" from="${com.dumplingjoy.pos.PricingScheme.list([sort: "description", order: "asc"])}" value="${salesRequisitionInstance.pricingScheme?.id}" 

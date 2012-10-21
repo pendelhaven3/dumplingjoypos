@@ -34,6 +34,10 @@
                             <td valign="top" class="name"><g:message code="adjustmentOut.remarks.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "remarks")}</td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="adjustmentOut.pricingScheme.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: adjustmentOutInstance, field: "pricingScheme.description")}</td>
+                        </tr>
                         <g:if test="${adjustmentOutInstance.posted}">
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="adjustmentOut.posted.label" /></td>
