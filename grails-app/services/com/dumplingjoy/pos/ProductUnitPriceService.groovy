@@ -14,7 +14,9 @@ class ProductUnitPriceService {
 					unitConversion.fromUnit == productUnitPrice.unit && unitConversion.toUnit == unit
 				}.convertedQuantity
 				
-				ProductUnitPrice smallerUnitPrice = ProductUnitPrice.findByProductAndUnit(product, unit)
+				ProductUnitPrice smallerUnitPrice = ProductUnitPrice.find(
+					"from ProductUnitPrice pup where pup.pricingScheme = ? and pup.product = ? and pup.unit = ?",
+					[productUnitPrice.pricingScheme, product, unit])
 				smallerUnitPrice.price = productUnitPrice.price.divide(new BigDecimal(convertedQuantity), 2, RoundingMode.UP)
 				smallerUnitPrice.save(fail: true)
 			}
