@@ -63,7 +63,8 @@ class SalesInvoice {
 		items.each {
 			total = total.add(it.netAmount)
 		}
-		total.setScale(0, RoundingMode.CEILING)
+		// total.setScale(0, RoundingMode.CEILING)
+		total.setScale(2, RoundingMode.HALF_UP)
 	}
 
 }
