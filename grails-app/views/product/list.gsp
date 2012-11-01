@@ -20,7 +20,7 @@
             <div class="list">
             
             	<br/>
-            	Description:&nbsp;&nbsp;&nbsp;<input type="text" name="description" id="description" value="${params.description}" />
+            	Code:&nbsp;&nbsp;&nbsp;<input type="text" name="code" id="code" value="${params.code}" />
             	<input type="button" value="Search" onclick="search()" />
             	<br/><br/>
             	
@@ -52,21 +52,21 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${productInstanceTotal}" params="${[description: params.description]}" />
+                <g:paginate total="${productInstanceTotal}" params="${[code: params.code]}" />
             </div>
         </div>
         <g:javascript>
-        	focusOnLoad("description")
+        	focusOnLoad("code")
         	
-			$("#description").keydown(function (e){
+			$("#code").keydown(function (e){
 			    if(e.keyCode == 13){
 			    	search()
 			    }
 			})
         	
         	function search() {
-        		var description = $("#description").val()
-        		window.location = "${createLink(action: 'list')}?description=" + encodeURIComponent(description)
+        		var code = $("#code").val()
+        		window.location = "${createLink(action: 'list')}?code=" + encodeURIComponent(code)
         	}
         </g:javascript>
     </body>

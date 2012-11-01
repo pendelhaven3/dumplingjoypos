@@ -32,8 +32,8 @@ class ProductController {
 		params.order = params.order ?: "asc"
 		
 		def productInstanceList = Product.withCriteria {
-			if (!StringUtils.isEmpty(params.description)) {
-				ilike("description", params.description + "%")
+			if (!StringUtils.isEmpty(params.code)) {
+				ilike("code", params.code + "%")
 			}
 			firstResult(params.int("offset") ?: 0)
 			maxResults(10)
@@ -41,8 +41,8 @@ class ProductController {
 		}
 		
 		def productInstanceTotal
-		if (!StringUtils.isEmpty(params.description)) {
-			productInstanceTotal = Product.countByDescriptionIlike(params.description + "%")
+		if (!StringUtils.isEmpty(params.code)) {
+			productInstanceTotal = Product.countByCodeIlike(params.code + "%")
 		} else {
 			productInstanceTotal = Product.count()
 		}
