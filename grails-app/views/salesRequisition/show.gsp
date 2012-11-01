@@ -108,7 +108,7 @@
                     </thead>
                     <tbody>
                     <g:if test="${!salesRequisitionInstance.items.empty}">
-                    <g:each in="${salesRequisitionInstance.items.sort {it.product.code}}" status="i" var="item">
+                    <g:each in="${salesRequisitionInstance.items.sort {it.id}}" status="i" var="item">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'} <g:if test="${item.hasPostError}">postError</g:if>">
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
