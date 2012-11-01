@@ -25,4 +25,14 @@ class ProductUnitPriceService {
 		return true
 	}
 	
+	def updateUnitPrices(Product product) {
+		PricingScheme.list().each { pricingScheme ->
+			ProductUnitPrice largestUnitPrice = 
+				ProductUnitPrice.findAll(
+					"from ProductUnitPrice pup where pup.pricingScheme = ? and pup.product = ?", [pricingScheme, product])
+				.max { it.unit.order }
+			update(largestUnitPrice)
+		}
+	}
+	
 }

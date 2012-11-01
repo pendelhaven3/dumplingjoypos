@@ -8,6 +8,10 @@ import org.springframework.dao.DataIntegrityViolationException
 @Secured("isFullyAuthenticated()")
 class UnitConversionController {
 
+    static allowedMethods = [update: "POST", delete: "POST"]
+
+	def productUnitPriceService
+	
     def edit() {
 		def productInstance = Product.get(params.productId)
         if (!productInstance) {
@@ -58,6 +62,8 @@ class UnitConversionController {
             render(view: "edit", model: [unitConversionInstance: unitConversionInstance, productInstance: productInstance])
             return
         }
+		
+		productUnitPriceService.updateUnitPrices(productInstance)
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'unitConversion.label', default: 'UnitConversion'), unitConversionInstance.id])
         redirect(controller: "product", action: "show", id: productInstance.id)
