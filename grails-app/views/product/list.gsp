@@ -65,7 +65,7 @@
 			})
         	
         	function search() {
-        		var code = $("#code").val()
+        		var code = $.trim($("#code").val());
         		window.location = "${createLink(action: 'list')}?code=" + encodeURIComponent(code)
         	}
         </g:javascript>

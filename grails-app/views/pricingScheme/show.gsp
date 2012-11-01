@@ -47,7 +47,7 @@
             <div class="list" style="padding-top:5px">
             
             	<br/>
-            	Description:&nbsp;&nbsp;&nbsp;<input type="text" name="description" id="description" value="${params.description}" />
+            	Code:&nbsp;&nbsp;&nbsp;<input type="text" name="code" id="code" value="${params.code}" />
             	<input type="button" value="Search" onclick="search()" />
             	<br/><br/>
             
@@ -76,7 +76,7 @@
                 </table>
             </div>
             <div class="paginateButtons">
-                <g:paginate total="${productInstanceTotal}" params="${[description: params.description, id: params.id]}" />
+                <g:paginate total="${productInstanceTotal}" params="${[code: params.code, id: params.id]}" />
             </div>
             
         </div>
@@ -87,23 +87,23 @@
        	</g:form>
         
         <g:javascript>
-        	focusOnLoad("description")
+        	focusOnLoad("code")
         
         	function showProductUnitPrices(productId) {
         		var form = document.showProductUnitPricesForm;
-        		form.elements["product.id"].value = productId
-        		form.submit()
+        		form.elements["product.id"].value = productId;
+        		form.submit();
         	}
         	
-			$("#description").keydown(function (e){
+			$("#code").keydown(function (e){
 			    if(e.keyCode == 13){
 			    	search()
 			    }
 			})
         	
         	function search() {
-        		var description = $("#description").val()
-        		window.location = "${createLink(action: 'show', id: pricingSchemeInstance.id)}?description=" + encodeURIComponent(description)
+        		var code = $.trim($("#code").val());
+        		window.location = "${createLink(action: 'show', id: pricingSchemeInstance.id)}?code=" + encodeURIComponent(code);
         	}
         </g:javascript>
     </body>
