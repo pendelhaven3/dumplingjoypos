@@ -36,7 +36,7 @@ environments {
 //            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
 			dbCreate = "update" // one of 'create', 'create-drop','update'
 //			url = "jdbc:mysql://localhost/jcharmonypos"
-			url = "jdbc:mysql://127.0.0.1/jcharmonypos"
+			url = "jdbc:mysql://jcharmonypos-db/jcharmonypos"
 			driverClassName = "com.mysql.jdbc.Driver"
 			username = "root"
 			password = "root"
