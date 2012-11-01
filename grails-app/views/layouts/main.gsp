@@ -16,7 +16,7 @@
         <div id="spinner" class="spinner" style="display:none;">
             <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
         </div>
-        <div id="grailsLogo"><img src="${resource(dir:'images',file:'dumplingjoy_header.png')}" alt="Dumpling Joy Grocery]" border="0" /></div>
+        <div id="grailsLogo"><img src="${resource(dir:'images',file:'jcharmonypos_header.png')}" alt="Dumpling Joy Grocery]" border="0" /></div>
         <div class="loginHeader">
     		<sec:ifLoggedIn>
     			<sec:loggedInUserInfo field="username" /> | <a class="log" href="${createLink(uri: '/logout/index')}">Logout</a>
