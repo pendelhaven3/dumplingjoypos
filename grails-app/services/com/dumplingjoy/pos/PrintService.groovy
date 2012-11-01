@@ -31,8 +31,8 @@ class PrintService {
 		Writable w = t.make(reportData)
 		StringWriter sw = new StringWriter()
 		w.writeTo(sw)
-		println sw.toString()
-		// PrinterUtil.print(sw.toString())
+		// println sw.toString()
+		PrinterUtil.print(sw.toString())
 	}
 
 	def printSalesInvoice(SalesInvoice salesInvoiceInstance) {
