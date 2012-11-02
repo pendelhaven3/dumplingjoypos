@@ -65,7 +65,11 @@ class SalesRequisition {
 				
 				ProductUnitPrice unitPrice = ProductUnitPrice.find("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ? and up.unit = ?",
 					[pricingScheme, item.product, item.unit])
-				if (unitPrice.isLessThanCost()) {
+				if (unitPrice.hasNoPrice()) {
+					errors.reject("postItem.noSellingPrice.message", [item.product.code, item.unit] as Object[],
+						"postItem.noSellingPrice.message")
+					item.hasPostError = true
+				} else if (unitPrice.isLessThanCost()) {
 					errors.reject("postItem.priceLessThanCost.message", [item.product.code, item.unit] as Object[],
 						"postItem.priceLessThanCost.message")
 					item.hasPostError = true

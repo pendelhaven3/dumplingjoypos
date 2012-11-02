@@ -39,5 +39,9 @@ class ProductUnitPrice {
 		}
 		return price.compareTo(cost) == -1
 	}
+	
+	public boolean hasNoPrice() {
+		return price.compareTo(BigDecimal.ZERO) == 0
+	}
 		
 }

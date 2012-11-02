@@ -126,6 +126,7 @@ class SalesRequisitionController {
 		// force hibernate to load these properties
 		salesRequisitionInstance.customer.name
 		salesRequisitionInstance.pricingScheme.description
+		salesRequisitionInstance.paymentTerms.name
 		
 		if (!salesRequisitionInstance.post()) {
 			render(view: "show", model: [salesRequisitionInstance: salesRequisitionInstance])

@@ -41,6 +41,13 @@ class SalesRequisitionItemController {
 		}
 
 		if (salesRequisitionItemInstance.product && salesRequisitionItemInstance.unit) {
+			if (salesRequisitionItemInstance.hasNoSellingPrice()) {
+				salesRequisitionItemInstance.errors.reject("noSellingPrice.message",
+						[] as Object[], "noSellingPrice.message")
+				render(view: "create", model: [salesRequisitionItemInstance: salesRequisitionItemInstance, salesRequisitionInstance: salesRequisitionInstance])
+				return
+			}
+			
 			if (salesRequisitionItemInstance.hasPriceLessThanCost()) {
 				salesRequisitionItemInstance.errors.reject("priceLessThanCost.message",
 						[] as Object[], "priceLessThanCost.message")
@@ -119,6 +126,13 @@ class SalesRequisitionItemController {
 		}
 
 		if (salesRequisitionItemInstance.product && salesRequisitionItemInstance.unit) {
+			if (salesRequisitionItemInstance.hasNoSellingPrice()) {
+				salesRequisitionItemInstance.errors.reject("noSellingPrice.message",
+						[] as Object[], "noSellingPrice.message")
+				render(view: "edit", model: [salesRequisitionItemInstance: salesRequisitionItemInstance, salesRequisitionInstance: salesRequisitionInstance])
+				return
+			}
+			
 			if (salesRequisitionItemInstance.hasPriceLessThanCost()) {
 				salesRequisitionItemInstance.errors.reject("priceLessThanCost.message",
 						[] as Object[], "priceLessThanCost.message")

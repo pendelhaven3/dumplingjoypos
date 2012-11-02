@@ -76,4 +76,10 @@ class SalesRequisitionItem {
 		return unitPrice.isLessThanCost()
 	}
 
+	public boolean hasNoSellingPrice() {
+		ProductUnitPrice unitPrice = ProductUnitPrice.find("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ? and up.unit = ?",
+			[salesRequisition.pricingScheme, product, unit])
+		return unitPrice.price.compareTo(BigDecimal.ZERO) == 0
+	}
+	
 }
