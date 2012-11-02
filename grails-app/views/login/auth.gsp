@@ -93,15 +93,15 @@
 			<div class='login_message'>${flash.message}</div>
 		</g:if>
 
-		<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+		<form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
 			<p>
 				<label for='username'><g:message code="springSecurity.login.username.label"/>:</label>
-				<input type='text' class='text_' name='j_username' id='username' value="joy" />
+				<input type='text' class='text_' name='j_username' id='username' value="" />
 			</p>
 
 			<p>
 				<label for='password'><g:message code="springSecurity.login.password.label"/>:</label>
-				<input type='password' class='text_' name='j_password' id='password' value="joy" />
+				<input type='password' class='text_' name='j_password' id='password' value="" />
 			</p>
 
 			<p>
