@@ -18,7 +18,7 @@
         </div>
         <div id="grailsLogo">
         	<img src="${resource(dir:'images',file:'jcharmonypos_header.png')}" alt="Dumpling Joy Grocery]" border="0" />
-        	<span id="programVersion">v0.2</span>
+        	<span id="programVersion">v<g:meta name="app.version" /></span>
         </div>
         <div class="loginHeader">
     		<sec:ifLoggedIn>
