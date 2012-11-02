@@ -19,6 +19,12 @@ body {
 #grailsLogo {
 	padding:15px;
 }
+#programVersion {
+	position: absolute;
+	top: 30px;
+	font-weight: bold;
+	font-style: italic;
+}
 
 a:link, a:visited, a:hover {
     color: #666;
