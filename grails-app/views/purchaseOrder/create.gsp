@@ -27,6 +27,7 @@
             	</g:each>
                 <g:renderErrors bean="${purchaseOrderInstance}" field="supplier" />
                 <g:renderErrors bean="${purchaseOrderInstance}" field="terms" />
+                <g:renderErrors bean="${purchaseOrderInstance}" field="referenceNumber" />
                 <g:renderErrors bean="${purchaseOrderInstance}" field="remarks" />
            </div>
             </g:hasErrors>

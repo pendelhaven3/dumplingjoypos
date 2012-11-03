@@ -71,6 +71,17 @@
                                     <g:textField name="remarks" value="${fieldValue(bean: purchaseOrderInstance, field: 'remarks')}" style="width:300px" />
                                 </td>
                             </tr>
+                            
+                            <g:if test="${purchaseOrderInstance.ordered}">
+	                            <tr class="prop">
+	                                <td valign="top" class="name">
+	                                    <label for="referenceNumber"><g:message code="purchaseOrder.referenceNumber.label" /></label>
+	                                </td>
+	                                <td valign="top" class="value ${hasErrors(bean: purchaseOrderInstance, field: 'referenceNumber', 'errors')}">
+	                                    <g:textField name="referenceNumber" value="${fieldValue(bean: purchaseOrderInstance, field: 'referenceNumber')}" />
+	                                </td>
+	                            </tr>
+                            </g:if>
                         
                         </tbody>
                     </table>

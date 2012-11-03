@@ -1,5 +1,7 @@
 package com.dumplingjoy.pos
 
+import org.apache.commons.lang.StringUtils;
+
 class PurchaseOrder {
 
 	transient springSecurityService
@@ -15,6 +17,7 @@ class PurchaseOrder {
 	PaymentTerms terms
 	ReceivingReceipt relatedReceivingReceipt
 	String remarks
+	String referenceNumber
 	
 	List<PurchaseOrderItem> items
 	
@@ -26,6 +29,7 @@ class PurchaseOrder {
 		createdBy nullable: true
 		relatedReceivingReceipt nullable: true
 		remarks nullable: true, blank: true, maxSize: 500
+		referenceNumber nullable: true
     }
 	
 	static hasMany = [items: PurchaseOrderItem]
@@ -46,6 +50,14 @@ class PurchaseOrder {
 	
 	public boolean post() {
 		PurchaseOrder.withTransaction { status ->
+			if (StringUtils.isEmpty(referenceNumber)) {
+				errors.reject("default.blank.message", ["Reference Number"] as Object[], "default.blank.message")
+			}
+			if (hasErrors()) {
+				status.setRollbackOnly()
+				return false
+			}
+		
 			ReceivingReceipt receivingReceipt = new ReceivingReceipt()
 			receivingReceipt.receivingReceiptNumber = ReceivingReceiptSequenceNumber.getNextValue()
 			ReceivingReceiptSequenceNumber.increment()

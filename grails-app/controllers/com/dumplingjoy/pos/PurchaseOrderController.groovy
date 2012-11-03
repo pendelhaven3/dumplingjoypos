@@ -139,6 +139,10 @@ class PurchaseOrderController {
 			return
 		}
 		
+		purchaseOrderInstance.supplier.refresh()
+		purchaseOrderInstance.terms.refresh()
+		purchaseOrderInstance.items.each { it.product.refresh() }
+
 		if (!purchaseOrderInstance.post()) {
 			render(view: "show", model: [purchaseOrderInstance: purchaseOrderInstance])
 			return
