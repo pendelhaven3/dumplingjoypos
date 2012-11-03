@@ -109,7 +109,7 @@
                     </thead>
                     <tbody>
                     <g:if test="${!purchaseOrderInstance.items.empty}">
-                    <g:each in="${purchaseOrderInstance.items.sort {it.product.code}}" status="i" var="item">
+                    <g:each in="${purchaseOrderInstance.items.sort {it.id}}" status="i" var="item">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         	<td>${item.product.code}</td>
                         	<td>${fieldValue(bean: item, field: "product.description")}</td>
