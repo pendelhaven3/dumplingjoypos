@@ -52,27 +52,31 @@ class SalesRequisition {
 
 	public boolean post() {
 		SalesRequisition.withTransaction { status ->
-			items.each { SalesRequisitionItem item ->
-				UnitQuantity unitQuantity = item.product.unitQuantities.find {it.unit == item.unit}
-				unitQuantity.quantity -= item.quantity
-				if (unitQuantity.quantity < 0) {
-					errors.reject("postItem.notEnoughQuantityAvailable.message", [item.product.code, item.unit] as Object[], 
-						"postItem.notEnoughQuantityAvailable.message")
-					item.hasPostError = true
-				} else {
-					unitQuantity.save(failOnError: true)
-				}
-				
-				ProductUnitPrice unitPrice = ProductUnitPrice.find("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ? and up.unit = ?",
-					[pricingScheme, item.product, item.unit])
-				if (unitPrice.hasNoPrice()) {
-					errors.reject("postItem.noSellingPrice.message", [item.product.code, item.unit] as Object[],
-						"postItem.noSellingPrice.message")
-					item.hasPostError = true
-				} else if (unitPrice.isLessThanCost()) {
-					errors.reject("postItem.priceLessThanCost.message", [item.product.code, item.unit] as Object[],
-						"postItem.priceLessThanCost.message")
-					item.hasPostError = true
+			if (items.isEmpty()) {
+				errors.reject("postSalesRequisition.noItems.message", [] as Object[], "postSalesRequisition.noItems.message")
+			} else {
+				items.each { SalesRequisitionItem item ->
+					UnitQuantity unitQuantity = item.product.unitQuantities.find {it.unit == item.unit}
+					unitQuantity.quantity -= item.quantity
+					if (unitQuantity.quantity < 0) {
+						errors.reject("postItem.notEnoughQuantityAvailable.message", [item.product.code, item.unit] as Object[],
+							"postItem.notEnoughQuantityAvailable.message")
+						item.hasPostError = true
+					} else {
+						unitQuantity.save(failOnError: true)
+					}
+					
+					ProductUnitPrice unitPrice = ProductUnitPrice.find("from ProductUnitPrice up where up.pricingScheme = ? and up.product = ? and up.unit = ?",
+						[pricingScheme, item.product, item.unit])
+					if (unitPrice.hasNoPrice()) {
+						errors.reject("postItem.noSellingPrice.message", [item.product.code, item.unit] as Object[],
+							"postItem.noSellingPrice.message")
+						item.hasPostError = true
+					} else if (unitPrice.isLessThanCost()) {
+						errors.reject("postItem.priceLessThanCost.message", [item.product.code, item.unit] as Object[],
+							"postItem.priceLessThanCost.message")
+						item.hasPostError = true
+					}
 				}
 			}
 			if (hasErrors()) {
