@@ -15,6 +15,8 @@ class StockQuantityConversionItem {
 	
 	static transients = ["hasPostError"]
 
+	static belongsTo = [stockQuantityConversion : StockQuantityConversion]
+	
 	public Integer getConvertedQuantity() {
 		if (fromUnit == null || toUnit == null || quantity == null) {
 			return null

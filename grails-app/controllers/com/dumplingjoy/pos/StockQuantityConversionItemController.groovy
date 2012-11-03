@@ -122,6 +122,8 @@ class StockQuantityConversionItemController {
 			stockQuantityConversionItemInstance.toUnit = null
 		}
 
+		stockQuantityConversionInstance.discard()
+		
         if (!stockQuantityConversionItemInstance.save(flush: true)) {
             render(view: "edit", model: [stockQuantityConversionItemInstance: stockQuantityConversionItemInstance, stockQuantityConversionInstance: stockQuantityConversionInstance])
             return

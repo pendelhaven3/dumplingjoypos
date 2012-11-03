@@ -15,6 +15,8 @@ class AdjustmentOutItem {
 	
 	static transients = ["hasPostError"]
 	
+	static belongsTo = [adjustmentOut : AdjustmentOut]
+	
 	private static def validateEnoughQuantityAvailable = { Integer quantity, AdjustmentOutItem item ->
 		if (item.product && item.quantity > 0 && item.unit) {
 			UnitQuantity available = item.product.unitQuantities.find {it.unit == item.unit}

@@ -116,6 +116,8 @@ class AdjustmentOutItemController {
 			adjustmentOutItemInstance.unit = null
 		}
 		
+		adjustmentOutInstance.discard()
+
         if (!adjustmentOutItemInstance.save(flush: true)) {
             render(view: "edit", model: [adjustmentOutItemInstance: adjustmentOutItemInstance, adjustmentOutInstance: adjustmentOutInstance])
             return

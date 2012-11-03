@@ -10,4 +10,6 @@ class AdjustmentInItem {
 		quantity min: 1
     }
 	
+	static belongsTo = [adjustmentIn : AdjustmentIn]
+	
 }
