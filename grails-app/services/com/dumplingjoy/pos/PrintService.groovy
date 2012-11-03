@@ -38,7 +38,7 @@ class PrintService {
 	def printSalesInvoice(SalesInvoice salesInvoiceInstance) {
 		Collections.sort(salesInvoiceInstance.items, new Comparator<SalesInvoiceItem>() {
 			public int compare(SalesInvoiceItem o1, SalesInvoiceItem o2) {
-				return o1.getProduct().getDescription().compareTo(o2.getProduct().getDescription())
+				return o1.getProduct().getCode().compareTo(o2.getProduct().getCode())
 			}
 		})
 
