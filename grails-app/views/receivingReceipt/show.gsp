@@ -66,8 +66,8 @@
 			<br/><br/>
             
             <h3>Items</h3>
-            <div class="list" style="padding-top:5px">
-                <table>
+            <div class="list" style="padding-top:5px;">
+                <table style="width:1200px;">
                     <thead>
                         <tr>
                         	<th width="100">Product Code</th>
@@ -75,6 +75,12 @@
                         	<th width="50">Quantity</th>
                         	<th width="80">Cost</th>
                         	<th width="100">Amount</th>
+                        	<th width="50">Disc. 1</th>
+                        	<th width="50">Disc. 2</th>
+                        	<th width="50">Disc. 3</th>
+                        	<th width="60">Flat Rate</th>
+                        	<th width="90">Disc. Amount</th>
+                        	<th width="80">Net Amount</th>
                             <g:if test="${!receivingReceiptInstance.posted}">
                         		<th width="80"></th>
                         	</g:if>
@@ -89,6 +95,12 @@
                         	<td class="right">${item.quantity}</td>
                         	<td class="right"><g:formatNumber number="${item.cost}" format="#,##0.00" /></td>
                         	<td class="right"><g:formatNumber number="${item.amount}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.discount1}" format="0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.discount2}" format="0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.discount3}" format="0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.flatRateDiscount}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.discountedAmount}" format="#,##0.00" /></td>
+                        	<td class="right"><g:formatNumber number="${item.netAmount}" format="#,##0.00" /></td>
                             <g:if test="${!receivingReceiptInstance.posted}">
 	                        	<td style="text-align:center">
 		                        	<g:if test="${!receivingReceiptInstance.posted}">
@@ -101,14 +113,14 @@
                     </g:if>
                     <g:else>
                     	<tr>
-                    		<td colspan="6">No items</td>
+                    		<td colspan="12">No items</td>
                     	</tr>
                     </g:else>
                     </tbody>
                 </table>
                 
                 <g:if test="${!receivingReceiptInstance.items.empty}">
-	                <table style="margin-top:2px;">
+	                <table style="margin-top:2px; width:1200px;">
 	                	<tr class="odd">
 	                		<td class="right bold">Sub Total</td>
 	                		<td width="100" class="right bold"><g:formatNumber number="${receivingReceiptInstance.totalAmount}" format="#,##0.00" /></td>
