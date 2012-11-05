@@ -17,6 +17,7 @@ class ReceivingReceipt {
 	Date orderDate
 	PaymentTerms terms
 	PurchaseOrder relatedPurchaseOrder
+	String referenceNumber
 	
 	List<ReceivingReceiptItem> items
 	
@@ -25,6 +26,7 @@ class ReceivingReceipt {
 		postedBy nullable: true
 		postDate nullable: true
 		relatedPurchaseOrder nullable: true
+		referenceNumber nullable: true
     }
 	
 	static hasMany = [items: ReceivingReceiptItem]

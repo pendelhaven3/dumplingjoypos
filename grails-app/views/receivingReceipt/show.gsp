@@ -51,6 +51,10 @@
                             <td valign="top" class="name"><g:message code="receivingReceipt.receivedDate.label" /></td>
                             <td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.receivedDate}" format="MM/dd/yyyy" /></td>
                         </tr>
+                        <tr class="prop">
+                            <td valign="top" class="name"><g:message code="receivingReceipt.referenceNumber.label" /></td>
+                            <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "referenceNumber")}</td>
+                        </tr>
 	                    <g:if test="${receivingReceiptInstance.posted}">
 	                        <tr class="prop">
 	                            <td></td>

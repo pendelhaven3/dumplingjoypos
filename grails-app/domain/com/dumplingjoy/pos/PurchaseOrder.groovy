@@ -67,6 +67,7 @@ class PurchaseOrder {
 			receivingReceipt.orderDate = orderDate
 			receivingReceipt.terms = terms
 			receivingReceipt.relatedPurchaseOrder = this
+			receivingReceipt.referenceNumber = referenceNumber
 			receivingReceipt.save(failOnError: true)
 			
 			posted = true
