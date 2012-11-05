@@ -125,24 +125,24 @@ class SupplierController {
 	}
 	
 	private List<Product> getProductsNotInSupplier(supplierInstance, params) {
-		String description = params.description ?: ""
-		description = description + "%"
+		String code = params.code ?: ""
+		code = code + "%"
 		
 		Product.findAll(
 			" from Product p where p not in (select supplierProducts from Supplier s inner join s.products supplierProducts where s.id = ?)" +
-			" and lower(p.description) like lower(?)" +
-			" order by p.description asc",
-			[supplierInstance.id, description], [max: 10, offset: params.offset ?: 0])
+			" and p.code like ?" +
+			" order by p.code asc",
+			[supplierInstance.id, code], [max: 10, offset: params.offset ?: 0])
 	}
 	
 	private int getTotalNumberOfProductsNotInSupplier(Supplier supplierInstance, params) {
-		String description = params.description ?: ""
-		description = description + "%"
+		String code = params.code?: ""
+		code = code + "%"
 		
 		Product.executeQuery( 
 			" select count(*) from Product p where p not in (select supplierProducts from Supplier s inner join s.products supplierProducts where s.id = ?)" +
-			" and lower(p.description) like lower(?)",
-			[supplierInstance.id, description]).first()	
+			" and p.code like ?",
+			[supplierInstance.id, code]).first()	
 		}
 	
 	def addProduct() {
@@ -178,7 +178,7 @@ class SupplierController {
 		
 		flash.message = message(code: 'default.added.message', args: [message(code: 'product.label')])
         redirect(action: "selectProductToAdd", id: supplierInstance.id, 
-			params: [description: params.description, offset: params.offset])
+			params: [code: params.code, offset: params.offset])
 	}
 	
 	def removeProduct() {

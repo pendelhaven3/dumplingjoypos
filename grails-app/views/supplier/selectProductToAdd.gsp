@@ -46,7 +46,7 @@
             <div class="list" style="padding-top:5px">
             
             	<br/>
-            	Description:&nbsp;&nbsp;&nbsp;<input type="text" name="description" id="description" value="${params.description}" />
+            	Code:&nbsp;&nbsp;&nbsp;<input type="text" name="code" id="code" value="${params.code}" style="text-transform:uppercase" />
             	<input type="button" value="Search" onclick="search()" />
             	<br/><br/>
             	
@@ -73,7 +73,7 @@
             </div>
             <div class="paginateButtons">
                 <g:paginate action="selectProductToAdd" total="${productInstanceTotal}" 
-                	params="${[id: supplierInstance.id, description: params.description]}" />
+                	params="${[id: supplierInstance.id, code: params.code]}" />
             </div>
             
         </div>
@@ -82,11 +82,11 @@
        		<g:hiddenField name="id" value="${supplierInstance.id}" />
        		<g:hiddenField name="product.id" />
        		<g:hiddenField name="offset" value="${params.offset}" />
-       		<g:hiddenField name="description" value="${params.description}" />
+       		<g:hiddenField name="code" value="${params.code}" />
        	</g:form>
        	
        	<g:javascript>
-       		focusOnLoad("description")
+       		focusOnLoad("code")
        	
         	function addProduct(id) {
         		var form = document.addProductForm;
@@ -94,15 +94,15 @@
         		form.submit()
         	}
         	
-			$("#description").keydown(function (e){
+			$("#code").keydown(function (e){
 			    if(e.keyCode == 13){
 			    	search()
 			    }
 			})
         	
         	function search() {
-        		var description = $("#description").val()
-        		window.location = "${createLink(action: 'selectProductToAdd', id: supplierInstance.id)}?description=" + encodeURIComponent(description)
+        		var code = $.trim($("#code").val()).toUpperCase()
+        		window.location = "${createLink(action: 'selectProductToAdd', id: supplierInstance.id)}?code=" + encodeURIComponent(code)
         	}
        	</g:javascript>
     </body>
