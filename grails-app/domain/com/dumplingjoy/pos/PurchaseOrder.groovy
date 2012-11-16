@@ -53,6 +53,13 @@ class PurchaseOrder {
 			if (StringUtils.isEmpty(referenceNumber)) {
 				errors.reject("default.blank.message", ["Reference Number"] as Object[], "default.blank.message")
 			}
+			
+			if (items.isEmpty()) {
+				errors.reject("postPurchaseOrder.noItems.message", [] as Object[], "postPurchaseOrder.noItems.message")
+			} else if (!hasNonZeroActualQuantityItem()) {
+				errors.reject("postPurchaseOrder.noItemQuantities.message", [] as Object[], "postPurchaseOrder.noItemQuantities.message")
+			}
+			
 			if (hasErrors()) {
 				status.setRollbackOnly()
 				return false
@@ -92,6 +99,10 @@ class PurchaseOrder {
 		}
 	}
 
+	private boolean hasNonZeroActualQuantityItem() {
+		items.find {it.actualQuantity && it.actualQuantity > 0} != null
+	}
+	
 	def beforeInsert() {
 		createdBy = getCurrentUsername()
 	}

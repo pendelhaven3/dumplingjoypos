@@ -11,8 +11,8 @@ class PurchaseOrderItem {
 	Integer actualQuantity
 	
     static constraints = {
-		quantity min: 0
-		cost min: BigDecimal.ZERO, validator: validateGreaterThanZero
+		quantity min: 0, validator: validateQuantityGreaterThanZero
+		cost min: BigDecimal.ZERO, validator: validateCostGreaterThanZero
 		actualQuantity nullable: true, min: 0
     }
 
@@ -20,10 +20,20 @@ class PurchaseOrderItem {
 
 	static transients = ["grossCost", "amount", "originalAmount"]
 
-	private static def validateGreaterThanZero = { BigDecimal cost, PurchaseOrderItem item ->
+	private static def validateCostGreaterThanZero = { BigDecimal cost, PurchaseOrderItem item ->
 		if (item.product && item.unit && item.cost != null) {
 			if (cost.compareTo(BigDecimal.ZERO) == 0) {
 				return "noCost.message"
+			} else {
+				return true
+			}
+		}
+	}
+	
+	private static def validateQuantityGreaterThanZero = { Integer quantity, PurchaseOrderItem item ->
+		if (item.quantity != null) {
+			if (quantity == 0) {
+				return "noQuantity.message"
 			} else {
 				return true
 			}
