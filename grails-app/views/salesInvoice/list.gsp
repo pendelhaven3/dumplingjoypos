@@ -23,6 +23,7 @@
                         <th><g:message code="salesInvoice.customer.label" /></th>
                         <th width="120"><g:message code="salesInvoice.postDate.label" /></th>
                         <th width="150"><g:message code="salesInvoice.postedBy.label" /></th>
+                        <th width="70">Cancelled</th>
                     </tr>
                     <g:if test="${!salesInvoiceInstanceList.empty}">
 	                    <g:each in="${salesInvoiceInstanceList}" status="i" var="salesInvoiceInstance">
@@ -32,6 +33,7 @@
 	                            <td>${fieldValue(bean: salesInvoiceInstance, field: "customer.name")}</td>
 	                            <td><g:formatDate date="${salesInvoiceInstance.postDate}" format="MM/dd/yyyy" /></td>
 	                            <td>${fieldValue(bean: salesInvoiceInstance, field: "postedBy")}</td>
+	                            <td>${salesInvoiceInstance.cancelled ? "Yes" : "No"}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>

@@ -54,10 +54,18 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesInvoice.mode.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "mode")}</td>
+                            <g:if test="${salesInvoiceInstance.cancelled}">
+	                            <td valign="top" class="name"><g:message code="salesInvoice.cancelled.label" /></td>
+	                            <td valign="top" class="value">${salesInvoiceInstance.cancelled ? "Yes" : "No"}</td>
+                            </g:if>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesInvoice.paymentTerms.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "paymentTerms.name")}</td>
+                            <g:if test="${salesInvoiceInstance.cancelled}">
+	                            <td valign="top" class="name"><g:message code="salesInvoice.cancelledBy.label" /></td>
+	                            <td valign="top" class="value">${fieldValue(bean: salesInvoiceInstance, field: "cancelledBy")}</td>
+                            </g:if>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="salesInvoice.remarks.label" /></td>
@@ -132,12 +140,20 @@
             
             <br/><br/>
             
-            <div class="buttons">
-	            <span class="button">
-	            	<input type="button" value="Print" class="print"
-	            		onclick="${remoteFunction(controller: 'report', action: 'generateSalesInvoice', id: salesInvoiceInstance.id)}" />
-	            </span>
-            </div>
+            <g:if test="${!salesInvoiceInstance.cancelled}">
+	            <div class="buttons">
+		            <span class="button">
+		            	<input type="button" value="Print" class="print"
+		            		onclick="${remoteFunction(controller: 'report', action: 'generateSalesInvoice', id: salesInvoiceInstance.id)}" />
+		            </span>
+	            </div>
+	            <div class="buttons">
+	                <g:form>
+	                    <g:hiddenField name="id" value="${salesInvoiceInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="cancel" action="cancelSalesInvoice" value="${message(code: 'default.button.cancel.label')}" /></span>
+	                </g:form>
+	            </div>
+            </g:if>
         </div>  
         
         <g:form name="showItemDiscountsForm" controller="salesInvoiceItem" action="showDiscounts">

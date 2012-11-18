@@ -35,4 +35,21 @@ class SalesInvoiceController {
         [salesInvoiceInstance: salesInvoiceInstance]
     }
 
+	def cancelSalesInvoice() {
+		SalesInvoice salesInvoiceInstance = SalesInvoice.get(params.id)
+		if (!salesInvoiceInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'salesInvoice.label'), params.id])
+			redirect(action: "list")
+			return
+		}
+		
+		if (!salesInvoiceInstance.cancel()) {
+			render(view: "show", model: [salesInvoiceInstance: salesInvoiceInstance])
+			return
+		}
+		
+		flash.message = message(code: 'default.cancelled.message', args: [message(code: 'salesInvoice.label')])
+		redirect(action: "show", id: salesInvoiceInstance.id)
+	}
+
 }

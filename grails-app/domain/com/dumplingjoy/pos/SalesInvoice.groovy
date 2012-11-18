@@ -6,6 +6,8 @@ import java.util.List;
 
 class SalesInvoice {
 
+	transient springSecurityService
+
 	Integer salesInvoiceNumber
 	Customer customer
 	PricingScheme pricingScheme
@@ -16,7 +18,9 @@ class SalesInvoice {
 	String encodedBy
 	String remarks
 	PaymentTerms paymentTerms
-
+	boolean cancelled
+	String cancelledBy
+	
     static constraints = {
 		salesInvoiceNumber unique: true
 		mode blank: false, inList: ["Delivery", "Pick-up"]
@@ -65,6 +69,19 @@ class SalesInvoice {
 		}
 		// total.setScale(0, RoundingMode.CEILING)
 		total.setScale(2, RoundingMode.HALF_UP)
+	}
+	
+	public boolean cancel() {
+		items.each { SalesInvoiceItem item ->
+			UnitQuantity unitQuantity = item.product.unitQuantities.find { it.unit == item.unit }
+			unitQuantity.quantity += item.quantity
+			unitQuantity.save(failOnError: true)
+		}
+		cancelled = true
+		if (springSecurityService.currentUser) {
+			cancelledBy = ((User)springSecurityService.currentUser).username
+		}
+		save(failOnError: true)
 	}
 
 }
