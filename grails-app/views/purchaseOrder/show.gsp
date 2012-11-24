@@ -91,6 +91,14 @@
 			<br/><br/>
             
             <h3>Items</h3>
+            <g:if test="${!purchaseOrderInstance.posted}">
+	            <div class="buttons">
+	                <g:form controller="purchaseOrderItem">
+	                    <g:hiddenField name="purchaseOrder.id" value="${purchaseOrderInstance?.id}" />
+	                    <span class="button"><g:actionSubmit class="edit"  action="create" value="Add Item" /></span>
+	                </g:form>
+	            </div>
+	        </g:if>
             <div class="list" style="padding-top:5px">
                 <table>
                     <thead>
