@@ -68,6 +68,12 @@
 			<br/><br/>
             
             <h3>Products</h3>
+            <div class="buttons">
+                <g:form controller="supplier">
+                    <g:hiddenField name="id" value="${supplierInstance?.id}" />
+                    <span class="button"><g:actionSubmit class="create" action="selectProductToAdd" value="Add Product" /></span>
+                </g:form>
+            </div>
             <div class="list" style="padding-top:5px">
                 <table>
                     <thead>
