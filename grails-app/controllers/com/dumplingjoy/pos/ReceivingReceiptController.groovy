@@ -44,4 +44,21 @@ class ReceivingReceiptController {
 		redirect(controller: "receivingReceipt", action: "show", id: receivingReceiptInstance.id)
 	}
 
+	def cancelReceivingReceipt() {
+		ReceivingReceipt receivingReceiptInstance = ReceivingReceipt.get(params.id)
+		if (!receivingReceiptInstance) {
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'receivingReceipt.label'), params.id])
+			redirect(action: "list")
+			return
+		}
+		
+		if (!receivingReceiptInstance.cancel()) {
+			render(view: "show", model: [salesInvoiceInstance: receivingReceiptInstance])
+			return
+		}
+		
+		flash.message = message(code: 'default.cancelled.message', args: [message(code: 'receivingReceipt.label')])
+		redirect(action: "show", id: receivingReceiptInstance.id)
+	}
+
 }

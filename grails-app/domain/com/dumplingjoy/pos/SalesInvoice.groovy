@@ -28,6 +28,7 @@ class SalesInvoice {
 		encodedBy blank: false
 		remarks nullable: true, blank: true
 		paymentTerms nullable: true
+		cancelledBy nullable: true
     }
 	
 	static hasMany = [items: SalesInvoiceItem]
@@ -78,9 +79,7 @@ class SalesInvoice {
 			unitQuantity.save(failOnError: true)
 		}
 		cancelled = true
-		if (springSecurityService.currentUser) {
-			cancelledBy = ((User)springSecurityService.currentUser).username
-		}
+		cancelledBy = ((User)springSecurityService.currentUser).username
 		save(failOnError: true)
 	}
 

@@ -18,6 +18,9 @@ class ReceivingReceipt {
 	PaymentTerms terms
 	PurchaseOrder relatedPurchaseOrder
 	String referenceNumber
+	boolean cancelled
+	String cancelledBy
+	Date cancelDate
 	
 	List<ReceivingReceiptItem> items
 	
@@ -27,6 +30,8 @@ class ReceivingReceipt {
 		postDate nullable: true
 		relatedPurchaseOrder nullable: true
 		referenceNumber nullable: true
+		cancelledBy nullable: true
+		cancelDate nullable: true
     }
 	
 	static hasMany = [items: ReceivingReceiptItem]
@@ -91,6 +96,16 @@ class ReceivingReceipt {
 			save(failOnError: true)
 			return true
 		}
+	}
+	
+	public boolean cancel() {
+		if (posted) {
+			throw new RuntimeException("Cannot cancel a posted Receiving Receipt")
+		}
+		cancelled = true
+		cancelledBy = ((User)springSecurityService.currentUser).username
+		cancelDate = new Date()
+		save(failOnError: true)
 	}
 
 }

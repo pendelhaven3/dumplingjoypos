@@ -23,7 +23,7 @@
                         <th><g:message code="receivingReceipt.supplier.label" /></th>
                         <th width="120"><g:message code="receivingReceipt.receivedDate.label" /></th>
                         <th width="150"><g:message code="receivingReceipt.receivedBy.label" /></th>
-                        <th width="120"><g:message code="receivingReceipt.posted.label" /></th>
+                        <th width="120">Status</th>
                     </tr>
                     <g:if test="${!receivingReceiptInstanceList.empty}">
 	                    <g:each in="${receivingReceiptInstanceList}" status="i" var="receivingReceiptInstance">
@@ -33,7 +33,7 @@
 	                            <td>${fieldValue(bean: receivingReceiptInstance, field: "supplier.name")}</td>
 	                            <td><g:formatDate date="${receivingReceiptInstance.receivedDate}" format="MM/dd/yyyy" /></td>
 	                            <td>${fieldValue(bean: receivingReceiptInstance, field: "receivedBy")}</td>
-	                            <td>${receivingReceiptInstance.posted ? "Yes" : "No"}</td>
+	                            <td>${receivingReceiptInstance.posted ? "Posted" : (receivingReceiptInstance.cancelled ? "Cancelled" : "New")}</td>
 	                        </tr>
 	                    </g:each>
                     </g:if>

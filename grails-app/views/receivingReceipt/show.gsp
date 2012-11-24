@@ -54,15 +54,15 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="receivingReceipt.referenceNumber.label" /></td>
                             <td valign="top" class="value">${fieldValue(bean: receivingReceiptInstance, field: "referenceNumber")}</td>
+	                    	<g:if test="${receivingReceiptInstance.posted}">
+	                        	<td valign="top" class="name"><g:message code="receivingReceipt.postDate.label" /></td>
+	                        	<td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.postDate}" format="MM/dd/yyyy" /></td>
+	                        </g:if>
+	                    	<g:if test="${receivingReceiptInstance.cancelled}">
+	                        	<td valign="top" class="name"><g:message code="receivingReceipt.cancelDate.label" /></td>
+	                        	<td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.cancelDate}" format="MM/dd/yyyy" /></td>
+	                        </g:if>
                         </tr>
-	                    <g:if test="${receivingReceiptInstance.posted}">
-	                        <tr class="prop">
-	                            <td></td>
-	                            <td></td>
-	                            <td valign="top" class="name"><g:message code="receivingReceipt.postDate.label" /></td>
-	                            <td valign="top" class="value"><g:formatDate date="${receivingReceiptInstance.postDate}" format="MM/dd/yyyy" /></td>
-	                        </tr>
-	                    </g:if>
                     </tbody>
                 </table>
             </div>
@@ -152,11 +152,12 @@
 
 			<br/><br/>
             
-            <g:if test="${!receivingReceiptInstance.posted}">
+            <g:if test="${!receivingReceiptInstance.posted && !receivingReceiptInstance.cancelled}">
 	            <div class="buttons">
 	                <g:form>
 	                    <g:hiddenField name="id" value="${receivingReceiptInstance?.id}" />
 	                    <span class="button"><g:actionSubmit class="edit" action="postReceivingReceipt" value="Post" onclick="return confirm('Are you sure you want to post this Receiving Receipt?');" /></span>
+	                    <span class="button"><g:actionSubmit class="cancel" action="cancelReceivingReceipt" value="Cancel" onclick="return confirm('Are you sure you want to cancel this Receiving Receipt?');" /></span>
 	                </g:form>
 	            </div>
             </g:if>
